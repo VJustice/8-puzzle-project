@@ -41,7 +41,8 @@ public class Board {
 	private TitledBorder movemment_border;
 	private TitledBorder results_border;
 
-	private String[] algorithms = { "MiniMax", "A*" };
+	private String[] algorithms = { "BreadthFirstSearch", "DepthFirstSearch",
+			"A*" };
 
 	private GameBoard game_board;
 
@@ -88,7 +89,8 @@ public class Board {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				start_algorithm.setEnabled(false);
-				
+				game_board.startAlgorithm(choose_algorithm.getSelectedItem()
+						.toString());
 			}
 
 		});

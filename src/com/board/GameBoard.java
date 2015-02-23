@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import com.algorithms.BreadthFirstSearch;
 import com.handlers.ButtonsHandler;
 
 public class GameBoard extends JPanel {
@@ -20,14 +21,13 @@ public class GameBoard extends JPanel {
 	private ButtonsHandler button_handler;
 
 	private LinkedList<JButton> current_buttons_list;
-	private LinkedList<JButton> solution_list;
 
-	private String solution = "123456780";
+	private String[] solution = { "1", "2", "3", "4", "5", "6", "7", "8", "0" };
+	private String[] current_data = new String[solution.length];
 
 	public GameBoard() {
 		button_handler = new ButtonsHandler();
 		current_buttons_list = new LinkedList<JButton>();
-		solution_list = new LinkedList<JButton>();
 		this.setLayout(new GridLayout(NUM_ROWS, NUM_COLUMNS));
 		initPanelGUI();
 		colorButtons();
@@ -60,11 +60,20 @@ public class GameBoard extends JPanel {
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
-		for (int i = 0; i < solution.length(); i++) {
-			solution_list.add(new JButton("" + solution.charAt(i)));
+		for(int i = 0; i < current_buttons_list.size(); i++) {
+			current_data[i] = current_buttons_list.get(i).getText();
 		}
 	}
 	
-	
+	public void startAlgorithm(String algorithm) {
+		switch(algorithm) {
+		case "BreadthFirstSearch":
+			BreadthFirstSearch bfs = new BreadthFirstSearch(current_data, solution);
+			bfs.getTreeStructure();
+			break;
+		default:
+			break;
+		}
+	}
 
 }
