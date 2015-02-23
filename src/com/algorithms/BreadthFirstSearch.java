@@ -36,7 +36,6 @@ public class BreadthFirstSearch {
 
 	private void checkAvailablePlays(Node node) {
 		String data = node.getCurrent_node_data();
-
 		for (Node existing_node : nodes_list) {
 
 		}
