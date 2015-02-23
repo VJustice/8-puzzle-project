@@ -12,6 +12,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import com.handlers.ButtonsHandler;
+
 public class Board {
 
 	private static final int WIDTH = 900;
@@ -31,6 +33,7 @@ public class Board {
 
 	private JComboBox<String> choose_algorithm;
 	
+	private JButton start_algorithm;
 	private JButton show_results;
 	
 	private TitledBorder options_border;
@@ -39,9 +42,12 @@ public class Board {
 	private TitledBorder results_border;
 	
 	private String[] algorithms = {"MiniMax", "A*"};
+	
+	private ButtonsHandler button_handler;
 
 	public Board() {
 		puzzle_frame = new JFrame("Client Puzzle (Version " + VERSION + ")");
+		button_handler = new ButtonsHandler();
 		puzzle_frame.setSize(WIDTH, HEIGHT);
 		puzzle_frame.setResizable(false);
 		puzzle_frame.add(fullPanel());
@@ -76,10 +82,16 @@ public class Board {
 		for(int i = 0; i < algorithms.length; i++) {
 			choose_algorithm.addItem(algorithms[i]);
 		}
+		start_algorithm = new JButton("Start Algorithm");
+		start_algorithm.setActionCommand("START_ALGORITHM");
+		start_algorithm.addActionListener(button_handler);
 		show_results = new JButton("Show Results");
+		show_results.setActionCommand("SHOW_RESULTS");
+		show_results.addActionListener(button_handler);
 		puzzle_right_up_panel.setLayout(new FlowLayout());
 		puzzle_right_up_panel.setBorder(options_border);
 		puzzle_right_up_panel.add(choose_algorithm);
+		puzzle_right_up_panel.add(start_algorithm);
 		puzzle_right_up_panel.add(show_results);
 		return puzzle_right_up_panel;
 	}
