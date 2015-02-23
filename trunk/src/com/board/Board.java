@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
@@ -97,10 +98,14 @@ public class Board {
 		aux_panel_one = new JPanel();
 		puzzle_movemment_log = new JTextArea();
 		movemment_border = new TitledBorder("Movemments Log");
+		puzzle_movemment_log.setEditable(false);
+		JScrollPane scroll = new JScrollPane(puzzle_movemment_log,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		aux_panel_one.setBorder(movemment_border);
 		aux_panel_one.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/2));
 		aux_panel_one.setLayout(new BorderLayout());
-		aux_panel_one.add(puzzle_movemment_log, BorderLayout.CENTER);
+		aux_panel_one.add(scroll, BorderLayout.CENTER);
 		return aux_panel_one;
 	}
 	
@@ -108,9 +113,13 @@ public class Board {
 		aux_panel_two = new JPanel();
 		puzzle_results_log = new JTextArea();
 		results_border = new TitledBorder("Results Log");
+		puzzle_results_log.setEditable(false);
+		JScrollPane scroll = new JScrollPane(puzzle_results_log,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		aux_panel_two.setBorder(results_border);
 		aux_panel_two.setLayout(new BorderLayout());
-		aux_panel_two.add(puzzle_results_log, BorderLayout.CENTER);
+		aux_panel_two.add(scroll, BorderLayout.CENTER);
 		return aux_panel_two;
 	}
 	
