@@ -26,10 +26,51 @@ public class BreadthFirstSearch {
 		nodes_list.add(root_node);
 		Queue<Node> queue = new LinkedList<Node>();
 		queue.add(root_node);
+		checkAvailablePlays(root_node);
 		while (!queue.isEmpty()) {
 			Node aux_node = (Node) queue.remove();
 			Node child_node = null;
-			
+
+		}
+	}
+
+	private void checkAvailablePlays(Node node) {
+		String data = node.getCurrent_node_data();
+		System.out.println("OLD DATA: " + data);
+		int zero = data.indexOf('0');
+		boolean done = false;
+		char aux = '0';
+		String aux_data = "";
+		while (!done) {
+			for (int i = 0; i < data.length(); i++) {
+				if (i - 2 == zero) {
+					aux = data.charAt(i - 1);
+					break;
+				} else if (i + 2 == zero) {
+					aux = data.charAt(i + 1);
+					break;
+				} else if (i - 4 == zero) {
+					aux = data.charAt(i - 3);
+					break;
+				} else if (i + 4 == zero) {
+					aux = data.charAt(i + 3);
+					break;
+				} else {
+					done = true;
+				}
+			}
+			aux_data = data.replace(aux, 't');
+			aux_data = aux_data.replace(data.charAt(zero), aux);
+			aux_data = aux_data.replace('t', '0');
+			System.out.println("NEW DATA: " + aux_data);
+			Node n = new Node(false, aux_data);
+			if (!nodes_list.contains(n)) {
+				nodes_list.add(n);
+			}
+		}
+		System.out.println("done");
+		for(int i = 0; i < nodes_list.size(); i++) {
+			System.out.println(nodes_list.get(i).getCurrent_node_data());
 		}
 	}
 
