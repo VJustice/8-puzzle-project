@@ -32,7 +32,8 @@ public class GameBoard extends JPanel {
 				current_button.setForeground(Color.WHITE);
 				current_button.setBackground(Color.BLACK);
 			} else {
-				current_button.setText("");
+				current_button
+						.setFont(new Font("Century Gothic", Font.PLAIN, 0));
 				current_button.setBackground(Color.WHITE);
 			}
 		}
