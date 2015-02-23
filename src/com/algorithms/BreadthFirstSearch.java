@@ -29,15 +29,7 @@ public class BreadthFirstSearch {
 		while (!queue.isEmpty()) {
 			Node aux_node = (Node) queue.remove();
 			Node child_node = null;
-			checkAvailablePlays(aux_node);
-
-		}
-	}
-
-	private void checkAvailablePlays(Node node) {
-		String data = node.getCurrent_node_data();
-		for (Node existing_node : nodes_list) {
-
+			
 		}
 	}
 
