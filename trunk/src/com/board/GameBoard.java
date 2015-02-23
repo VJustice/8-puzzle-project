@@ -20,10 +20,14 @@ public class GameBoard extends JPanel {
 	private ButtonsHandler button_handler;
 
 	private LinkedList<JButton> current_buttons_list;
+	private LinkedList<JButton> solution_list;
+
+	private String solution = "123456780";
 
 	public GameBoard() {
 		button_handler = new ButtonsHandler();
 		current_buttons_list = new LinkedList<JButton>();
+		solution_list = new LinkedList<JButton>();
 		this.setLayout(new GridLayout(NUM_ROWS, NUM_COLUMNS));
 		initPanelGUI();
 		colorButtons();
@@ -56,5 +60,11 @@ public class GameBoard extends JPanel {
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
+		for (int i = 0; i < solution.length(); i++) {
+			solution_list.add(new JButton("" + solution.charAt(i)));
+		}
 	}
+	
+	
+
 }
