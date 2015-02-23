@@ -3,6 +3,8 @@ package com.board;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,8 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
-
-import com.handlers.ButtonsHandler;
 
 public class Board {
 
@@ -27,27 +27,27 @@ public class Board {
 	private JPanel puzzle_right_down_panel;
 	private JPanel aux_panel_one;
 	private JPanel aux_panel_two;
-	
+
 	private JTextArea puzzle_movemment_log;
 	private JTextArea puzzle_results_log;
 
 	private JComboBox<String> choose_algorithm;
-	
+
 	private JButton start_algorithm;
 	private JButton show_results;
-	
+
 	private TitledBorder options_border;
 	private TitledBorder logs_border;
 	private TitledBorder movemment_border;
 	private TitledBorder results_border;
-	
-	private String[] algorithms = {"MiniMax", "A*"};
-	
-	private ButtonsHandler button_handler;
+
+	private String[] algorithms = { "MiniMax", "A*" };
+
+	private GameBoard game_board;
 
 	public Board() {
 		puzzle_frame = new JFrame("Client Puzzle (Version " + VERSION + ")");
-		button_handler = new ButtonsHandler();
+		game_board = new GameBoard();
 		puzzle_frame.setSize(WIDTH, HEIGHT);
 		puzzle_frame.setResizable(false);
 		puzzle_frame.add(fullPanel());
@@ -62,11 +62,11 @@ public class Board {
 	public JPanel fullPanel() {
 		puzzle_panel = new JPanel();
 		puzzle_panel.setLayout(new BorderLayout());
-		puzzle_panel.add(new GameBoard(), BorderLayout.CENTER);
+		puzzle_panel.add(game_board, BorderLayout.CENTER);
 		puzzle_panel.add(rightPanel(), BorderLayout.EAST);
 		return puzzle_panel;
 	}
-	
+
 	public JPanel rightPanel() {
 		puzzle_right_panel = new JPanel();
 		puzzle_right_panel.setLayout(new BorderLayout());
@@ -74,20 +74,25 @@ public class Board {
 		puzzle_right_panel.add(rightDownPanel(), BorderLayout.CENTER);
 		return puzzle_right_panel;
 	}
-	
+
 	private JPanel rightUpPanel() {
 		puzzle_right_up_panel = new JPanel();
 		options_border = new TitledBorder("Options");
 		choose_algorithm = new JComboBox<String>();
-		for(int i = 0; i < algorithms.length; i++) {
+		for (int i = 0; i < algorithms.length; i++) {
 			choose_algorithm.addItem(algorithms[i]);
 		}
 		start_algorithm = new JButton("Start Algorithm");
-		start_algorithm.setActionCommand("START_ALGORITHM");
-		start_algorithm.addActionListener(button_handler);
+		start_algorithm.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				start_algorithm.setEnabled(false);
+				
+			}
+
+		});
 		show_results = new JButton("Show Results");
-		show_results.setActionCommand("SHOW_RESULTS");
-		show_results.addActionListener(button_handler);
 		puzzle_right_up_panel.setLayout(new FlowLayout());
 		puzzle_right_up_panel.setBorder(options_border);
 		puzzle_right_up_panel.add(choose_algorithm);
@@ -95,7 +100,7 @@ public class Board {
 		puzzle_right_up_panel.add(show_results);
 		return puzzle_right_up_panel;
 	}
-	
+
 	private JPanel rightDownPanel() {
 		puzzle_right_down_panel = new JPanel();
 		logs_border = new TitledBorder("Logs");
@@ -105,7 +110,7 @@ public class Board {
 		puzzle_right_down_panel.add(auxTwo(), BorderLayout.CENTER);
 		return puzzle_right_down_panel;
 	}
-	
+
 	private JPanel auxOne() {
 		aux_panel_one = new JPanel();
 		puzzle_movemment_log = new JTextArea();
@@ -115,12 +120,12 @@ public class Board {
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		aux_panel_one.setBorder(movemment_border);
-		aux_panel_one.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/2));
+		aux_panel_one.setPreferredSize(new Dimension(WIDTH / 3, HEIGHT / 2));
 		aux_panel_one.setLayout(new BorderLayout());
 		aux_panel_one.add(scroll, BorderLayout.CENTER);
 		return aux_panel_one;
 	}
-	
+
 	private JPanel auxTwo() {
 		aux_panel_two = new JPanel();
 		puzzle_results_log = new JTextArea();
@@ -134,6 +139,5 @@ public class Board {
 		aux_panel_two.add(scroll, BorderLayout.CENTER);
 		return aux_panel_two;
 	}
-	
-	
+
 }
