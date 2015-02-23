@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import com.handlers.ButtonsHandler;
 
-public class GameBoard extends JPanel implements Runnable {
+public class GameBoard extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private static final int NUM_ROWS = 3;
@@ -27,8 +27,6 @@ public class GameBoard extends JPanel implements Runnable {
 		this.setLayout(new GridLayout(NUM_ROWS, NUM_COLUMNS));
 		initPanelGUI();
 		colorButtons();
-		Thread thread = new Thread(this);
-		thread.start();
 	}
 
 	private void colorButtons() {
@@ -58,9 +56,5 @@ public class GameBoard extends JPanel implements Runnable {
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
-	}
-
-	@Override
-	public void run() {
 	}
 }
