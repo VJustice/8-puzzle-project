@@ -114,6 +114,7 @@ public class BreadthFirstSearch {
 		addNode(n, old_node, queue);
 		if (new_node_data.equals(solution_nodes)) {
 			System.out.println("Solution Exists at Level " + nodes_list.get(n) + " Of The Tree");
+			System.out.println("Solution With Parent " + nodes_history.get(n).getCurrent_node_data());
 			System.exit(0);
 		}
 	}
