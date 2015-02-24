@@ -48,7 +48,7 @@ public class Board {
 
 	public Board() {
 		puzzle_frame = new JFrame("Client Puzzle (Version " + VERSION + ")");
-		game_board = new GameBoard();
+		game_board = new GameBoard(this);
 		puzzle_frame.setSize(WIDTH, HEIGHT);
 		puzzle_frame.setResizable(false);
 		puzzle_frame.add(fullPanel());
@@ -148,6 +148,14 @@ public class Board {
 		aux_panel_two.setLayout(new BorderLayout());
 		aux_panel_two.add(scroll, BorderLayout.CENTER);
 		return aux_panel_two;
+	}
+	
+	public JTextArea getPuzzle_movemment_log() {
+		return puzzle_movemment_log;
+	}
+	
+	public JTextArea getPuzzle_results_log() {
+		return puzzle_results_log;
 	}
 
 }
