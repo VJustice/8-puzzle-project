@@ -42,7 +42,7 @@ public class Board {
 	private TitledBorder results_border;
 
 	private String[] algorithms = { "BreadthFirstSearch", "DepthFirstSearch",
-			"A*" };
+			"A*", "ManhathanDistance" };
 
 	private GameBoard game_board;
 
