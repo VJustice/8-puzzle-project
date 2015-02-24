@@ -6,10 +6,6 @@ import java.util.Queue;
 
 public class BreadthFirstSearch {
 
-	@SuppressWarnings("unused")
-	private String[] current_data;
-	@SuppressWarnings("unused")
-	private String[] solution;
 	private Node root_node;
 	private HashMap<Node, Integer> nodes_list;
 	private HashMap<Node, Node> nodes_history;
@@ -18,13 +14,13 @@ public class BreadthFirstSearch {
 	private String current_data_nodes = "";
 	private String solution_nodes = "";
 	private boolean done = false;
+	private long time;
 
 	public BreadthFirstSearch(String[] current_data, String[] solution) {
 		nodes_list = new HashMap<Node, Integer>();
 		nodes_history = new HashMap<Node, Node>();
 		new_node_data_list = new LinkedList<String>();
-		this.current_data = current_data;
-		this.solution = solution;
+		time = System.currentTimeMillis();
 		for (int i = 0; i < current_data.length; i++) {
 			current_data_nodes += current_data[i];
 		}
@@ -40,10 +36,10 @@ public class BreadthFirstSearch {
 		while (!queue.isEmpty() && !queue.peek().isVisited() && !done) {
 			Node aux_node = (Node) queue.remove();
 			aux_node.setVisited(true);
-			nodeUp(aux_node, queue);
 			nodeDown(aux_node, queue);
-			nodeLeft(aux_node, queue);
+			nodeUp(aux_node, queue);
 			nodeRight(aux_node, queue);
+			nodeLeft(aux_node, queue);
 		}
 	}
 
@@ -76,7 +72,7 @@ public class BreadthFirstSearch {
 				parent_node_aux = nodes_history.get(node_aux);
 			}
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				System.out.println("U => " + next_state);
+				System.out.println("U => " + next_state + " (" + (int)(System.currentTimeMillis() - time) + ")ms");
 				checkSolutionFound(node_aux, next_state, queue);
 			}
 		}
@@ -97,7 +93,7 @@ public class BreadthFirstSearch {
 				parent_node_aux = nodes_history.get(node_aux);
 			}
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				System.out.println("D => " + next_state);
+				System.out.println("D => " + next_state + " (" + (int)(System.currentTimeMillis() - time) + ")ms");
 				checkSolutionFound(node_aux, next_state, queue);
 			}
 		}
@@ -117,7 +113,7 @@ public class BreadthFirstSearch {
 				parent_node_aux = nodes_history.get(node_aux);
 			}
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				System.out.println("L => " + next_state);
+				System.out.println("L => " + next_state + " (" + (int)(System.currentTimeMillis() - time) + ")ms");
 				checkSolutionFound(node_aux, next_state, queue);
 			}
 		}
@@ -137,7 +133,7 @@ public class BreadthFirstSearch {
 				parent_node_aux = nodes_history.get(node_aux);
 			}
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				System.out.println("R => " + next_state);
+				System.out.println("R => " + next_state + " (" + (int)(System.currentTimeMillis() - time) + ")ms");
 				checkSolutionFound(node_aux, next_state, queue);
 			}
 		}
