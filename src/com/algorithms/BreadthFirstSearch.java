@@ -10,6 +10,7 @@ public class BreadthFirstSearch {
 	private HashMap<Node, Integer> nodes_list;
 	private HashMap<Node, Node> nodes_history;
 	private LinkedList<String> new_node_data_list;
+	private Queue<Node> queue;
 
 	private String current_data_nodes = "";
 	private String solution_nodes = "";
@@ -29,21 +30,21 @@ public class BreadthFirstSearch {
 		}
 	}
 
-	public void getTreeStructure() {
+	public void getBFS() {
 		root_node = new Node(false, current_data_nodes);
-		Queue<Node> queue = new LinkedList<Node>();
-		addNode(root_node, null, queue);
+		queue = new LinkedList<Node>();
+		addNode(root_node, null);
 		while (!queue.isEmpty() && !queue.peek().isVisited() && !done) {
 			Node aux_node = (Node) queue.remove();
 			aux_node.setVisited(true);
-			nodeDown(aux_node, queue);
-			nodeUp(aux_node, queue);
-			nodeRight(aux_node, queue);
-			nodeLeft(aux_node, queue);
+			nodeDown(aux_node);
+			nodeUp(aux_node);
+			nodeRight(aux_node);
+			nodeLeft(aux_node);
 		}
 	}
 
-	private void addNode(Node new_node, Node old_node, Queue<Node> queue) {
+	private void addNode(Node new_node, Node old_node) {
 		if (!nodes_list.containsKey(new_node)) {
 			int new_node_value;
 			if (old_node == null) {
@@ -57,7 +58,7 @@ public class BreadthFirstSearch {
 		}
 	}
 
-	private void nodeUp(Node node_aux, Queue<Node> queue) {
+	private void nodeUp(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
 		if (a > 2 && !done) {
@@ -73,12 +74,12 @@ public class BreadthFirstSearch {
 			}
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
 				System.out.println("U => " + next_state + " (" + (int)(System.currentTimeMillis() - time) + ")ms");
-				checkSolutionFound(node_aux, next_state, queue);
+				checkSolutionFound(node_aux, next_state);
 			}
 		}
 	}
 
-	private void nodeDown(Node node_aux, Queue<Node> queue) {
+	private void nodeDown(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
 		if (a < 6 && !done) {
@@ -94,12 +95,12 @@ public class BreadthFirstSearch {
 			}
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
 				System.out.println("D => " + next_state + " (" + (int)(System.currentTimeMillis() - time) + ")ms");
-				checkSolutionFound(node_aux, next_state, queue);
+				checkSolutionFound(node_aux, next_state);
 			}
 		}
 	}
 
-	private void nodeLeft(Node node_aux, Queue<Node> queue) {
+	private void nodeLeft(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
 		if ((a != 0 && a != 3 && a != 6) && !done) {
@@ -114,12 +115,12 @@ public class BreadthFirstSearch {
 			}
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
 				System.out.println("L => " + next_state + " (" + (int)(System.currentTimeMillis() - time) + ")ms");
-				checkSolutionFound(node_aux, next_state, queue);
+				checkSolutionFound(node_aux, next_state);
 			}
 		}
 	}
 
-	private void nodeRight(Node node_aux, Queue<Node> queue) {
+	private void nodeRight(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
 		if ((a != 2 && a != 5 && a != 8) && !done) {
@@ -134,15 +135,14 @@ public class BreadthFirstSearch {
 			}
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
 				System.out.println("R => " + next_state + " (" + (int)(System.currentTimeMillis() - time) + ")ms");
-				checkSolutionFound(node_aux, next_state, queue);
+				checkSolutionFound(node_aux, next_state);
 			}
 		}
 	}
 
-	private void checkSolutionFound(Node old_node, String new_node_data,
-			Queue<Node> queue) {
+	private void checkSolutionFound(Node old_node, String new_node_data) {
 		Node n = new Node(false, new_node_data);
-		addNode(n, old_node, queue);
+		addNode(n, old_node);
 		if (new_node_data.equals(solution_nodes)) {
 			System.out.println("Solution Exists at Level " + nodes_list.get(n)
 					+ " Of The Tree");
