@@ -4,9 +4,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.board.GameBoard;
+
 public class BreadthFirstSearch {
 
+	private GameBoard game_board;
 	private Node root_node;
+
 	private HashMap<Node, Integer> nodes_list;
 	private HashMap<Node, Node> nodes_history;
 	private LinkedList<String> new_node_data_list;
@@ -15,13 +19,13 @@ public class BreadthFirstSearch {
 	private String current_data_nodes = "";
 	private String solution_nodes = "";
 	private boolean done = false;
-	private long time;
 
-	public BreadthFirstSearch(String[] current_data, String[] solution) {
+	public BreadthFirstSearch(GameBoard game_board, String[] current_data,
+			String[] solution) {
+		this.game_board = game_board;
 		nodes_list = new HashMap<Node, Integer>();
 		nodes_history = new HashMap<Node, Node>();
 		new_node_data_list = new LinkedList<String>();
-		time = System.currentTimeMillis();
 		for (int i = 0; i < current_data.length; i++) {
 			current_data_nodes += current_data[i];
 		}
@@ -73,7 +77,8 @@ public class BreadthFirstSearch {
 				parent_node_aux = nodes_history.get(node_aux);
 			}
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				System.out.println("U => " + next_state + " (" + (int)(System.currentTimeMillis() - time) + ")ms");
+				game_board.getBoard().getPuzzle_movemment_log()
+						.append("U => " + next_state + "\n");
 				checkSolutionFound(node_aux, next_state);
 			}
 		}
@@ -94,7 +99,8 @@ public class BreadthFirstSearch {
 				parent_node_aux = nodes_history.get(node_aux);
 			}
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				System.out.println("D => " + next_state + " (" + (int)(System.currentTimeMillis() - time) + ")ms");
+				game_board.getBoard().getPuzzle_movemment_log()
+						.append("D => " + next_state + "\n");
 				checkSolutionFound(node_aux, next_state);
 			}
 		}
@@ -114,7 +120,8 @@ public class BreadthFirstSearch {
 				parent_node_aux = nodes_history.get(node_aux);
 			}
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				System.out.println("L => " + next_state + " (" + (int)(System.currentTimeMillis() - time) + ")ms");
+				game_board.getBoard().getPuzzle_movemment_log()
+						.append("L => " + next_state + "\n");
 				checkSolutionFound(node_aux, next_state);
 			}
 		}
@@ -134,7 +141,8 @@ public class BreadthFirstSearch {
 				parent_node_aux = nodes_history.get(node_aux);
 			}
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				System.out.println("R => " + next_state + " (" + (int)(System.currentTimeMillis() - time) + ")ms");
+				game_board.getBoard().getPuzzle_movemment_log()
+						.append("R => " + next_state + "\n");
 				checkSolutionFound(node_aux, next_state);
 			}
 		}
@@ -152,17 +160,17 @@ public class BreadthFirstSearch {
 			getPlays(n);
 		}
 	}
-	
+
 	private void getPlays(Node aux_node) {
 		Node temp_node = aux_node;
 		new_node_data_list.add(solution_nodes);
-		while(!temp_node.getCurrent_node_data().equals(current_data_nodes)) {
+		while (!temp_node.getCurrent_node_data().equals(current_data_nodes)) {
 			Node new_temp_node = nodes_history.get(temp_node);
 			new_node_data_list.add(new_temp_node.getCurrent_node_data());
 			temp_node = new_temp_node;
 		}
 	}
-	
+
 	public LinkedList<String> getNew_node_data_list() {
 		return new_node_data_list;
 	}

@@ -21,6 +21,7 @@ public class GameBoard extends JPanel {
 	private static final int NUM_COLUMNS = 3;
 
 	private ButtonsHandler button_handler;
+	private Board board;
 
 	private LinkedList<JButton> current_buttons_list;
 	private LinkedList<String> plays;
@@ -28,7 +29,8 @@ public class GameBoard extends JPanel {
 	private String[] solution = { "0", "1", "2", "3", "4", "5", "6", "7", "8" };
 	private String[] current_data = new String[solution.length];
 
-	public GameBoard() {
+	public GameBoard(Board board) {
+		this.board = board;
 		button_handler = new ButtonsHandler();
 		current_buttons_list = new LinkedList<JButton>();
 		plays = new LinkedList<String>();
@@ -81,7 +83,7 @@ public class GameBoard extends JPanel {
 			for (int i = 0; i < current_buttons_list.size(); i++) {
 				current_buttons_list.get(i).setText(temp.toCharArray()[i] + "");
 			}
-			System.out.println("N: " + temp);	
+			board.getPuzzle_results_log().append("Moved Tiles: " + temp + "\n");
 			repaint();
 		}
 	}
@@ -89,7 +91,7 @@ public class GameBoard extends JPanel {
 	public void startAlgorithm(String algorithm) {
 		switch (algorithm) {
 		case "BreadthFirstSearch":
-			BreadthFirstSearch bfs = new BreadthFirstSearch(current_data,
+			BreadthFirstSearch bfs = new BreadthFirstSearch(this, current_data,
 					solution);
 			bfs.getBFS();
 			plays = bfs.getNew_node_data_list();
@@ -113,5 +115,9 @@ public class GameBoard extends JPanel {
 				current_button.setBackground(Color.WHITE);
 			}
 		}
+	}
+	
+	public Board getBoard() {
+		return board;
 	}
 }
