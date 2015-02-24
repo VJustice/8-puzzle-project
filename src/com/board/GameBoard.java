@@ -56,11 +56,28 @@ public class GameBoard extends JPanel {
 			aux_button.addActionListener(button_handler);
 			current_buttons_list.add(aux_button);
 		}
-		Collections.shuffle(current_buttons_list);
-		// Collections.swap(current_buttons_list, 0, 1);
-		// Collections.swap(current_buttons_list, 1, 4);
-		// Collections.swap(current_buttons_list, 4, 7);
-		// Collections.swap(current_buttons_list, 7, 8);
+		// Collections.shuffle(current_buttons_list); //Can't provide a
+		// solution, most of the times
+		Collections.swap(current_buttons_list, 0, 1);
+		Collections.swap(current_buttons_list, 1, 4);
+		Collections.swap(current_buttons_list, 4, 7);
+		Collections.swap(current_buttons_list, 7, 8);
+		Collections.swap(current_buttons_list, 8, 5);
+		Collections.swap(current_buttons_list, 5, 2);
+		Collections.swap(current_buttons_list, 2, 1);
+		Collections.swap(current_buttons_list, 1, 4);
+		Collections.swap(current_buttons_list, 4, 3);
+		Collections.swap(current_buttons_list, 3, 6);
+		Collections.swap(current_buttons_list, 6, 7);
+		Collections.swap(current_buttons_list, 7, 8);
+		Collections.swap(current_buttons_list, 8, 5);
+		Collections.swap(current_buttons_list, 5, 4);
+		Collections.swap(current_buttons_list, 4, 1);
+		Collections.swap(current_buttons_list, 1, 0);
+		Collections.swap(current_buttons_list, 0, 3);
+		Collections.swap(current_buttons_list, 3, 6);
+		Collections.swap(current_buttons_list, 6, 7);
+		Collections.swap(current_buttons_list, 7, 8);
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
