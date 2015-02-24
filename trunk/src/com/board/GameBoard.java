@@ -43,22 +43,23 @@ public class GameBoard extends JPanel {
 		Collections.swap(current_buttons_list, 1, 4);
 		Collections.swap(current_buttons_list, 4, 7);
 		Collections.swap(current_buttons_list, 7, 8);
-		// Collections.swap(current_buttons_list, 8, 5);
-		// Collections.swap(current_buttons_list, 5, 2);
-		// Collections.swap(current_buttons_list, 2, 1);
-		// Collections.swap(current_buttons_list, 1, 4);
-		// Collections.swap(current_buttons_list, 4, 3);
-		// Collections.swap(current_buttons_list, 3, 6);
-		// Collections.swap(current_buttons_list, 6, 7);
-		// Collections.swap(current_buttons_list, 7, 8);
-		// Collections.swap(current_buttons_list, 8, 5);
-		// Collections.swap(current_buttons_list, 5, 4);
-		// Collections.swap(current_buttons_list, 4, 1);
-		// Collections.swap(current_buttons_list, 1, 0);
-		// Collections.swap(current_buttons_list, 0, 3);
-		// Collections.swap(current_buttons_list, 3, 6);
-		// Collections.swap(current_buttons_list, 6, 7);
-		// Collections.swap(current_buttons_list, 7, 8);
+		Collections.swap(current_buttons_list, 8, 5);
+		Collections.swap(current_buttons_list, 5, 2);
+		Collections.swap(current_buttons_list, 2, 1);
+		Collections.swap(current_buttons_list, 1, 4);
+		Collections.swap(current_buttons_list, 4, 3);
+		Collections.swap(current_buttons_list, 3, 6);
+		Collections.swap(current_buttons_list, 6, 7);
+		Collections.swap(current_buttons_list, 7, 8);
+		Collections.swap(current_buttons_list, 8, 5);
+		Collections.swap(current_buttons_list, 5, 4);
+		Collections.swap(current_buttons_list, 4, 1);
+		Collections.swap(current_buttons_list, 1, 0);
+		Collections.swap(current_buttons_list, 0, 3);
+		Collections.swap(current_buttons_list, 3, 6);
+		Collections.swap(current_buttons_list, 6, 7);
+		Collections.swap(current_buttons_list, 7, 8);
+		Collections.swap(current_buttons_list, 8, 5);
 	}
 
 	private void initPanelGUI() {
@@ -84,15 +85,13 @@ public class GameBoard extends JPanel {
 		if (plays.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Run Algorithm First");
 		} else {
-			for(int a = plays.size()-1; a >= 0; a--) {
-				for (int i = 0; i < current_buttons_list.size(); i++) {
-					current_buttons_list.get(i).setText(
-							plays.get(a).toCharArray()[i] + "");
-				}
-				System.out.println("N: " + plays.get(a));
-				repaint();
+			String temp = plays.removeLast();
+			for (int i = 0; i < current_buttons_list.size(); i++) {
+				current_buttons_list.get(i).setText(temp.toCharArray()[i] + "");
 			}
-			plays.clear();
+			System.out.println("N: " + temp);
+			repaint();
+			// plays.clear();
 		}
 	}
 
