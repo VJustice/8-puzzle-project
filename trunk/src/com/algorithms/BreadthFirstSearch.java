@@ -12,7 +12,7 @@ public class BreadthFirstSearch {
 	private String[] solution;
 	private Node root_node;
 	private HashMap<Node, Integer> nodes_list;
-	private HashMap<Node, Node> nodes_history; 
+	private HashMap<Node, Node> nodes_history;
 
 	private String current_data_nodes = "";
 	private String solution_nodes = "";
@@ -66,8 +66,16 @@ public class BreadthFirstSearch {
 					+ node_aux_string.substring(a - 2, a)
 					+ node_aux_string.charAt(a - 3)
 					+ node_aux_string.substring(a + 1);
-			System.out.println("U => " + next_state);
-			checkSolutionFound(node_aux, next_state, queue);
+			Node parent_node_aux;
+			if (nodes_history.get(node_aux) == null) {
+				parent_node_aux = node_aux;
+			} else {
+				parent_node_aux = nodes_history.get(node_aux);
+			}
+			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
+				System.out.println("U => " + next_state);
+				checkSolutionFound(node_aux, next_state, queue);
+			}
 		}
 	}
 
@@ -79,8 +87,16 @@ public class BreadthFirstSearch {
 					+ node_aux_string.substring(a + 3, a + 4)
 					+ node_aux_string.substring(a + 1, a + 3) + "0"
 					+ node_aux_string.substring(a + 4);
-			System.out.println("D => " + next_state);
-			checkSolutionFound(node_aux, next_state, queue);
+			Node parent_node_aux;
+			if (nodes_history.get(node_aux) == null) {
+				parent_node_aux = node_aux;
+			} else {
+				parent_node_aux = nodes_history.get(node_aux);
+			}
+			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
+				System.out.println("D => " + next_state);
+				checkSolutionFound(node_aux, next_state, queue);
+			}
 		}
 	}
 
@@ -91,8 +107,16 @@ public class BreadthFirstSearch {
 			String next_state = node_aux_string.substring(0, a - 1) + "0"
 					+ node_aux_string.charAt(a - 1)
 					+ node_aux_string.substring(a + 1);
-			System.out.println("L => " + next_state);
-			checkSolutionFound(node_aux, next_state, queue);
+			Node parent_node_aux;
+			if (nodes_history.get(node_aux) == null) {
+				parent_node_aux = node_aux;
+			} else {
+				parent_node_aux = nodes_history.get(node_aux);
+			}
+			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
+				System.out.println("L => " + next_state);
+				checkSolutionFound(node_aux, next_state, queue);
+			}
 		}
 	}
 
@@ -103,8 +127,16 @@ public class BreadthFirstSearch {
 			String next_state = node_aux_string.substring(0, a)
 					+ node_aux_string.charAt(a + 1) + "0"
 					+ node_aux_string.substring(a + 2);
-			System.out.println("R => " + next_state);
-			checkSolutionFound(node_aux, next_state, queue);
+			Node parent_node_aux;
+			if (nodes_history.get(node_aux) == null) {
+				parent_node_aux = node_aux;
+			} else {
+				parent_node_aux = nodes_history.get(node_aux);
+			}
+			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
+				System.out.println("R => " + next_state);
+				checkSolutionFound(node_aux, next_state, queue);
+			}
 		}
 	}
 
@@ -113,8 +145,10 @@ public class BreadthFirstSearch {
 		Node n = new Node(false, new_node_data);
 		addNode(n, old_node, queue);
 		if (new_node_data.equals(solution_nodes)) {
-			System.out.println("Solution Exists at Level " + nodes_list.get(n) + " Of The Tree");
-			System.out.println("Solution With Parent " + nodes_history.get(n).getCurrent_node_data());
+			System.out.println("Solution Exists at Level " + nodes_list.get(n)
+					+ " Of The Tree");
+			System.out.println("Solution With Parent "
+					+ nodes_history.get(n).getCurrent_node_data());
 			System.exit(0);
 		}
 	}
