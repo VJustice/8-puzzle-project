@@ -81,10 +81,9 @@ public class GameBoard extends JPanel {
 			for (int i = 0; i < current_buttons_list.size(); i++) {
 				current_buttons_list.get(i).setText(temp.toCharArray()[i] + "");
 			}
-			System.out.println("N: " + temp);
-			
-			// plays.clear();
+			System.out.println("N: " + temp);	
 		}
+		//plays.clear();
 	}
 
 	public void startAlgorithm(String algorithm) {
