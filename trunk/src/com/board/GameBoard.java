@@ -82,6 +82,7 @@ public class GameBoard extends JPanel {
 				current_buttons_list.get(i).setText(temp.toCharArray()[i] + "");
 			}
 			System.out.println("N: " + temp);	
+			repaint();
 		}
 		//plays.clear();
 	}
@@ -91,7 +92,7 @@ public class GameBoard extends JPanel {
 		case "BreadthFirstSearch":
 			BreadthFirstSearch bfs = new BreadthFirstSearch(current_data,
 					solution);
-			bfs.getTreeStructure();
+			bfs.getBFS();
 			plays = bfs.getNew_node_data_list();
 			break;
 		default:
