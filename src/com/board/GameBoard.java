@@ -84,7 +84,6 @@ public class GameBoard extends JPanel {
 			System.out.println("N: " + temp);	
 			repaint();
 		}
-		//plays.clear();
 	}
 
 	public void startAlgorithm(String algorithm) {
