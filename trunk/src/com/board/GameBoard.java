@@ -90,11 +90,6 @@ public class GameBoard extends JPanel {
 							plays.get(a).toCharArray()[i] + "");
 				}
 				System.out.println("N: " + plays.get(a));
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 				repaint();
 			}
 			plays.clear();
