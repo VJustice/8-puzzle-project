@@ -19,6 +19,7 @@ public class GameBoard extends JPanel {
 
 	private static final int NUM_ROWS = 3;
 	private static final int NUM_COLUMNS = 3;
+	private static final int DEPTH_SEARCH = 15;
 
 	private ButtonsHandler button_handler;
 	private Board board;
@@ -116,7 +117,7 @@ public class GameBoard extends JPanel {
 			}
 		}
 	}
-	
+
 	public Board getBoard() {
 		return board;
 	}
