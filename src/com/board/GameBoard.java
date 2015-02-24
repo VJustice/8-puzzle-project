@@ -56,9 +56,11 @@ public class GameBoard extends JPanel {
 			aux_button.addActionListener(button_handler);
 			current_buttons_list.add(aux_button);
 		}
-		// Collections.shuffle(current_buttons_list);
+		//Collections.shuffle(current_buttons_list);
 		Collections.swap(current_buttons_list, 0, 1);
 		Collections.swap(current_buttons_list, 1, 4);
+		Collections.swap(current_buttons_list, 4, 7);
+		Collections.swap(current_buttons_list, 7, 8);
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
