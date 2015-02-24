@@ -13,13 +13,16 @@ public class BreadthFirstSearch {
 	private Node root_node;
 	private HashMap<Node, Integer> nodes_list;
 	private HashMap<Node, Node> nodes_history;
+	private LinkedList<String> new_node_data_list;
 
 	private String current_data_nodes = "";
 	private String solution_nodes = "";
+	private boolean done = false;
 
 	public BreadthFirstSearch(String[] current_data, String[] solution) {
 		nodes_list = new HashMap<Node, Integer>();
 		nodes_history = new HashMap<Node, Node>();
+		new_node_data_list = new LinkedList<String>();
 		this.current_data = current_data;
 		this.solution = solution;
 		for (int i = 0; i < current_data.length; i++) {
@@ -34,7 +37,7 @@ public class BreadthFirstSearch {
 		root_node = new Node(false, current_data_nodes);
 		Queue<Node> queue = new LinkedList<Node>();
 		addNode(root_node, null, queue);
-		while (!queue.isEmpty() && !queue.peek().isVisited()) {
+		while (!queue.isEmpty() && !queue.peek().isVisited() && !done) {
 			Node aux_node = (Node) queue.remove();
 			aux_node.setVisited(true);
 			nodeUp(aux_node, queue);
@@ -61,7 +64,7 @@ public class BreadthFirstSearch {
 	private void nodeUp(Node node_aux, Queue<Node> queue) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
-		if (a > 2) {
+		if (a > 2 && !done) {
 			String next_state = node_aux_string.substring(0, a - 3) + "0"
 					+ node_aux_string.substring(a - 2, a)
 					+ node_aux_string.charAt(a - 3)
@@ -82,7 +85,7 @@ public class BreadthFirstSearch {
 	private void nodeDown(Node node_aux, Queue<Node> queue) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
-		if (a < 6) {
+		if (a < 6 && !done) {
 			String next_state = node_aux_string.substring(0, a)
 					+ node_aux_string.substring(a + 3, a + 4)
 					+ node_aux_string.substring(a + 1, a + 3) + "0"
@@ -103,7 +106,7 @@ public class BreadthFirstSearch {
 	private void nodeLeft(Node node_aux, Queue<Node> queue) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
-		if (a != 0 && a != 3 && a != 6) {
+		if ((a != 0 && a != 3 && a != 6) && !done) {
 			String next_state = node_aux_string.substring(0, a - 1) + "0"
 					+ node_aux_string.charAt(a - 1)
 					+ node_aux_string.substring(a + 1);
@@ -123,7 +126,7 @@ public class BreadthFirstSearch {
 	private void nodeRight(Node node_aux, Queue<Node> queue) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
-		if (a != 2 && a != 5 && a != 8) {
+		if ((a != 2 && a != 5 && a != 8) && !done) {
 			String next_state = node_aux_string.substring(0, a)
 					+ node_aux_string.charAt(a + 1) + "0"
 					+ node_aux_string.substring(a + 2);
@@ -149,8 +152,17 @@ public class BreadthFirstSearch {
 					+ " Of The Tree");
 			System.out.println("Solution With Parent "
 					+ nodes_history.get(n).getCurrent_node_data());
-			System.exit(0);
+			done = true;
+			getPlays(n);
 		}
 	}
-
+	
+	private void getPlays(Node aux_node) {
+		Node temp_node = aux_node;
+		while(!temp_node.getCurrent_node_data().equals(current_data_nodes)) {
+			Node new_temp_node = nodes_history.get(temp_node);
+			new_node_data_list.add(new_temp_node.getCurrent_node_data());
+			temp_node = new_temp_node;
+		}
+	}
 }
