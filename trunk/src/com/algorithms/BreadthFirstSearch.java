@@ -1,76 +1,121 @@
 package com.algorithms;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class BreadthFirstSearch {
 
+	@SuppressWarnings("unused")
 	private String[] current_data;
+	@SuppressWarnings("unused")
 	private String[] solution;
 	private Node root_node;
-	private LinkedList<Node> nodes_list;
+	private HashMap<Node, Integer> nodes_list; // ignores repeated nodes
+	private HashMap<Node, Node> nodes_history; // relates node to its
+												// predecessor
 
 	private String current_data_nodes = "";
+	private String solution_nodes = "";
 
 	public BreadthFirstSearch(String[] current_data, String[] solution) {
-		nodes_list = new LinkedList<Node>();
+		nodes_list = new HashMap<Node, Integer>();
+		nodes_history = new HashMap<Node, Node>();
 		this.current_data = current_data;
 		this.solution = solution;
 		for (int i = 0; i < current_data.length; i++) {
 			current_data_nodes += current_data[i];
 		}
+		for (int i = 0; i < solution.length; i++) {
+			solution_nodes += solution[i];
+		}
 	}
 
 	public void getTreeStructure() {
-		root_node = new Node(true, current_data_nodes);
-		nodes_list.add(root_node);
+		root_node = new Node(false, current_data_nodes);
 		Queue<Node> queue = new LinkedList<Node>();
-		queue.add(root_node);
-		checkAvailablePlays(root_node);
-		while (!queue.isEmpty()) {
+		addNode(root_node, null, queue);
+		while (!queue.isEmpty() && !queue.peek().isVisited()) {
 			Node aux_node = (Node) queue.remove();
-			Node child_node = null;
-
+			aux_node.setVisited(true);
+			nodeUp(aux_node, queue);
+			nodeDown(aux_node, queue);
+			nodeLeft(aux_node, queue);
+			nodeRight(aux_node, queue);
 		}
 	}
 
-	private void checkAvailablePlays(Node node) {
-		String data = node.getCurrent_node_data();
-		System.out.println("OLD DATA: " + data);
-		int zero = data.indexOf('0');
-		boolean done = false;
-		char aux = '0';
-		String aux_data = "";
-		while (!done) {
-			for (int i = 0; i < data.length(); i++) {
-				if (i - 2 == zero) {
-					aux = data.charAt(i - 1);
-					break;
-				} else if (i + 2 == zero) {
-					aux = data.charAt(i + 1);
-					break;
-				} else if (i - 4 == zero) {
-					aux = data.charAt(i - 3);
-					break;
-				} else if (i + 4 == zero) {
-					aux = data.charAt(i + 3);
-					break;
-				} else {
-					done = true;
-				}
+	private void addNode(Node new_node, Node old_node, Queue<Node> queue) {
+		if (!nodes_list.containsKey(new_node)) {
+			int new_node_value;
+			if (old_node == null) {
+				new_node_value = 0;
+			} else {
+				new_node_value = nodes_list.get(old_node) + 1;
 			}
-			aux_data = data.replace(aux, 't');
-			aux_data = aux_data.replace(data.charAt(zero), aux);
-			aux_data = aux_data.replace('t', '0');
-			System.out.println("NEW DATA: " + aux_data);
-			Node n = new Node(false, aux_data);
-			if (!nodes_list.contains(n)) {
-				nodes_list.add(n);
-			}
+			nodes_list.put(new_node, new_node_value);
+			queue.add(new_node);
+			nodes_history.put(new_node, old_node);
 		}
-		System.out.println("done");
-		for(int i = 0; i < nodes_list.size(); i++) {
-			System.out.println(nodes_list.get(i).getCurrent_node_data());
+	}
+
+	private void nodeUp(Node node_aux, Queue<Node> queue) {
+		String node_aux_string = node_aux.getCurrent_node_data();
+		int a = node_aux_string.indexOf("0");
+		if (a > 2) {
+			String next_state = node_aux_string.substring(0, a - 3) + "0"
+					+ node_aux_string.substring(a - 2, a)
+					+ node_aux_string.charAt(a - 3)
+					+ node_aux_string.substring(a + 1);
+			System.out.println("U => " + next_state);
+			checkSolutionFound(node_aux, next_state, queue);
+		}
+	}
+
+	private void nodeDown(Node node_aux, Queue<Node> queue) {
+		String node_aux_string = node_aux.getCurrent_node_data();
+		int a = node_aux_string.indexOf("0");
+		if (a < 6) {
+			String next_state = node_aux_string.substring(0, a)
+					+ node_aux_string.substring(a + 3, a + 4)
+					+ node_aux_string.substring(a + 1, a + 3) + "0"
+					+ node_aux_string.substring(a + 4);
+			System.out.println("D => " + next_state);
+			checkSolutionFound(node_aux, next_state, queue);
+		}
+	}
+
+	private void nodeLeft(Node node_aux, Queue<Node> queue) {
+		String node_aux_string = node_aux.getCurrent_node_data();
+		int a = node_aux_string.indexOf("0");
+		if (a != 0 && a != 3 && a != 6) {
+			String next_state = node_aux_string.substring(0, a - 1) + "0"
+					+ node_aux_string.charAt(a - 1)
+					+ node_aux_string.substring(a + 1);
+			System.out.println("L => " + next_state);
+			checkSolutionFound(node_aux, next_state, queue);
+		}
+	}
+
+	private void nodeRight(Node node_aux, Queue<Node> queue) {
+		String node_aux_string = node_aux.getCurrent_node_data();
+		int a = node_aux_string.indexOf("0");
+		if (a != 2 && a != 5 && a != 8) {
+			String next_state = node_aux_string.substring(0, a)
+					+ node_aux_string.charAt(a + 1) + "0"
+					+ node_aux_string.substring(a + 2);
+			System.out.println("R => " + next_state);
+			checkSolutionFound(node_aux, next_state, queue);
+		}
+	}
+
+	private void checkSolutionFound(Node old_node, String new_node_data,
+			Queue<Node> queue) {
+		Node n = new Node(false, new_node_data);
+		addNode(n, old_node, queue);
+		if (new_node_data.equals(solution_nodes)) {
+			System.out.println("Solution Exists at Level " + nodes_list.get(n) + " Of The Tree");
+			System.exit(0);
 		}
 	}
 
