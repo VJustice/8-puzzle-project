@@ -22,7 +22,7 @@ public class GameBoard extends JPanel {
 
 	private LinkedList<JButton> current_buttons_list;
 
-	private String[] solution = { "1", "2", "3", "4", "5", "6", "7", "8", "0" };
+	private String[] solution = { "0", "1", "2", "3", "4", "5", "6", "7", "8" };
 	private String[] current_data = new String[solution.length];
 
 	public GameBoard() {
@@ -56,19 +56,22 @@ public class GameBoard extends JPanel {
 			aux_button.addActionListener(button_handler);
 			current_buttons_list.add(aux_button);
 		}
-		Collections.shuffle(current_buttons_list);
+		// Collections.shuffle(current_buttons_list);
+		Collections.swap(current_buttons_list, 0, 1);
+		Collections.swap(current_buttons_list, 1, 4);
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
-		for(int i = 0; i < current_buttons_list.size(); i++) {
+		for (int i = 0; i < current_buttons_list.size(); i++) {
 			current_data[i] = current_buttons_list.get(i).getText();
 		}
 	}
-	
+
 	public void startAlgorithm(String algorithm) {
-		switch(algorithm) {
+		switch (algorithm) {
 		case "BreadthFirstSearch":
-			BreadthFirstSearch bfs = new BreadthFirstSearch(current_data, solution);
+			BreadthFirstSearch bfs = new BreadthFirstSearch(current_data,
+					solution);
 			bfs.getTreeStructure();
 			break;
 		default:
