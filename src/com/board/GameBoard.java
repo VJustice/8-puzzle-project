@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.algorithms.BreadthFirstSearch;
+import com.algorithms.Node;
 import com.handlers.ButtonsHandler;
 
 public class GameBoard extends JPanel {
@@ -31,6 +33,29 @@ public class GameBoard extends JPanel {
 		this.setLayout(new GridLayout(NUM_ROWS, NUM_COLUMNS));
 		initPanelGUI();
 		colorButtons();
+	}
+	
+	private void generateSolution() {
+		Collections.swap(current_buttons_list, 0, 1);
+		Collections.swap(current_buttons_list, 1, 4);
+		Collections.swap(current_buttons_list, 4, 7);
+		Collections.swap(current_buttons_list, 7, 8);
+		Collections.swap(current_buttons_list, 8, 5);
+		Collections.swap(current_buttons_list, 5, 2);
+		Collections.swap(current_buttons_list, 2, 1);
+		Collections.swap(current_buttons_list, 1, 4);
+		Collections.swap(current_buttons_list, 4, 3);
+		Collections.swap(current_buttons_list, 3, 6);
+		Collections.swap(current_buttons_list, 6, 7);
+		Collections.swap(current_buttons_list, 7, 8);
+		Collections.swap(current_buttons_list, 8, 5);
+		Collections.swap(current_buttons_list, 5, 4);
+		Collections.swap(current_buttons_list, 4, 1);
+		Collections.swap(current_buttons_list, 1, 0);
+		Collections.swap(current_buttons_list, 0, 3);
+		Collections.swap(current_buttons_list, 3, 6);
+		Collections.swap(current_buttons_list, 6, 7);
+		Collections.swap(current_buttons_list, 7, 8);
 	}
 
 	private void colorButtons() {
@@ -58,32 +83,17 @@ public class GameBoard extends JPanel {
 		}
 		// Collections.shuffle(current_buttons_list); //Can't provide a
 		// solution, most of the times
-		Collections.swap(current_buttons_list, 0, 1);
-		Collections.swap(current_buttons_list, 1, 4);
-		Collections.swap(current_buttons_list, 4, 7);
-		Collections.swap(current_buttons_list, 7, 8);
-		Collections.swap(current_buttons_list, 8, 5);
-		Collections.swap(current_buttons_list, 5, 2);
-		Collections.swap(current_buttons_list, 2, 1);
-		Collections.swap(current_buttons_list, 1, 4);
-		Collections.swap(current_buttons_list, 4, 3);
-		Collections.swap(current_buttons_list, 3, 6);
-		Collections.swap(current_buttons_list, 6, 7);
-		Collections.swap(current_buttons_list, 7, 8);
-		Collections.swap(current_buttons_list, 8, 5);
-		Collections.swap(current_buttons_list, 5, 4);
-		Collections.swap(current_buttons_list, 4, 1);
-		Collections.swap(current_buttons_list, 1, 0);
-		Collections.swap(current_buttons_list, 0, 3);
-		Collections.swap(current_buttons_list, 3, 6);
-		Collections.swap(current_buttons_list, 6, 7);
-		Collections.swap(current_buttons_list, 7, 8);
+		generateSolution();
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
 		for (int i = 0; i < current_buttons_list.size(); i++) {
 			current_data[i] = current_buttons_list.get(i).getText();
 		}
+	}
+	
+	private void makeBoardPlays() {
+		
 	}
 
 	public void startAlgorithm(String algorithm) {
@@ -92,6 +102,7 @@ public class GameBoard extends JPanel {
 			BreadthFirstSearch bfs = new BreadthFirstSearch(current_data,
 					solution);
 			bfs.getTreeStructure();
+			makeBoardPlays();
 			break;
 		default:
 			break;
