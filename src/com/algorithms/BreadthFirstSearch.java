@@ -159,10 +159,15 @@ public class BreadthFirstSearch {
 	
 	private void getPlays(Node aux_node) {
 		Node temp_node = aux_node;
+		new_node_data_list.add(solution_nodes);
 		while(!temp_node.getCurrent_node_data().equals(current_data_nodes)) {
 			Node new_temp_node = nodes_history.get(temp_node);
 			new_node_data_list.add(new_temp_node.getCurrent_node_data());
 			temp_node = new_temp_node;
 		}
+	}
+	
+	public LinkedList<String> getNew_node_data_list() {
+		return new_node_data_list;
 	}
 }
