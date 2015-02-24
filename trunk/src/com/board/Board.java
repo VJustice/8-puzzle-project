@@ -95,6 +95,14 @@ public class Board {
 
 		});
 		show_results = new JButton("Show Results");
+		show_results.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game_board.makeMoves();
+			}
+			
+		});
 		puzzle_right_up_panel.setLayout(new FlowLayout());
 		puzzle_right_up_panel.setBorder(options_border);
 		puzzle_right_up_panel.add(choose_algorithm);
