@@ -92,12 +92,12 @@ public class GameBoard extends JPanel {
 				System.out.println("N: " + plays.get(a));
 				try {
 					Thread.sleep(1000);
-					repaint();
-					revalidate();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				repaint();
 			}
+			plays.clear();
 		}
 	}
 
