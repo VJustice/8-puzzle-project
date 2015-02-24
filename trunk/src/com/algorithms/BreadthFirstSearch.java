@@ -11,9 +11,8 @@ public class BreadthFirstSearch {
 	@SuppressWarnings("unused")
 	private String[] solution;
 	private Node root_node;
-	private HashMap<Node, Integer> nodes_list; // ignores repeated nodes
-	private HashMap<Node, Node> nodes_history; // relates node to its
-												// predecessor
+	private HashMap<Node, Integer> nodes_list;
+	private HashMap<Node, Node> nodes_history; 
 
 	private String current_data_nodes = "";
 	private String solution_nodes = "";
@@ -115,7 +114,6 @@ public class BreadthFirstSearch {
 		addNode(n, old_node, queue);
 		if (new_node_data.equals(solution_nodes)) {
 			System.out.println("Solution Exists at Level " + nodes_list.get(n) + " Of The Tree");
-			System.exit(0);
 		}
 	}
 
