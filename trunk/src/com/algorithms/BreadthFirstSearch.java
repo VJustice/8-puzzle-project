@@ -153,8 +153,7 @@ public class BreadthFirstSearch {
 		addNode(n, old_node);
 		if (new_node_data.equals(solution_nodes)) {
 			game_board.getBoard().getPuzzle_movemment_log()
-					.append("Solution Exists at Level " + nodes_list.get(n)
-					+ " Of The Tree");
+					.append("Solution at Level " + nodes_list.get(n));
 			done = true;
 			getPlays(n);
 		}
