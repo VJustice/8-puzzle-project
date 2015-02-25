@@ -42,7 +42,7 @@ public class Board {
 	private TitledBorder results_border;
 
 	private String[] algorithms = { "BreadthFirstSearch", "DepthFirstSearch",
-			"A*", "ManhathanDistance" };
+			"A*" };
 
 	private GameBoard game_board;
 
@@ -88,7 +88,7 @@ public class Board {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				start_algorithm.setEnabled(false);
+				//start_algorithm.setEnabled(false);
 				game_board.startAlgorithm(choose_algorithm.getSelectedItem()
 						.toString());
 			}
