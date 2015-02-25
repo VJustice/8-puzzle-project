@@ -6,9 +6,7 @@ import java.util.Queue;
 
 import com.board.GameBoard;
 
-public class BreadthFirstSearch {
-
-	private GameBoard game_board;
+public class BreadthFirstSearch extends Algorithm {
 	private Node root_node;
 
 	private HashMap<Node, Integer> nodes_list;
@@ -22,7 +20,7 @@ public class BreadthFirstSearch {
 
 	public BreadthFirstSearch(GameBoard game_board, String[] current_data,
 			String[] solution) {
-		this.game_board = game_board;
+		super(game_board, current_data, solution);
 		nodes_list = new HashMap<Node, Integer>();
 		nodes_history = new HashMap<Node, Node>();
 		new_node_data_list = new LinkedList<String>();
@@ -34,7 +32,8 @@ public class BreadthFirstSearch {
 		}
 	}
 
-	public void getBFS() {
+	@Override
+	public void searchAlgorithm() {
 		root_node = new Node(false, current_data_nodes);
 		queue = new LinkedList<Node>();
 		addNode(root_node, null);
@@ -48,7 +47,8 @@ public class BreadthFirstSearch {
 		}
 	}
 
-	private void addNode(Node new_node, Node old_node) {
+	@Override
+	protected void addNode(Node new_node, Node old_node) {
 		if (!nodes_list.containsKey(new_node)) {
 			int new_node_value;
 			if (old_node == null) {
@@ -62,7 +62,8 @@ public class BreadthFirstSearch {
 		}
 	}
 
-	private void nodeUp(Node node_aux) {
+	@Override
+	protected void nodeUp(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
 		if (a > 2 && !done) {
@@ -84,7 +85,8 @@ public class BreadthFirstSearch {
 		}
 	}
 
-	private void nodeDown(Node node_aux) {
+	@Override
+	protected void nodeDown(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
 		if (a < 6 && !done) {
@@ -106,7 +108,8 @@ public class BreadthFirstSearch {
 		}
 	}
 
-	private void nodeLeft(Node node_aux) {
+	@Override
+	protected void nodeLeft(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
 		if ((a != 0 && a != 3 && a != 6) && !done) {
@@ -127,7 +130,8 @@ public class BreadthFirstSearch {
 		}
 	}
 
-	private void nodeRight(Node node_aux) {
+	@Override
+	protected void nodeRight(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
 		if ((a != 2 && a != 5 && a != 8) && !done) {
@@ -148,7 +152,8 @@ public class BreadthFirstSearch {
 		}
 	}
 
-	private void checkSolutionFound(Node old_node, String new_node_data) {
+	@Override
+	protected void checkSolutionFound(Node old_node, String new_node_data) {
 		Node n = new Node(false, new_node_data);
 		addNode(n, old_node);
 		if (new_node_data.equals(solution_nodes)) {
@@ -159,7 +164,8 @@ public class BreadthFirstSearch {
 		}
 	}
 
-	private void getPlays(Node aux_node) {
+	@Override
+	protected void getPlays(Node aux_node) {
 		Node temp_node = aux_node;
 		new_node_data_list.add(solution_nodes);
 		while (!temp_node.getCurrent_node_data().equals(current_data_nodes)) {

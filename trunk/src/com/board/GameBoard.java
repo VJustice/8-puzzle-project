@@ -20,7 +20,7 @@ public class GameBoard extends JPanel {
 
 	private static final int NUM_ROWS = 3;
 	private static final int NUM_COLUMNS = 3;
-	private static final int DEPTH_SEARCH = 15;
+	// private static final int DEPTH_SEARCH = 15;
 
 	private ButtonsHandler button_handler;
 	private Board board;
@@ -95,12 +95,12 @@ public class GameBoard extends JPanel {
 		case "BreadthFirstSearch":
 			BreadthFirstSearch bfs = new BreadthFirstSearch(this, current_data,
 					solution);
-			bfs.getBFS();
+			bfs.searchAlgorithm();
 			plays = bfs.getNew_node_data_list();
 			break;
 		case "A*":
 			AStar a_star = new AStar(this, current_data, solution, heuristic);
-			a_star.searchAStar();
+			a_star.searchAlgorithm();
 			break;
 		default:
 			break;
