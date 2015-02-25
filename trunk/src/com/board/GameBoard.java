@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.algorithms.AStar;
 import com.algorithms.BreadthFirstSearch;
 import com.handlers.ButtonsHandler;
 
@@ -89,13 +90,17 @@ public class GameBoard extends JPanel {
 		}
 	}
 
-	public void startAlgorithm(String algorithm) {
+	public void startAlgorithm(String algorithm, String heuristic) {
 		switch (algorithm) {
 		case "BreadthFirstSearch":
 			BreadthFirstSearch bfs = new BreadthFirstSearch(this, current_data,
 					solution);
 			bfs.getBFS();
 			plays = bfs.getNew_node_data_list();
+			break;
+		case "A*":
+			AStar a_star = new AStar(this, current_data, solution, heuristic);
+			a_star.searchAStar();
 			break;
 		default:
 			break;
