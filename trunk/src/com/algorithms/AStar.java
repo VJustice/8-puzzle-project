@@ -199,7 +199,7 @@ public class AStar extends Algorithm {
 	protected void checkSolutionFound(Node old_node, String new_node_data,
 			int node_heuristic) {
 		Node n = new Node(false, new_node_data, node_heuristic);
-		addNode(n, old_node);
+//		addNode(n, old_node);
 		if (new_node_data.equals(solution_nodes)) {
 			// game_board.getBoard().getPuzzle_movemment_log()
 			// .append("Solution at Level " + nodes_list.get(n));
