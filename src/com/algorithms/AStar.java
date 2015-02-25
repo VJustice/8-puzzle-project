@@ -11,8 +11,8 @@ public class AStar extends Algorithm {
 
 	private LinkedList<Node> nodes_evaluated;
 	private HashMap<Node, Integer> nodes_list;
-	private LinkedList<String> new_node_data_list;
 	private HashMap<Node, Node> nodes_history;
+	private LinkedList<String> new_node_data_list;
 
 	private String heuristic_state;
 	private String current_data_nodes = "";
@@ -25,6 +25,7 @@ public class AStar extends Algorithm {
 		new_node_data_list = new LinkedList<String>();
 		nodes_evaluated = new LinkedList<Node>();
 		nodes_history = new HashMap<Node, Node>();
+		nodes_list = new HashMap<Node, Integer>();
 		for (int i = 0; i < current_data.length; i++) {
 			current_data_nodes += current_data[i];
 		}
@@ -35,17 +36,13 @@ public class AStar extends Algorithm {
 
 	@Override
 	public void searchAlgorithm() {
-		int start_score = 0;
-		int estimated_cost = start_score; // valor
-											// da
-											// heuristica
+		int estimated_cost = calculateNodeHeuristics(current_data_nodes);
 		root_node = new Node(false, current_data_nodes, estimated_cost);
-		nodes_list = new HashMap<Node, Integer>();
-		nodes_evaluated.add(root_node);
+		addNode(root_node, null);
 		while (!nodes_evaluated.isEmpty()
 				&& !nodes_evaluated.peek().isVisited()) {
 			sortList(nodes_evaluated);
-			Node current_node = nodes_evaluated.removeFirst();
+			Node current_node = nodes_evaluated.remove();
 			current_node.setVisited(true);
 			for (int i = 0; i < 3; i++) {
 				switch (i) {
@@ -63,21 +60,11 @@ public class AStar extends Algorithm {
 					break;
 				}
 			}
+			// nodeUp(current_node);
+			// nodeDown(current_node);
+			// nodeLeft(current_node);
+			// nodeRight(current_node);
 		}
-	}
-
-	private LinkedList<Node> sortList(LinkedList<Node> list) {
-		for (int i = 0; i < list.size() - 1; i++) {
-			for (int j = i + 1; j < list.size(); j++) {
-				if (list.get(i).getEstimated_score() >= list.get(j)
-						.getEstimated_score()) {
-					Node temp_node = list.get(j);
-					list.set(j, list.get(i));
-					list.set(i, temp_node);
-				}
-			}
-		}
-		return list;
 	}
 
 	@Override
@@ -105,17 +92,18 @@ public class AStar extends Algorithm {
 					+ node_aux_string.charAt(a - 3)
 					+ node_aux_string.substring(a + 1);
 			Node parent_node_aux;
-			// checks if the parent_node is the root_node
 			if (nodes_history.get(node_aux) == null) {
 				parent_node_aux = node_aux;
 			} else {
 				parent_node_aux = nodes_history.get(node_aux);
 			}
-			int node_heuristic = calculateNodeHeuristics(next_state);
-			// So it won't go back
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				game_board.getBoard().getPuzzle_movemment_log()
-						.append("U => " + next_state + "\n");
+				int node_heuristic = calculateNodeHeuristics(next_state);
+				game_board
+						.getBoard()
+						.getPuzzle_movemment_log()
+						.append("U => " + next_state + " " + node_heuristic
+								+ "\n");
 				checkSolutionFound(node_aux, next_state, node_heuristic);
 			}
 		}
@@ -136,10 +124,13 @@ public class AStar extends Algorithm {
 			} else {
 				parent_node_aux = nodes_history.get(node_aux);
 			}
-			int node_heuristic = calculateNodeHeuristics(next_state);
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				game_board.getBoard().getPuzzle_movemment_log()
-						.append("D => " + next_state + "\n");
+				int node_heuristic = calculateNodeHeuristics(next_state);
+				game_board
+						.getBoard()
+						.getPuzzle_movemment_log()
+						.append("D => " + next_state + " " + node_heuristic
+								+ "\n");
 				checkSolutionFound(node_aux, next_state, node_heuristic);
 			}
 		}
@@ -159,10 +150,13 @@ public class AStar extends Algorithm {
 			} else {
 				parent_node_aux = nodes_history.get(node_aux);
 			}
-			int node_heuristic = calculateNodeHeuristics(next_state);
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				game_board.getBoard().getPuzzle_movemment_log()
-						.append("L => " + next_state + "\n");
+				int node_heuristic = calculateNodeHeuristics(next_state);
+				game_board
+						.getBoard()
+						.getPuzzle_movemment_log()
+						.append("L => " + next_state + " " + node_heuristic
+								+ "\n");
 				checkSolutionFound(node_aux, next_state, node_heuristic);
 			}
 		}
@@ -182,10 +176,13 @@ public class AStar extends Algorithm {
 			} else {
 				parent_node_aux = nodes_history.get(node_aux);
 			}
-			int node_heuristic = calculateNodeHeuristics(next_state);
 			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				game_board.getBoard().getPuzzle_movemment_log()
-						.append("R => " + next_state + "\n");
+				int node_heuristic = calculateNodeHeuristics(next_state);
+				game_board
+						.getBoard()
+						.getPuzzle_movemment_log()
+						.append("R => " + next_state + " " + node_heuristic
+								+ "\n");
 				checkSolutionFound(node_aux, next_state, node_heuristic);
 			}
 		}
@@ -199,10 +196,8 @@ public class AStar extends Algorithm {
 	protected void checkSolutionFound(Node old_node, String new_node_data,
 			int node_heuristic) {
 		Node n = new Node(false, new_node_data, node_heuristic);
-//		addNode(n, old_node);
-		if (new_node_data.equals(solution_nodes)) {
-			// game_board.getBoard().getPuzzle_movemment_log()
-			// .append("Solution at Level " + nodes_list.get(n));
+		addNode(n, old_node);
+		if (new_node_data.equals(solution_nodes) || node_heuristic == 0) {
 			game_board.getBoard().getPuzzle_movemment_log()
 					.append("Test Successfull");
 			getPlays(n);
@@ -236,8 +231,21 @@ public class AStar extends Algorithm {
 		default:
 			break;
 		}
-		System.out.println(value_heuristic);
 		return value_heuristic;
+	}
+
+	private LinkedList<Node> sortList(LinkedList<Node> list) {
+		for (int i = 0; i < list.size() - 1; i++) {
+			for (int j = i + 1; j < list.size(); j++) {
+				if (list.get(i).getEstimated_score() >= list.get(j)
+						.getEstimated_score()) {
+					Node temp_node = list.get(j);
+					list.set(j, list.get(i));
+					list.set(i, temp_node);
+				}
+			}
+		}
+		return list;
 	}
 
 	public LinkedList<String> getNew_node_data_list() {
