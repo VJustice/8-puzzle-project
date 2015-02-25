@@ -163,6 +163,10 @@ public class BreadthFirstSearch extends Algorithm {
 			getPlays(n);
 		}
 	}
+	
+	@Override
+	protected void checkSolutionFound(Node old_node, String current_data,
+			int heuristic) {}
 
 	@Override
 	protected void getPlays(Node aux_node) {
@@ -178,4 +182,5 @@ public class BreadthFirstSearch extends Algorithm {
 	public LinkedList<String> getNew_node_data_list() {
 		return new_node_data_list;
 	}
+
 }
