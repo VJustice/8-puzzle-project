@@ -1,9 +1,10 @@
 package com.algorithms;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
+import java.util.List;
 
 import com.board.GameBoard;
 
@@ -13,7 +14,7 @@ public class AStar {
 	private Node root_node;
 
 	private LinkedList<Node> nodes_evaluated;
-	private PriorityQueue<Node> nodes_list;
+	private LinkedList<Node> nodes_list;
 	private HashMap<Node, Node> nodes_history;
 
 	private String heuristic;
@@ -38,24 +39,14 @@ public class AStar {
 		int start_score = 0;
 		int estimated_cost = start_score + Integer.parseInt(heuristic);
 		root_node = new Node(false, current_data_nodes, estimated_cost);
-		nodes_list = new PriorityQueue<Node>(new Comparator<Node>() {
-
-			@Override
-			public int compare(Node node_one, Node node_two) {
-				if(node_one.getEstimated_score() >= node_two.getEstimated_score()){
-					return node_one.getEstimated_score();
-				}
-				else {
-					return node_two.getEstimated_score();
-				}
-			}
-			
-		});
+		nodes_list = new LinkedList<Node>();
 		nodes_list.add(root_node);
-		nodes_list.add(new Node(false, solution_nodes, estimated_cost+3));
-		while (!nodes_list.isEmpty()) {
-			Node current_node = nodes_list.poll();
-			System.out.println("ahahahaahh: " + current_node.getCurrent_node_data());
-		}
+		nodes_list.add(new Node(false, solution_nodes, estimated_cost + 3));
+		// while (!nodes_list.isEmpty()) {
+		// Node current_node = nodes_list.remove();
+		// System.out.println("ahahahaahh: "
+		// + current_node.getCurrent_node_data() + "   SCORE: "
+		// + current_node.getEstimated_score());
+		// }
 	}
 }
