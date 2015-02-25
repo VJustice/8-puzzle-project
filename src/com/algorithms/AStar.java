@@ -1,10 +1,7 @@
 package com.algorithms;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
 import com.board.GameBoard;
 
@@ -41,12 +38,31 @@ public class AStar {
 		root_node = new Node(false, current_data_nodes, estimated_cost);
 		nodes_list = new LinkedList<Node>();
 		nodes_list.add(root_node);
-		nodes_list.add(new Node(false, solution_nodes, estimated_cost + 3));
-		// while (!nodes_list.isEmpty()) {
-		// Node current_node = nodes_list.remove();
-		// System.out.println("ahahahaahh: "
-		// + current_node.getCurrent_node_data() + "   SCORE: "
-		// + current_node.getEstimated_score());
-		// }
+		while (!nodes_list.isEmpty() && !nodes_list.peek().isVisited()) {
+			Node current_node = nodes_list.removeFirst();
+			current_node.setVisited(true);
+
+			if (current_node.getCurrent_node_data().equals(solution_nodes)) {
+				// done xD
+			}
+			nodes_evaluated.add(current_node);
+
+			sortList(nodes_list);
+		}
 	}
+
+	private LinkedList<Node> sortList(LinkedList<Node> list) {
+		for (int i = 0; i < list.size() - 1; i++) {
+			for (int j = i + 1; j < list.size(); j++) {
+				if (list.get(i).getEstimated_score() >= list.get(j)
+						.getEstimated_score()) {
+					Node temp_node = list.get(j);
+					list.set(j, list.get(i));
+					list.set(i, temp_node);
+				}
+			}
+		}
+		return list;
+	}
+
 }
