@@ -29,6 +29,9 @@ public abstract class Algorithm {
 
 	protected abstract void checkSolutionFound(Node old_node,
 			String current_data);
+	
+	protected abstract void checkSolutionFound(Node old_node,
+			String current_data, int heuristic);
 
 	protected abstract void getPlays(Node node_aux);
 }
