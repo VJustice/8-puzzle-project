@@ -19,6 +19,8 @@ public class AStar extends Algorithm {
 	private String solution_nodes = "";
 	private LinkedList<Node> temp_list = new LinkedList<Node>();
 
+	private int DEPTH = 500;
+
 	public AStar(GameBoard game_board, String[] current_data,
 			String[] solution, String heuristic_state) {
 		super(game_board, current_data, solution);
@@ -48,9 +50,6 @@ public class AStar extends Algorithm {
 			nodeLeft(current_node);
 			nodeRight(current_node);
 			sortList(temp_list);
-			System.out.println("HEURISTIC VALUE: "
-					+ temp_list.get(0).getCurrent_node_data() + ";;;;; "
-					+ temp_list.get(0).getEstimated_score());
 			addNode(temp_list.getFirst(), current_node);
 			if (temp_list.getFirst().getCurrent_node_data()
 					.equals(solution_nodes)) {
@@ -58,8 +57,16 @@ public class AStar extends Algorithm {
 						.getBoard()
 						.getPuzzle_movemment_log()
 						.append("Solution at Level "
-								+ explored_nodes.get(temp_list.getFirst()) + " cenas:  " + temp_list.getFirst().getCurrent_node_data() );
+								+ explored_nodes.get(temp_list.getFirst())
+								+ " cenas:  "
+								+ temp_list.getFirst().getCurrent_node_data());
 				getPlays(temp_list.getFirst());
+				nodes_queue.clear();
+			}
+			if (!temp_list.isEmpty() && explored_nodes.get(temp_list.getFirst()) == DEPTH) {
+				nodes_queue.clear();
+				game_board.getBoard().getPuzzle_movemment_log()
+						.append("No Solution Found");
 			}
 			temp_list.clear();
 		}
@@ -100,8 +107,7 @@ public class AStar extends Algorithm {
 				int current_node_score = calculateNodeHeuristics(next_state);
 				Node n = new Node(false, next_state, current_node_score);
 				temp_list.add(n);
-				// System.out.println("U => " + next_state);
-				// checkSolutionFound(node_aux, next_state, current_node_score);
+				System.out.println("U => " + next_state);
 			}
 		}
 	}
@@ -125,8 +131,7 @@ public class AStar extends Algorithm {
 				int current_node_score = calculateNodeHeuristics(next_state);
 				Node n = new Node(false, next_state, current_node_score);
 				temp_list.add(n);
-				// System.out.println("D => " + next_state);
-				// checkSolutionFound(node_aux, next_state, current_node_score);
+				System.out.println("D => " + next_state);
 			}
 		}
 	}
@@ -149,8 +154,7 @@ public class AStar extends Algorithm {
 				int current_node_score = calculateNodeHeuristics(next_state);
 				Node n = new Node(false, next_state, current_node_score);
 				temp_list.add(n);
-				// System.out.println("L => " + next_state);
-				// checkSolutionFound(node_aux, next_state, current_node_score);
+				System.out.println("L => " + next_state);
 			}
 		}
 	}
@@ -173,8 +177,7 @@ public class AStar extends Algorithm {
 				int current_node_score = calculateNodeHeuristics(next_state);
 				Node n = new Node(false, next_state, current_node_score);
 				temp_list.add(n);
-				// System.out.println("R => " + next_state);
-				// checkSolutionFound(node_aux, next_state, current_node_score);
+				System.out.println("R => " + next_state);
 
 			}
 		}

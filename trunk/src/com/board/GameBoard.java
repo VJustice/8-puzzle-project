@@ -66,15 +66,18 @@ public class GameBoard extends JPanel {
 			aux_button.addActionListener(button_handler);
 			current_buttons_list.add(aux_button);
 		}
-		// Collections.shuffle(current_buttons_list); //Can't provide a
-		// solution, most of the times
-		generateSolution();
+		shuffleStuff();
+		// generateSolution();
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
 		for (int i = 0; i < current_buttons_list.size(); i++) {
 			current_data[i] = current_buttons_list.get(i).getText();
 		}
+	}
+
+	public void shuffleStuff() {
+		Collections.shuffle(current_buttons_list);
 	}
 
 	public void makeMoves() {
@@ -96,11 +99,14 @@ public class GameBoard extends JPanel {
 			BreadthFirstSearch bfs = new BreadthFirstSearch(this, current_data,
 					solution);
 			bfs.searchAlgorithm();
+			plays.clear();
 			plays = bfs.getNew_node_data_list();
 			break;
 		case "A*":
 			AStar a_star = new AStar(this, current_data, solution, heuristic);
 			a_star.searchAlgorithm();
+			plays.clear();
+			plays = a_star.getNew_node_data_list();
 			break;
 		default:
 			break;

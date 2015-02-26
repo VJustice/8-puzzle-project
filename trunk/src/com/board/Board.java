@@ -87,7 +87,6 @@ public class Board {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				start_algorithm.setEnabled(false);
 				game_board.startAlgorithm(choose_algorithm.getSelectedItem()
 						.toString(), "Batatas");
 			}
