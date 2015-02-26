@@ -35,6 +35,8 @@ public class Board {
 
 	private JButton start_algorithm;
 	private JButton show_results;
+	private JButton reset_puzzle;
+
 
 	private TitledBorder options_border;
 	private TitledBorder logs_border;
@@ -70,6 +72,7 @@ public class Board {
 	public JPanel rightPanel() {
 		puzzle_right_panel = new JPanel();
 		puzzle_right_panel.setLayout(new BorderLayout());
+		puzzle_right_panel.setPreferredSize(new Dimension(WIDTH/3, HEIGHT));
 		puzzle_right_panel.add(rightUpPanel(), BorderLayout.NORTH);
 		puzzle_right_panel.add(rightDownPanel(), BorderLayout.CENTER);
 		return puzzle_right_panel;
@@ -101,10 +104,21 @@ public class Board {
 			}
 			
 		});
+		reset_puzzle = new JButton("Restart Algorithm");
+		reset_puzzle.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game_board.restart();
+				
+			}
+		});
 		puzzle_right_up_panel.setLayout(new FlowLayout());
+		puzzle_right_up_panel.setPreferredSize(new Dimension(WIDTH / 3, (HEIGHT / 5)-20));
 		puzzle_right_up_panel.setBorder(options_border);
 		puzzle_right_up_panel.add(choose_algorithm);
 		puzzle_right_up_panel.add(start_algorithm);
+		puzzle_right_up_panel.add(reset_puzzle);
 		puzzle_right_up_panel.add(show_results);
 		return puzzle_right_up_panel;
 	}
