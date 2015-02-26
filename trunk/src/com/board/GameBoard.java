@@ -20,7 +20,6 @@ public class GameBoard extends JPanel {
 
 	private static final int NUM_ROWS = 3;
 	private static final int NUM_COLUMNS = 3;
-	// private static final int DEPTH_SEARCH = 15;
 
 	private ButtonsHandler button_handler;
 	private Board board;
@@ -42,6 +41,7 @@ public class GameBoard extends JPanel {
 		this.validate();
 	}
 
+	@SuppressWarnings("unused")
 	private void generateSolution() {
 		Collections.swap(current_buttons_list, 0, 1);
 		Collections.swap(current_buttons_list, 1, 4);
@@ -88,7 +88,8 @@ public class GameBoard extends JPanel {
 			for (int i = 0; i < current_buttons_list.size(); i++) {
 				current_buttons_list.get(i).setText(temp.toCharArray()[i] + "");
 			}
-			board.getPuzzle_results_log().append("Moved Tiles: " + temp + "\n");
+			board.getPuzzle_movemment_log().append(
+					"Moved Tiles: " + temp + "\n");
 			repaint();
 		}
 	}
@@ -113,6 +114,11 @@ public class GameBoard extends JPanel {
 		}
 	}
 
+	public void restart() {
+		plays.clear();
+		board.getPuzzle_movemment_log().setText("");
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		for (JButton current_button : current_buttons_list) {
@@ -131,10 +137,5 @@ public class GameBoard extends JPanel {
 
 	public Board getBoard() {
 		return board;
-	}
-
-	public void restart() {
-		// TODO Auto-generated method stub
-		
 	}
 }

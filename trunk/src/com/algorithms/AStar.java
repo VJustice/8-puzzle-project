@@ -17,7 +17,7 @@ public class AStar extends Algorithm {
 	private String heuristic_state;
 	private String current_data_nodes = "";
 	private String solution_nodes = "";
-	private LinkedList<Node> temp_list = new LinkedList<Node>();
+	private LinkedList<Node> temp_list;
 
 	private int DEPTH = 500;
 
@@ -25,6 +25,7 @@ public class AStar extends Algorithm {
 			String[] solution, String heuristic_state) {
 		super(game_board, current_data, solution);
 		this.heuristic_state = heuristic_state;
+		temp_list = new LinkedList<Node>();
 		new_node_data_list = new LinkedList<String>();
 		nodes_history = new HashMap<Node, Node>();
 		for (int i = 0; i < current_data.length; i++) {
@@ -42,6 +43,7 @@ public class AStar extends Algorithm {
 		int initial_score = 0;
 		root_node = new Node(false, current_data_nodes, initial_score);
 		addNode(root_node, null);
+		new_node_data_list.clear();
 		while (!nodes_queue.isEmpty()) {
 			Node current_node = nodes_queue.remove();
 			current_node.setVisited(true);
@@ -55,21 +57,29 @@ public class AStar extends Algorithm {
 					.equals(solution_nodes)) {
 				game_board
 						.getBoard()
-						.getPuzzle_movemment_log()
+						.getPuzzle_results_log()
 						.append("Solution at Level "
 								+ explored_nodes.get(temp_list.getFirst())
 								+ " cenas:  "
-								+ temp_list.getFirst().getCurrent_node_data());
+								+ temp_list.getFirst().getCurrent_node_data() + "\n");
 				getPlays(temp_list.getFirst());
-				nodes_queue.clear();
+				clearAll();
 			}
-			if (!temp_list.isEmpty() && explored_nodes.get(temp_list.getFirst()) == DEPTH) {
-				nodes_queue.clear();
-				game_board.getBoard().getPuzzle_movemment_log()
-						.append("No Solution Found");
+			if (!temp_list.isEmpty()
+					&& explored_nodes.get(temp_list.getFirst()) == DEPTH) {
+				clearAll();
+				game_board.getBoard().getPuzzle_results_log()
+						.append("No Solution Found \n");
 			}
 			temp_list.clear();
 		}
+	}
+	
+	private void clearAll() {
+		nodes_queue.clear();
+		temp_list.clear();
+		explored_nodes.clear();
+		nodes_history.clear();
 	}
 
 	@Override
@@ -107,7 +117,7 @@ public class AStar extends Algorithm {
 				int current_node_score = calculateNodeHeuristics(next_state);
 				Node n = new Node(false, next_state, current_node_score);
 				temp_list.add(n);
-				System.out.println("U => " + next_state);
+				// System.out.println("U => " + next_state);
 			}
 		}
 	}
@@ -131,7 +141,7 @@ public class AStar extends Algorithm {
 				int current_node_score = calculateNodeHeuristics(next_state);
 				Node n = new Node(false, next_state, current_node_score);
 				temp_list.add(n);
-				System.out.println("D => " + next_state);
+				// System.out.println("D => " + next_state);
 			}
 		}
 	}
@@ -154,7 +164,7 @@ public class AStar extends Algorithm {
 				int current_node_score = calculateNodeHeuristics(next_state);
 				Node n = new Node(false, next_state, current_node_score);
 				temp_list.add(n);
-				System.out.println("L => " + next_state);
+				// System.out.println("L => " + next_state);
 			}
 		}
 	}
@@ -177,7 +187,7 @@ public class AStar extends Algorithm {
 				int current_node_score = calculateNodeHeuristics(next_state);
 				Node n = new Node(false, next_state, current_node_score);
 				temp_list.add(n);
-				System.out.println("R => " + next_state);
+				// System.out.println("R => " + next_state);
 
 			}
 		}
