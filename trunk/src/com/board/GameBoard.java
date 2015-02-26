@@ -132,4 +132,9 @@ public class GameBoard extends JPanel {
 	public Board getBoard() {
 		return board;
 	}
+
+	public void restart() {
+		// TODO Auto-generated method stub
+		
+	}
 }
