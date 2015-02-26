@@ -15,7 +15,7 @@ public abstract class Algorithm {
 		this.solution = solution;
 	}
 
-	protected abstract void searchAlgorithm();
+	public abstract void searchAlgorithm();
 
 	protected abstract void addNode(Node new_node, Node old_node);
 
