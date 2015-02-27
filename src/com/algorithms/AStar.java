@@ -61,7 +61,8 @@ public class AStar extends Algorithm {
 						.append("Solution at Level "
 								+ explored_nodes.get(temp_list.getFirst())
 								+ " cenas:  "
-								+ temp_list.getFirst().getCurrent_node_data() + "\n");
+								+ temp_list.getFirst().getCurrent_node_data()
+								+ "\n");
 				getPlays(temp_list.getFirst());
 				clearAll();
 			}
@@ -74,7 +75,7 @@ public class AStar extends Algorithm {
 			temp_list.clear();
 		}
 	}
-	
+
 	private void clearAll() {
 		nodes_queue.clear();
 		temp_list.clear();
@@ -215,21 +216,34 @@ public class AStar extends Algorithm {
 	}
 
 	private int calculateNodeHeuristics(String data) {
-		int value_heuristic = 0;
+		int minimum_cost = 0;
+		int manhattan_distance = 0;
 		switch (heuristic_state) {
-		case "Batatas":
+		case "Minimum_Cost":
 			char[] c = data.toCharArray();
 			char[] s = solution_nodes.toCharArray();
 			for (int i = 0; i < c.length; i++) {
 				if (c[i] != s[i]) {
-					value_heuristic++;
+					minimum_cost++;
 				}
 			}
+			break;
+		case "Manhattan_Distance":
+			char[] m = data.toCharArray();
+			char[] d = solution_nodes.toCharArray();
+			for(int i = 0; i < m.length; i++) {
+				//if(i)
+			}
+			
+//			function heuristic(node) =
+//		    dx = abs(node.x - goal.x)
+//		    dy = abs(node.y - goal.y)
+//		    return D * (dx + dy)
 			break;
 		default:
 			break;
 		}
-		return value_heuristic;
+		return minimum_cost;
 	}
 
 	private LinkedList<Node> sortList(LinkedList<Node> list) {

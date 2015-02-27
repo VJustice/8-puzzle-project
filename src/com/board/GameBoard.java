@@ -41,7 +41,7 @@ public class GameBoard extends JPanel {
 		this.validate();
 	}
 
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private void generateSolution() {
 		Collections.swap(current_buttons_list, 0, 1);
 		Collections.swap(current_buttons_list, 1, 4);
@@ -66,8 +66,8 @@ public class GameBoard extends JPanel {
 			aux_button.addActionListener(button_handler);
 			current_buttons_list.add(aux_button);
 		}
-		shuffleStuff();
-		// generateSolution();
+		//shuffleStuff();
+		generateSolution();
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
