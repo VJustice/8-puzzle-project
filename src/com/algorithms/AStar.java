@@ -40,14 +40,15 @@ public class AStar extends Algorithm {
 	public void searchAlgorithm() {
 		explored_nodes = new HashMap<Node, Integer>();
 		nodes_queue = new LinkedList<Node>();
-		int initial_score = 0;
-		root_node = new Node(false, current_data_nodes, initial_score);
+		int g_score = 0;
+		int f_score = g_score + calculateNodeHeuristics(current_data_nodes);
+		root_node = new Node(false, current_data_nodes, g_score);
 		addNode(root_node, null);
 		new_node_data_list.clear();
 		while (!nodes_queue.isEmpty()) {
 			Node current_node = nodes_queue.remove();
 			current_node.setVisited(true);
-			checkNodeDirection(current_node);
+			checkNodeDirection(current_node, f_score);
 			sortList(temp_list);
 			addNode(temp_list.getFirst(), current_node);
 			if (temp_list.getFirst().getCurrent_node_data()
@@ -81,7 +82,7 @@ public class AStar extends Algorithm {
 	}
 
 	@Override
-	protected void checkNodeDirection(Node aux_node) {
+	protected void checkNodeDirection(Node aux_node, int f_score) {
 		LinkedList<String> aux_list_temp = new LinkedList<String>();
 		String aux_node_data = aux_node.getCurrent_node_data();
 		String next_state = "";
@@ -125,10 +126,10 @@ public class AStar extends Algorithm {
 		for (int i = 0; i < aux_list_temp.size(); i++) {
 			if (!parent_node_aux.getCurrent_node_data().equals(
 					aux_list_temp.get(i))) {
-				int current_node_score = calculateNodeHeuristics(aux_list_temp
+				int new_score = calculateNodeHeuristics(aux_list_temp
 						.get(i));
 				Node n = new Node(false, aux_list_temp.get(i),
-						current_node_score);
+						f_score + new_score);
 				temp_list.add(n);
 			}
 		}
@@ -172,34 +173,16 @@ public class AStar extends Algorithm {
 	}
 
 	private int calculateNodeHeuristics(String data) {
-		int minimum_cost = 0;
-		int manhattan_distance = 0;
-		switch (heuristic_state) {
-		case "Minimum_Cost":
-			char[] c = data.toCharArray();
-			char[] s = solution_nodes.toCharArray();
-			for (int i = 0; i < c.length; i++) {
-				if (c[i] != s[i]) {
-					minimum_cost++;
-				}
-			}
-			break;
-		case "Manhattan_Distance":
-			char[] m = data.toCharArray();
-			char[] d = solution_nodes.toCharArray();
-			for (int i = 0; i < m.length; i++) {
-				// if(i)
-			}
-
-			// function heuristic(node) =
-			// dx = abs(node.x - goal.x)
-			// dy = abs(node.y - goal.y)
-			// return D * (dx + dy)
+		int h_score = 0;
+		switch(heuristic_state) {
+		case "Distance_Between":
+			
 			break;
 		default:
 			break;
 		}
-		return minimum_cost;
+		return h_score;
+		
 	}
 
 	private LinkedList<Node> sortList(LinkedList<Node> list) {

@@ -147,10 +147,6 @@ public class BreadthFirstSearch extends Algorithm {
 			}
 		}
 	}
-	
-	@Override
-	protected void checkNodeDirection(Node aux_node) {
-	}
 
 
 	@Override
@@ -182,6 +178,10 @@ public class BreadthFirstSearch extends Algorithm {
 
 	public LinkedList<String> getNew_node_data_list() {
 		return new_node_data_list;
+	}
+
+	@Override
+	protected void checkNodeDirection(Node aux_node, int score) {
 	}
 
 }
