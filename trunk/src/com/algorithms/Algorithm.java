@@ -18,14 +18,8 @@ public abstract class Algorithm {
 	public abstract void searchAlgorithm();
 
 	protected abstract void addNode(Node new_node, Node old_node);
-
-	protected abstract void nodeUp(Node node_aux);
-
-	protected abstract void nodeDown(Node node_aux);
-
-	protected abstract void nodeLeft(Node node_aux);
-
-	protected abstract void nodeRight(Node node_aux);
+	
+	protected abstract void checkNodeDirection(Node aux_node);
 
 	protected abstract void checkSolutionFound(Node old_node,
 			String current_data);
