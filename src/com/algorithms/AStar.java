@@ -41,7 +41,7 @@ public class AStar extends Algorithm {
 	public void searchAlgorithm() {
 		explored_nodes = new HashMap<Node, Integer>();
 		nodes_queue = new LinkedList<Node>();
-		int f_score= g_score + calculateNodeHeuristics(current_data_nodes);
+		int f_score = g_score + calculateNodeHeuristics(current_data_nodes);
 		root_node = new Node(false, current_data_nodes, g_score);
 		addNode(root_node, null);
 		new_node_data_list.clear();
@@ -126,9 +126,9 @@ public class AStar extends Algorithm {
 		for (int i = 0; i < aux_list_temp.size(); i++) {
 			if (!parent_node_aux.getCurrent_node_data().equals(
 					aux_list_temp.get(i))) {
-				g_score = parent_node_aux.getEstimated_score()
-						+ 1;
-				f_score = g_score + calculateNodeHeuristics(aux_list_temp.get(i));
+				g_score = parent_node_aux.getEstimated_score() + 1;
+				f_score = g_score
+						+ calculateNodeHeuristics(aux_list_temp.get(i));
 				Node n = new Node(false, aux_list_temp.get(i), f_score);
 				temp_list.add(n);
 			}
