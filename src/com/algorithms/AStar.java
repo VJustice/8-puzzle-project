@@ -20,6 +20,7 @@ public class AStar extends Algorithm {
 	private LinkedList<Node> temp_list;
 
 	private int DEPTH = 500;
+	private int g_score = 0;
 
 	public AStar(GameBoard game_board, String[] current_data,
 			String[] solution, String heuristic_state) {
@@ -40,15 +41,14 @@ public class AStar extends Algorithm {
 	public void searchAlgorithm() {
 		explored_nodes = new HashMap<Node, Integer>();
 		nodes_queue = new LinkedList<Node>();
-		int g_score = 0;
-		int f_score = g_score + calculateNodeHeuristics(current_data_nodes);
+		int f_score= g_score + calculateNodeHeuristics(current_data_nodes);
 		root_node = new Node(false, current_data_nodes, g_score);
 		addNode(root_node, null);
 		new_node_data_list.clear();
 		while (!nodes_queue.isEmpty()) {
 			Node current_node = nodes_queue.remove();
 			current_node.setVisited(true);
-			checkNodeDirection(current_node, f_score);
+			checkNodeDirection(current_node, current_node.getEstimated_score());
 			sortList(temp_list);
 			addNode(temp_list.getFirst(), current_node);
 			if (temp_list.getFirst().getCurrent_node_data()
@@ -126,10 +126,10 @@ public class AStar extends Algorithm {
 		for (int i = 0; i < aux_list_temp.size(); i++) {
 			if (!parent_node_aux.getCurrent_node_data().equals(
 					aux_list_temp.get(i))) {
-				int new_score = calculateNodeHeuristics(aux_list_temp
-						.get(i));
-				Node n = new Node(false, aux_list_temp.get(i),
-						f_score + new_score);
+				g_score = parent_node_aux.getEstimated_score()
+						+ 1;
+				f_score = g_score + calculateNodeHeuristics(aux_list_temp.get(i));
+				Node n = new Node(false, aux_list_temp.get(i), f_score);
 				temp_list.add(n);
 			}
 		}
@@ -174,15 +174,21 @@ public class AStar extends Algorithm {
 
 	private int calculateNodeHeuristics(String data) {
 		int h_score = 0;
-		switch(heuristic_state) {
+		switch (heuristic_state) {
 		case "Distance_Between":
-			
+			char[] a = data.toCharArray();
+			char[] s = solution_nodes.toCharArray();
+			for(int i = 0; i < a.length; i++) {
+				if(a[i] != s[i]) {
+					h_score++;
+				}
+			}
 			break;
 		default:
 			break;
 		}
 		return h_score;
-		
+
 	}
 
 	private LinkedList<Node> sortList(LinkedList<Node> list) {
