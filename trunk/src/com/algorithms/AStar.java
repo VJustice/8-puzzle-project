@@ -175,7 +175,7 @@ public class AStar extends Algorithm {
 	private int calculateNodeHeuristics(String data) {
 		int h_score = 0;
 		switch (heuristic_state) {
-		case "Distance_Between":
+		case "Minimum_Cost":
 			char[] a = data.toCharArray();
 			char[] s = solution_nodes.toCharArray();
 			for(int i = 0; i < a.length; i++) {
@@ -183,6 +183,9 @@ public class AStar extends Algorithm {
 					h_score++;
 				}
 			}
+			break;
+		case "Distance_Between":
+			
 			break;
 		default:
 			break;
