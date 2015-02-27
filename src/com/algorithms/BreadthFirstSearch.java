@@ -62,8 +62,7 @@ public class BreadthFirstSearch extends Algorithm {
 		}
 	}
 
-	@Override
-	protected void nodeUp(Node node_aux) {
+	private void nodeUp(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
 		if (a > 2 && !done) {
@@ -85,8 +84,7 @@ public class BreadthFirstSearch extends Algorithm {
 		}
 	}
 
-	@Override
-	protected void nodeDown(Node node_aux) {
+	private void nodeDown(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
 		if (a < 6 && !done) {
@@ -108,8 +106,7 @@ public class BreadthFirstSearch extends Algorithm {
 		}
 	}
 
-	@Override
-	protected void nodeLeft(Node node_aux) {
+	private void nodeLeft(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
 		if ((a != 0 && a != 3 && a != 6) && !done) {
@@ -130,8 +127,7 @@ public class BreadthFirstSearch extends Algorithm {
 		}
 	}
 
-	@Override
-	protected void nodeRight(Node node_aux) {
+	private void nodeRight(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
 		if ((a != 2 && a != 5 && a != 8) && !done) {
@@ -151,6 +147,11 @@ public class BreadthFirstSearch extends Algorithm {
 			}
 		}
 	}
+	
+	@Override
+	protected void checkNodeDirection(Node aux_node) {
+	}
+
 
 	@Override
 	protected void checkSolutionFound(Node old_node, String new_node_data) {

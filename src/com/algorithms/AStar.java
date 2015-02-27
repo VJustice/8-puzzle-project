@@ -47,10 +47,11 @@ public class AStar extends Algorithm {
 		while (!nodes_queue.isEmpty()) {
 			Node current_node = nodes_queue.remove();
 			current_node.setVisited(true);
-			nodeUp(current_node);
-			nodeDown(current_node);
-			nodeLeft(current_node);
-			nodeRight(current_node);
+			checkNodeDirection(current_node);
+			// nodeUp(current_node);
+			// nodeDown(current_node);
+			// nodeLeft(current_node);
+			// nodeRight(current_node);
 			sortList(temp_list);
 			addNode(temp_list.getFirst(), current_node);
 			if (temp_list.getFirst().getCurrent_node_data()
@@ -84,6 +85,61 @@ public class AStar extends Algorithm {
 	}
 
 	@Override
+	protected void checkNodeDirection(Node aux_node) {
+		LinkedList<String> aux_list_temp = new LinkedList<String>();
+		String aux_node_data = aux_node.getCurrent_node_data();
+		String next_state = "";
+		int zero_index = aux_node_data.indexOf("0");
+		// UP
+		if (zero_index > 2) {
+			next_state = aux_node_data.substring(0, zero_index - 3) + "0"
+					+ aux_node_data.substring(zero_index - 2, zero_index)
+					+ aux_node_data.charAt(zero_index - 3)
+					+ aux_node_data.substring(zero_index + 1);
+			aux_list_temp.add(next_state);
+		}
+		// DOWN
+		if (zero_index < 6) {
+			next_state = aux_node_data.substring(0, zero_index)
+					+ aux_node_data.substring(zero_index + 3, zero_index + 4)
+					+ aux_node_data.substring(zero_index + 1, zero_index + 3)
+					+ "0" + aux_node_data.substring(zero_index + 4);
+			aux_list_temp.add(next_state);
+		}
+		// LEFT
+		if (zero_index != 0 && zero_index != 3 && zero_index != 6) {
+			next_state = aux_node_data.substring(0, zero_index - 1) + "0"
+					+ aux_node_data.charAt(zero_index - 1)
+					+ aux_node_data.substring(zero_index + 1);
+			aux_list_temp.add(next_state);
+		}
+		// RIGHT
+		if (zero_index != 2 && zero_index != 5 && zero_index != 8) {
+			next_state = aux_node_data.substring(0, zero_index)
+					+ aux_node_data.charAt(zero_index + 1) + "0"
+					+ aux_node_data.substring(zero_index + 2);
+			aux_list_temp.add(next_state);
+		}
+		Node parent_node_aux;
+		if (nodes_history.get(aux_node) == null) {
+			parent_node_aux = aux_node;
+		} else {
+			parent_node_aux = nodes_history.get(aux_node);
+		}
+		for (int i = 0; i < aux_list_temp.size(); i++) {
+			if (!parent_node_aux.getCurrent_node_data().equals(
+					aux_list_temp.get(i))) {
+				int current_node_score = calculateNodeHeuristics(aux_list_temp
+						.get(i));
+				Node n = new Node(false, aux_list_temp.get(i),
+						current_node_score);
+				System.out.println(n.getCurrent_node_data());
+				temp_list.add(n);
+			}
+		}
+	}
+
+	@Override
 	protected void addNode(Node new_node, Node old_node) {
 		if (!explored_nodes.containsKey(new_node)
 				&& !nodes_queue.contains(new_node)) {
@@ -96,101 +152,6 @@ public class AStar extends Algorithm {
 			explored_nodes.put(new_node, new_node_value);
 			nodes_queue.add(new_node);
 			nodes_history.put(new_node, old_node);
-		}
-	}
-
-	@Override
-	protected void nodeUp(Node node_aux) {
-		String node_aux_string = node_aux.getCurrent_node_data();
-		int a = node_aux_string.indexOf("0");
-		if (a > 2) {
-			String next_state = node_aux_string.substring(0, a - 3) + "0"
-					+ node_aux_string.substring(a - 2, a)
-					+ node_aux_string.charAt(a - 3)
-					+ node_aux_string.substring(a + 1);
-			Node parent_node_aux;
-			if (nodes_history.get(node_aux) == null) {
-				parent_node_aux = node_aux;
-			} else {
-				parent_node_aux = nodes_history.get(node_aux);
-			}
-			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				int current_node_score = calculateNodeHeuristics(next_state);
-				Node n = new Node(false, next_state, current_node_score);
-				temp_list.add(n);
-				// System.out.println("U => " + next_state);
-			}
-		}
-	}
-
-	@Override
-	protected void nodeDown(Node node_aux) {
-		String node_aux_string = node_aux.getCurrent_node_data();
-		int a = node_aux_string.indexOf("0");
-		if (a < 6) {
-			String next_state = node_aux_string.substring(0, a)
-					+ node_aux_string.substring(a + 3, a + 4)
-					+ node_aux_string.substring(a + 1, a + 3) + "0"
-					+ node_aux_string.substring(a + 4);
-			Node parent_node_aux;
-			if (nodes_history.get(node_aux) == null) {
-				parent_node_aux = node_aux;
-			} else {
-				parent_node_aux = nodes_history.get(node_aux);
-			}
-			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				int current_node_score = calculateNodeHeuristics(next_state);
-				Node n = new Node(false, next_state, current_node_score);
-				temp_list.add(n);
-				// System.out.println("D => " + next_state);
-			}
-		}
-	}
-
-	@Override
-	protected void nodeLeft(Node node_aux) {
-		String node_aux_string = node_aux.getCurrent_node_data();
-		int a = node_aux_string.indexOf("0");
-		if ((a != 0 && a != 3 && a != 6)) {
-			String next_state = node_aux_string.substring(0, a - 1) + "0"
-					+ node_aux_string.charAt(a - 1)
-					+ node_aux_string.substring(a + 1);
-			Node parent_node_aux;
-			if (nodes_history.get(node_aux) == null) {
-				parent_node_aux = node_aux;
-			} else {
-				parent_node_aux = nodes_history.get(node_aux);
-			}
-			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				int current_node_score = calculateNodeHeuristics(next_state);
-				Node n = new Node(false, next_state, current_node_score);
-				temp_list.add(n);
-				// System.out.println("L => " + next_state);
-			}
-		}
-	}
-
-	@Override
-	protected void nodeRight(Node node_aux) {
-		String node_aux_string = node_aux.getCurrent_node_data();
-		int a = node_aux_string.indexOf("0");
-		if ((a != 2 && a != 5 && a != 8)) {
-			String next_state = node_aux_string.substring(0, a)
-					+ node_aux_string.charAt(a + 1) + "0"
-					+ node_aux_string.substring(a + 2);
-			Node parent_node_aux;
-			if (nodes_history.get(node_aux) == null) {
-				parent_node_aux = node_aux;
-			} else {
-				parent_node_aux = nodes_history.get(node_aux);
-			}
-			if (!parent_node_aux.getCurrent_node_data().equals(next_state)) {
-				int current_node_score = calculateNodeHeuristics(next_state);
-				Node n = new Node(false, next_state, current_node_score);
-				temp_list.add(n);
-				// System.out.println("R => " + next_state);
-
-			}
 		}
 	}
 
@@ -231,14 +192,14 @@ public class AStar extends Algorithm {
 		case "Manhattan_Distance":
 			char[] m = data.toCharArray();
 			char[] d = solution_nodes.toCharArray();
-			for(int i = 0; i < m.length; i++) {
-				//if(i)
+			for (int i = 0; i < m.length; i++) {
+				// if(i)
 			}
-			
-//			function heuristic(node) =
-//		    dx = abs(node.x - goal.x)
-//		    dy = abs(node.y - goal.y)
-//		    return D * (dx + dy)
+
+			// function heuristic(node) =
+			// dx = abs(node.x - goal.x)
+			// dy = abs(node.y - goal.y)
+			// return D * (dx + dy)
 			break;
 		default:
 			break;
