@@ -48,10 +48,6 @@ public class AStar extends Algorithm {
 			Node current_node = nodes_queue.remove();
 			current_node.setVisited(true);
 			checkNodeDirection(current_node);
-			// nodeUp(current_node);
-			// nodeDown(current_node);
-			// nodeLeft(current_node);
-			// nodeRight(current_node);
 			sortList(temp_list);
 			addNode(temp_list.getFirst(), current_node);
 			if (temp_list.getFirst().getCurrent_node_data()
@@ -133,7 +129,6 @@ public class AStar extends Algorithm {
 						.get(i));
 				Node n = new Node(false, aux_list_temp.get(i),
 						current_node_score);
-				System.out.println(n.getCurrent_node_data());
 				temp_list.add(n);
 			}
 		}
