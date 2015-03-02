@@ -6,7 +6,7 @@ import java.util.Queue;
 
 import com.board.GameBoard;
 
-public class BreadthFirstSearch extends Algorithm {
+public class BreadthFirstSearch {
 	private Node root_node;
 
 	private HashMap<Node, Integer> nodes_list;
@@ -17,10 +17,16 @@ public class BreadthFirstSearch extends Algorithm {
 	private String current_data_nodes = "";
 	private String solution_nodes = "";
 	private boolean done = false;
+	
+	private GameBoard game_board;
+	private String[] current_data;
+	private String[] solution;
 
 	public BreadthFirstSearch(GameBoard game_board, String[] current_data,
 			String[] solution) {
-		super(game_board, current_data, solution);
+		this.game_board = game_board;
+		this.current_data = current_data;
+		this.solution = solution;
 		nodes_list = new HashMap<Node, Integer>();
 		nodes_history = new HashMap<Node, Node>();
 		new_node_data_list = new LinkedList<String>();
@@ -32,7 +38,6 @@ public class BreadthFirstSearch extends Algorithm {
 		}
 	}
 
-	@Override
 	public void searchAlgorithm() {
 		root_node = new Node(false, current_data_nodes);
 		queue = new LinkedList<Node>();
@@ -47,7 +52,6 @@ public class BreadthFirstSearch extends Algorithm {
 		}
 	}
 
-	@Override
 	protected void addNode(Node new_node, Node old_node) {
 		if (!nodes_list.containsKey(new_node)) {
 			int new_node_value;
@@ -148,8 +152,6 @@ public class BreadthFirstSearch extends Algorithm {
 		}
 	}
 
-
-	@Override
 	protected void checkSolutionFound(Node old_node, String new_node_data) {
 		Node n = new Node(false, new_node_data);
 		addNode(n, old_node);
@@ -160,12 +162,11 @@ public class BreadthFirstSearch extends Algorithm {
 			getPlays(n);
 		}
 	}
-	
-	@Override
-	protected void checkSolutionFound(Node old_node, String current_data,
-			int heuristic) {}
 
-	@Override
+	protected void checkSolutionFound(Node old_node, String current_data,
+			int heuristic) {
+	}
+
 	protected void getPlays(Node aux_node) {
 		Node temp_node = aux_node;
 		new_node_data_list.add(solution_nodes);
@@ -180,7 +181,6 @@ public class BreadthFirstSearch extends Algorithm {
 		return new_node_data_list;
 	}
 
-	@Override
 	protected void checkNodeDirection(Node aux_node, int score) {
 	}
 
