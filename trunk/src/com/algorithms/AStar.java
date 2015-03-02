@@ -10,17 +10,17 @@ public class AStar extends Algorithm {
 	private Node root_node;
 
 	private HashMap<Node, Integer> explored_nodes;
-	private LinkedList<Node> nodes_queue;
+	private LinkedList<Node> nodes_queue_to_evaluate;
 	private HashMap<Node, Node> nodes_history;
+
+	private LinkedList<Node> temp_list;
 	private LinkedList<String> new_node_data_list;
 
 	private String heuristic_state;
 	private String current_data_nodes = "";
 	private String solution_nodes = "";
-	private LinkedList<Node> temp_list;
 
 	private int DEPTH = 500;
-	private int g_score = 0;
 
 	public AStar(GameBoard game_board, String[] current_data,
 			String[] solution, String heuristic_state) {
@@ -40,53 +40,58 @@ public class AStar extends Algorithm {
 	@Override
 	public void searchAlgorithm() {
 		explored_nodes = new HashMap<Node, Integer>();
-		nodes_queue = new LinkedList<Node>();
-		int f_score = g_score + calculateNodeHeuristics(current_data_nodes);
-		root_node = new Node(false, current_data_nodes, g_score);
-		addNode(root_node, null);
+		nodes_queue_to_evaluate = new LinkedList<Node>();
+		int h_score = calculate_h_score(current_data_nodes);
+		int f_score = h_score;
 		new_node_data_list.clear();
-		while (!nodes_queue.isEmpty()) {
-			Node current_node = nodes_queue.remove();
-			current_node.setVisited(true);
-			checkNodeDirection(current_node, current_node.getEstimated_score());
+		root_node = new Node(false, current_data_nodes, f_score);
+		addNode(root_node, null);
+		while (!nodes_queue_to_evaluate.isEmpty()) {
+			Node current_node = nodes_queue_to_evaluate.remove();
+			checkNeighbours(current_node);
 			sortList(temp_list);
-			addNode(temp_list.getFirst(), current_node);
-			if (temp_list.getFirst().getCurrent_node_data()
+			for (int i = 0; i < temp_list.size(); i++) {
+				System.out.println(temp_list.get(i).toString());
+			}
+			Node node_aux_final = temp_list.removeFirst();
+			addNode(node_aux_final, current_node);
+			if (node_aux_final.getCurrent_node_data()
 					.equals(solution_nodes)) {
 				game_board
 						.getBoard()
 						.getPuzzle_results_log()
 						.append("Solution at Level "
-								+ explored_nodes.get(temp_list.getFirst())
+								+ explored_nodes.get(node_aux_final)
 								+ " cenas:  "
-								+ temp_list.getFirst().getCurrent_node_data()
+								+ node_aux_final.getCurrent_node_data()
 								+ "\n");
-				getPlays(temp_list.getFirst());
+				getFinalPlays(node_aux_final);
 				clearAll();
 			}
 			if (!temp_list.isEmpty()
-					&& explored_nodes.get(temp_list.getFirst()) == DEPTH) {
+					&& explored_nodes.get(node_aux_final) == DEPTH) {
 				clearAll();
 				game_board.getBoard().getPuzzle_results_log()
 						.append("No Solution Found \n");
 			}
-			temp_list.clear();
+			//temp_list.clear();
 		}
 	}
 
 	private void clearAll() {
-		nodes_queue.clear();
+		nodes_queue_to_evaluate.clear();
 		temp_list.clear();
 		explored_nodes.clear();
 		nodes_history.clear();
 	}
 
 	@Override
-	protected void checkNodeDirection(Node aux_node, int f_score) {
+	protected void checkNeighbours(Node aux_node) {
 		LinkedList<String> aux_list_temp = new LinkedList<String>();
 		String aux_node_data = aux_node.getCurrent_node_data();
 		String next_state = "";
 		int zero_index = aux_node_data.indexOf("0");
+		aux_list_temp.clear();
 		// UP
 		if (zero_index > 2) {
 			next_state = aux_node_data.substring(0, zero_index - 3) + "0"
@@ -126,28 +131,40 @@ public class AStar extends Algorithm {
 		for (int i = 0; i < aux_list_temp.size(); i++) {
 			if (!parent_node_aux.getCurrent_node_data().equals(
 					aux_list_temp.get(i))) {
-				g_score = parent_node_aux.getEstimated_score() + 1;
-				f_score = g_score
-						+ calculateNodeHeuristics(aux_list_temp.get(i));
+				int g_score = explored_nodes.get(aux_node) + 1;
+				int h_score = calculate_h_score(aux_list_temp.get(i));
+				int f_score = g_score + h_score;
 				Node n = new Node(false, aux_list_temp.get(i), f_score);
 				temp_list.add(n);
 			}
 		}
 	}
 
+	private int calculate_h_score(String node_data_test) {
+		char[] test_array = node_data_test.toCharArray();
+		char[] s = solution_nodes.toCharArray();
+		int temp_score = 0;
+		for (int i = 0; i < test_array.length; i++) {
+			temp_score += Math.abs(i - Integer.parseInt(test_array[i] + ""));
+		}
+		return temp_score;
+	}
+
 	@Override
 	protected void addNode(Node new_node, Node old_node) {
 		if (!explored_nodes.containsKey(new_node)
-				&& !nodes_queue.contains(new_node)) {
+				&& !nodes_queue_to_evaluate.contains(new_node)) {
 			int new_node_value;
 			if (old_node == null) {
 				new_node_value = 0;
 			} else {
 				new_node_value = explored_nodes.get(old_node) + 1;
 			}
+			new_node.setVisited(true);
+			nodes_queue_to_evaluate.add(new_node);
 			explored_nodes.put(new_node, new_node_value);
-			nodes_queue.add(new_node);
 			nodes_history.put(new_node, old_node);
+			System.out.println("LOWEST=> " + new_node);
 		}
 	}
 
@@ -162,7 +179,7 @@ public class AStar extends Algorithm {
 	}
 
 	@Override
-	protected void getPlays(Node node_aux) {
+	protected void getFinalPlays(Node node_aux) {
 		Node temp_node = node_aux;
 		new_node_data_list.add(solution_nodes);
 		while (!temp_node.getCurrent_node_data().equals(current_data_nodes)) {
@@ -172,30 +189,11 @@ public class AStar extends Algorithm {
 		}
 	}
 
-	private int calculateNodeHeuristics(String data) {
-		int h_score = 0;
-		switch (heuristic_state) {
-		case "Distance_Between":
-			char[] a = data.toCharArray();
-			char[] s = solution_nodes.toCharArray();
-			for(int i = 0; i < a.length; i++) {
-				if(a[i] != s[i]) {
-					h_score++;
-				}
-			}
-			break;
-		default:
-			break;
-		}
-		return h_score;
-
-	}
-
 	private LinkedList<Node> sortList(LinkedList<Node> list) {
 		for (int i = 0; i < list.size() - 1; i++) {
 			for (int j = i + 1; j < list.size(); j++) {
-				if (list.get(i).getEstimated_score() >= list.get(j)
-						.getEstimated_score()) {
+				if ((list.get(i).getEstimated_score() >= list.get(j)
+						.getEstimated_score())) {
 					Node temp_node = list.get(j);
 					list.set(j, list.get(i));
 					list.set(i, temp_node);
