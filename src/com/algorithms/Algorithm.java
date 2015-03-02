@@ -19,7 +19,7 @@ public abstract class Algorithm {
 
 	protected abstract void addNode(Node new_node, Node old_node);
 	
-	protected abstract void checkNodeDirection(Node aux_node, int score);
+	protected abstract void checkNeighbours(Node aux_node);
 
 	protected abstract void checkSolutionFound(Node old_node,
 			String current_data);
@@ -27,5 +27,5 @@ public abstract class Algorithm {
 	protected abstract void checkSolutionFound(Node old_node,
 			String current_data, int heuristic);
 
-	protected abstract void getPlays(Node node_aux);
+	protected abstract void getFinalPlays(Node node_aux);
 }
