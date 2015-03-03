@@ -74,7 +74,7 @@ public class AStar extends Algorithm {
 				game_board.getBoard().getPuzzle_results_log()
 						.append("No Solution Found \n");
 			}
-			//temp_list.clear();
+			temp_list.clear();
 		}
 	}
 
