@@ -9,26 +9,24 @@ public class AStar extends Algorithm {
 
 	private Node root_node;
 
-	private HashMap<Node, Integer> explored_nodes;
-	private LinkedList<Node> nodes_queue_to_evaluate;
-	private HashMap<Node, Node> nodes_history;
+	private HashMap<Node, Integer> explored_nodes = new HashMap<Node, Integer>();
+	private LinkedList<Node> nodes_queue_to_evaluate = new LinkedList<Node>();
+	private HashMap<Node, Node> nodes_history = new HashMap<Node, Node>();
 
-	private LinkedList<Node> temp_list;
-	private LinkedList<String> new_node_data_list;
+	private LinkedList<Node> temp_list = new LinkedList<Node>();
+	private LinkedList<String> new_node_data_list = new LinkedList<String>();
 
+	@SuppressWarnings("unused")
 	private String heuristic_state;
 	private String current_data_nodes = "";
 	private String solution_nodes = "";
 
-	private int DEPTH = 500;
+	private int DEPTH = 5000;
 
 	public AStar(GameBoard game_board, String[] current_data,
 			String[] solution, String heuristic_state) {
 		super(game_board, current_data, solution);
 		this.heuristic_state = heuristic_state;
-		temp_list = new LinkedList<Node>();
-		new_node_data_list = new LinkedList<String>();
-		nodes_history = new HashMap<Node, Node>();
 		for (int i = 0; i < current_data.length; i++) {
 			current_data_nodes += current_data[i];
 		}
@@ -39,8 +37,6 @@ public class AStar extends Algorithm {
 
 	@Override
 	public void searchAlgorithm() {
-		explored_nodes = new HashMap<Node, Integer>();
-		nodes_queue_to_evaluate = new LinkedList<Node>();
 		int h_score = calculate_h_score(current_data_nodes);
 		int f_score = h_score;
 		new_node_data_list.clear();
@@ -55,16 +51,14 @@ public class AStar extends Algorithm {
 			}
 			Node node_aux_final = temp_list.removeFirst();
 			addNode(node_aux_final, current_node);
-			if (node_aux_final.getCurrent_node_data()
-					.equals(solution_nodes)) {
+			if (node_aux_final.getCurrent_node_data().equals(solution_nodes)) {
 				game_board
 						.getBoard()
 						.getPuzzle_results_log()
 						.append("Solution at Level "
 								+ explored_nodes.get(node_aux_final)
 								+ " cenas:  "
-								+ node_aux_final.getCurrent_node_data()
-								+ "\n");
+								+ node_aux_final.getCurrent_node_data() + "\n");
 				getFinalPlays(node_aux_final);
 				clearAll();
 			}
@@ -152,7 +146,8 @@ public class AStar extends Algorithm {
 
 	@Override
 	protected void addNode(Node new_node, Node old_node) {
-		if (!explored_nodes.containsKey(new_node)
+		if ((!explored_nodes.containsKey(new_node) && !explored_nodes
+				.containsValue(old_node))
 				&& !nodes_queue_to_evaluate.contains(new_node)) {
 			int new_node_value;
 			if (old_node == null) {
