@@ -7,14 +7,12 @@ import com.board.GameBoard;
 
 public class AStar extends Algorithm {
 
-	private Node root_node;
-
 	private HashMap<Node, Integer> explored_nodes = new HashMap<Node, Integer>();
 	private LinkedList<Node> nodes_queue_to_evaluate = new LinkedList<Node>();
 	private HashMap<Node, Node> nodes_history = new HashMap<Node, Node>();
 
 	private LinkedList<Node> temp_list = new LinkedList<Node>();
-	private LinkedList<String> new_node_data_list = new LinkedList<String>();
+	private LinkedList<String> nodes_plays_list = new LinkedList<String>();
 
 	@SuppressWarnings("unused")
 	private String heuristic_state;
@@ -39,18 +37,18 @@ public class AStar extends Algorithm {
 	public void searchAlgorithm() {
 		int h_score = calculate_h_score(current_data_nodes);
 		int f_score = h_score;
-		new_node_data_list.clear();
-		root_node = new Node(false, current_data_nodes, f_score);
+		nodes_plays_list.clear();
+		Node root_node = new Node(false, current_data_nodes, f_score);
 		addNode(root_node, null);
 		while (!nodes_queue_to_evaluate.isEmpty()) {
-			Node current_node = nodes_queue_to_evaluate.remove();
-			checkNeighbours(current_node);
+			Node testing_node = nodes_queue_to_evaluate.remove();
+			checkNeighbours(testing_node);
 			sortList(temp_list);
 			for (int i = 0; i < temp_list.size(); i++) {
 				System.out.println(temp_list.get(i).toString());
 			}
 			Node node_aux_final = temp_list.removeFirst();
-			addNode(node_aux_final, current_node);
+			addNode(node_aux_final, testing_node);
 			if (node_aux_final.getCurrent_node_data().equals(solution_nodes)) {
 				game_board
 						.getBoard()
@@ -68,7 +66,7 @@ public class AStar extends Algorithm {
 				game_board.getBoard().getPuzzle_results_log()
 						.append("No Solution Found \n");
 			}
-			temp_list.clear();
+			// temp_list.clear();
 		}
 	}
 
@@ -144,21 +142,20 @@ public class AStar extends Algorithm {
 	}
 
 	@Override
-	protected void addNode(Node new_node, Node old_node) {
-		if ((!explored_nodes.containsKey(new_node) && !explored_nodes
-				.containsValue(old_node))
-				&& !nodes_queue_to_evaluate.contains(new_node)) {
-			int new_node_value;
-			if (old_node == null) {
-				new_node_value = 0;
+	protected void addNode(Node child_node, Node parent_node) {
+		if (!explored_nodes.containsKey(child_node)
+				&& !nodes_queue_to_evaluate.contains(child_node)) {
+			int tree_node_level;
+			if (parent_node == null) {
+				tree_node_level = 0;
 			} else {
-				new_node_value = explored_nodes.get(old_node) + 1;
+				tree_node_level = explored_nodes.get(parent_node) + 1;
 			}
-			new_node.setVisited(true);
-			nodes_queue_to_evaluate.add(new_node);
-			explored_nodes.put(new_node, new_node_value);
-			nodes_history.put(new_node, old_node);
-			System.out.println("LOWEST=> " + new_node);
+			child_node.setVisited(true);
+			nodes_queue_to_evaluate.add(child_node);
+			explored_nodes.put(child_node, tree_node_level);
+			nodes_history.put(child_node, parent_node);
+			System.out.println("CHILD NODE => " + child_node);
 		}
 	}
 
@@ -175,10 +172,10 @@ public class AStar extends Algorithm {
 	@Override
 	protected void getFinalPlays(Node node_aux) {
 		Node temp_node = node_aux;
-		new_node_data_list.add(solution_nodes);
+		nodes_plays_list.add(solution_nodes);
 		while (!temp_node.getCurrent_node_data().equals(current_data_nodes)) {
 			Node new_temp_node = nodes_history.get(temp_node);
-			new_node_data_list.add(new_temp_node.getCurrent_node_data());
+			nodes_plays_list.add(new_temp_node.getCurrent_node_data());
 			temp_node = new_temp_node;
 		}
 	}
@@ -198,7 +195,7 @@ public class AStar extends Algorithm {
 	}
 
 	public LinkedList<String> getNew_node_data_list() {
-		return new_node_data_list;
+		return nodes_plays_list;
 	}
 
 }
