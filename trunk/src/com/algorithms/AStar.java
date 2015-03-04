@@ -19,7 +19,7 @@ public class AStar extends Algorithm {
 	private String current_data_nodes = "";
 	private String solution_nodes = "";
 
-	private int DEPTH = 5000;
+	private int DEPTH = 500;
 
 	public AStar(GameBoard game_board, String[] current_data,
 			String[] solution, String heuristic_state) {
@@ -38,15 +38,12 @@ public class AStar extends Algorithm {
 		int h_score = calculate_h_score(current_data_nodes);
 		int f_score = h_score;
 		nodes_plays_list.clear();
-		Node root_node = new Node(false, current_data_nodes, f_score);
+		Node root_node = new Node(false, current_data_nodes, 0, f_score);
 		addNode(root_node, null);
 		while (!nodes_queue_to_evaluate.isEmpty()) {
-			Node testing_node = nodes_queue_to_evaluate.remove();
+			Node testing_node = nodes_queue_to_evaluate.removeFirst();
 			checkNeighbours(testing_node);
 			sortList(temp_list);
-			for (int i = 0; i < temp_list.size(); i++) {
-				System.out.println(temp_list.get(i).toString());
-			}
 			Node node_aux_final = temp_list.removeFirst();
 			addNode(node_aux_final, testing_node);
 			if (node_aux_final.getCurrent_node_data().equals(solution_nodes)) {
@@ -60,13 +57,12 @@ public class AStar extends Algorithm {
 				getFinalPlays(node_aux_final);
 				clearAll();
 			}
-			if (!temp_list.isEmpty()
-					&& explored_nodes.get(node_aux_final) == DEPTH) {
+			if (explored_nodes.get(node_aux_final) == DEPTH) {
 				clearAll();
 				game_board.getBoard().getPuzzle_results_log()
 						.append("No Solution Found \n");
 			}
-			// temp_list.clear();
+			temp_list.clear();
 		}
 	}
 
@@ -114,19 +110,13 @@ public class AStar extends Algorithm {
 					+ aux_node_data.substring(zero_index + 2);
 			aux_list_temp.add(next_state);
 		}
-		Node parent_node_aux;
-		if (nodes_history.get(aux_node) == null) {
-			parent_node_aux = aux_node;
-		} else {
-			parent_node_aux = nodes_history.get(aux_node);
-		}
 		for (int i = 0; i < aux_list_temp.size(); i++) {
-			if (!parent_node_aux.getCurrent_node_data().equals(
-					aux_list_temp.get(i))) {
-				int g_score = explored_nodes.get(aux_node) + 1;
+			if (!aux_node.getCurrent_node_data().equals(aux_list_temp.get(i))) {
+				int g_score = aux_node.getTree_level() + 1;
 				int h_score = calculate_h_score(aux_list_temp.get(i));
-				int f_score = g_score + h_score;
-				Node n = new Node(false, aux_list_temp.get(i), f_score);
+				int f_score = (g_score + h_score) - aux_node.getTree_level();
+				Node n = new Node(false, aux_list_temp.get(i), g_score, f_score);
+				System.out.println(n);
 				temp_list.add(n);
 			}
 		}
@@ -143,13 +133,12 @@ public class AStar extends Algorithm {
 
 	@Override
 	protected void addNode(Node child_node, Node parent_node) {
-		if (!explored_nodes.containsKey(child_node)
-				&& !nodes_queue_to_evaluate.contains(child_node)) {
+		if (!explored_nodes.containsKey(child_node)) {
 			int tree_node_level;
 			if (parent_node == null) {
 				tree_node_level = 0;
 			} else {
-				tree_node_level = explored_nodes.get(parent_node) + 1;
+				tree_node_level = parent_node.getTree_level() + 1;
 			}
 			child_node.setVisited(true);
 			nodes_queue_to_evaluate.add(child_node);
