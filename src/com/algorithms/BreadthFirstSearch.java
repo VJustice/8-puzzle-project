@@ -17,16 +17,12 @@ public class BreadthFirstSearch {
 	private String current_data_nodes = "";
 	private String solution_nodes = "";
 	private boolean done = false;
-	
+
 	private GameBoard game_board;
-	private String[] current_data;
-	private String[] solution;
 
 	public BreadthFirstSearch(GameBoard game_board, String[] current_data,
 			String[] solution) {
 		this.game_board = game_board;
-		this.current_data = current_data;
-		this.solution = solution;
 		nodes_list = new HashMap<Node, Integer>();
 		nodes_history = new HashMap<Node, Node>();
 		new_node_data_list = new LinkedList<String>();
