@@ -136,7 +136,6 @@ public class AStar extends Algorithm {
 
 	private int calculate_h_score(String node_data_test) {
 		char[] test_array = node_data_test.toCharArray();
-		char[] s = solution_nodes.toCharArray();
 		int temp_score = 0;
 		for (int i = 0; i < test_array.length; i++) {
 			temp_score += Math.abs(i - Integer.parseInt(test_array[i] + ""));
