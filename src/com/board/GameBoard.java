@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 
 import com.algorithms.AStar;
 import com.algorithms.BreadthFirstSearch;
-import com.handlers.ButtonsHandler;
 
 public class GameBoard extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -21,7 +20,6 @@ public class GameBoard extends JPanel {
 	private static final int NUM_ROWS = 3;
 	private static final int NUM_COLUMNS = 3;
 
-	private ButtonsHandler button_handler;
 	private Board board;
 
 	private LinkedList<JButton> current_buttons_list;
@@ -32,7 +30,6 @@ public class GameBoard extends JPanel {
 
 	public GameBoard(Board board) {
 		this.board = board;
-		button_handler = new ButtonsHandler();
 		current_buttons_list = new LinkedList<JButton>();
 		plays = new LinkedList<String>();
 		this.setLayout(new GridLayout(NUM_ROWS, NUM_COLUMNS));
@@ -62,8 +59,6 @@ public class GameBoard extends JPanel {
 		for (int i = 0; i < NUM_COLUMNS * NUM_ROWS; i++) {
 			JButton aux_button = new JButton("" + i);
 			aux_button.setEnabled(false);
-			aux_button.setActionCommand("" + i);
-			aux_button.addActionListener(button_handler);
 			current_buttons_list.add(aux_button);
 		}
 		// shuffleStuff();
