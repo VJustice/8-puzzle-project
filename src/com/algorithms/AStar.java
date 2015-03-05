@@ -37,7 +37,7 @@ public class AStar /* extends Algorithm */{
 		while (!open_queue.isEmpty()) {
 			sortList(open_queue);
 			Node current_node = open_queue.removeFirst();
-			System.out.println("PARENT: " + current_node);
+			//System.out.println("PARENT: " + current_node);
 			closed_queue.add(current_node);
 			if (current_node.getCurrent_node_data().equals(solution_node)) {
 				
