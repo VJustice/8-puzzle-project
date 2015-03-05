@@ -10,7 +10,6 @@ public class AStar extends Algorithm {
 	private HashMap<Node, Integer> explored_nodes = new HashMap<Node, Integer>();
 	private LinkedList<Node> nodes_queue_to_evaluate = new LinkedList<Node>();
 	private HashMap<Node, Node> nodes_history = new HashMap<Node, Node>();
-
 	private LinkedList<Node> temp_list = new LinkedList<Node>();
 	private LinkedList<String> nodes_plays_list = new LinkedList<String>();
 
@@ -47,20 +46,15 @@ public class AStar extends Algorithm {
 			Node node_aux_final = temp_list.removeFirst();
 			addNode(node_aux_final, testing_node);
 			if (node_aux_final.getCurrent_node_data().equals(solution_nodes)) {
-				game_board
-						.getBoard()
-						.getPuzzle_results_log()
-						.append("Solution at Level "
-								+ explored_nodes.get(node_aux_final)
-								+ " cenas:  "
-								+ node_aux_final.getCurrent_node_data() + "\n");
+				print("Solution at Level " + explored_nodes.get(node_aux_final)
+						+ " cenas:  " + node_aux_final.getCurrent_node_data()
+						+ "\n", "RES");
 				getFinalPlays(node_aux_final);
 				clearAll();
 			}
 			if (explored_nodes.get(node_aux_final) == DEPTH) {
 				clearAll();
-				game_board.getBoard().getPuzzle_results_log()
-						.append("No Solution Found \n");
+				print("No Solution Found \n", "RES");
 			}
 			temp_list.clear();
 		}
@@ -181,6 +175,17 @@ public class AStar extends Algorithm {
 			}
 		}
 		return list;
+	}
+
+	private void print(String print_string, String type) {
+		switch (type) {
+		case "MOV":
+			game_board.getBoard().getPuzzle_movemment_log().append(print_string);
+			break;
+		case "RES":
+			game_board.getBoard().getPuzzle_results_log().append(print_string);
+			break;
+		}
 	}
 
 	public LinkedList<String> getNew_node_data_list() {
