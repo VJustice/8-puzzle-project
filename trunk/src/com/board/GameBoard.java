@@ -61,7 +61,7 @@ public class GameBoard extends JPanel {
 			aux_button.setEnabled(false);
 			current_buttons_list.add(aux_button);
 		}
-		//shuffleStuff();
+		// shuffleStuff();
 		generateSolution();
 		for (JButton button : current_buttons_list) {
 			this.add(button);
