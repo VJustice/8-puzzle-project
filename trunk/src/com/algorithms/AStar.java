@@ -19,6 +19,8 @@ public class AStar /* extends Algorithm */{
 	private String current_node_data = "";
 	private String solution_node = "";
 
+	private long start_time = System.currentTimeMillis();
+
 	private GameBoard game_board;
 
 	public AStar(GameBoard game_board, String[] current_data,
@@ -43,9 +45,10 @@ public class AStar /* extends Algorithm */{
 			print("Chosen " + current_node, "MOV");
 			closed_queue.add(current_node);
 			if (current_node.getCurrent_node_data().equals(solution_node)) {
-
 				print("Solution on level: " + current_node.getTree_level()
-						+ " " + current_node, "RES");
+						+ " " + current_node + "\n"
+						+ (int) (System.currentTimeMillis() - start_time),
+						"RES");
 				getFinalPlays(current_node);
 				break;
 			}
