@@ -37,13 +37,13 @@ public class Board {
 	private JButton show_results;
 	private JButton reset_puzzle;
 
-
 	private TitledBorder options_border;
 	private TitledBorder logs_border;
 	private TitledBorder movemment_border;
 	private TitledBorder results_border;
 
-	private String[] algorithms = { "A*", "BreadthFirstSearch", "DepthFirstSearch" };
+	private String[] algorithms = { "A*", "BreadthFirstSearch",
+			"DepthFirstSearch" };
 
 	private GameBoard game_board;
 
@@ -72,7 +72,7 @@ public class Board {
 	public JPanel rightPanel() {
 		puzzle_right_panel = new JPanel();
 		puzzle_right_panel.setLayout(new BorderLayout());
-		puzzle_right_panel.setPreferredSize(new Dimension(WIDTH/3, HEIGHT));
+		puzzle_right_panel.setPreferredSize(new Dimension(WIDTH / 3, HEIGHT));
 		puzzle_right_panel.add(rightUpPanel(), BorderLayout.NORTH);
 		puzzle_right_panel.add(rightDownPanel(), BorderLayout.CENTER);
 		return puzzle_right_panel;
@@ -90,31 +90,34 @@ public class Board {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// game_board.startAlgorithm(choose_algorithm.getSelectedItem()
+				// .toString(), "Manhattan");
 				game_board.startAlgorithm(choose_algorithm.getSelectedItem()
-						.toString(), "Manhattan");
+						.toString(), "Euclidean");
 			}
 
 		});
 		show_results = new JButton("Show Results");
 		show_results.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game_board.makeMoves();
 			}
-			
+
 		});
 		reset_puzzle = new JButton("Restart Algorithm");
 		reset_puzzle.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game_board.restart();
-				
+
 			}
 		});
 		puzzle_right_up_panel.setLayout(new FlowLayout());
-		puzzle_right_up_panel.setPreferredSize(new Dimension(WIDTH / 3, (HEIGHT / 5)-20));
+		puzzle_right_up_panel.setPreferredSize(new Dimension(WIDTH / 3,
+				(HEIGHT / 5) - 20));
 		puzzle_right_up_panel.setBorder(options_border);
 		puzzle_right_up_panel.add(choose_algorithm);
 		puzzle_right_up_panel.add(start_algorithm);
@@ -161,11 +164,11 @@ public class Board {
 		aux_panel_two.add(scroll, BorderLayout.CENTER);
 		return aux_panel_two;
 	}
-	
+
 	public JTextArea getPuzzle_movemment_log() {
 		return puzzle_movemment_log;
 	}
-	
+
 	public JTextArea getPuzzle_results_log() {
 		return puzzle_results_log;
 	}
