@@ -40,17 +40,17 @@ public class AStar /* extends Algorithm */{
 		while (!open_queue.isEmpty()) {
 			sortList(open_queue);
 			Node current_node = open_queue.removeFirst();
-			// System.out.println("PARENT: " + current_node);
+			print("Chosen " + current_node, "MOV");
 			closed_queue.add(current_node);
 			if (current_node.getCurrent_node_data().equals(solution_node)) {
 
-				print("Solution on level: " + current_node.getTree_level(),
-						"RES");
+				print("Solution on level: " + current_node.getTree_level()
+						+ " " + current_node, "RES");
 				getFinalPlays(current_node);
 				break;
 			}
 			if (current_node.getTree_level() == DEPTH) {
-				System.out.println("SOLUTION NOT FOUND");
+				print("Solution not Found", "RES");
 				break;
 			}
 			checkNeighbours(current_node);
@@ -112,12 +112,12 @@ public class AStar /* extends Algorithm */{
 			// NOT GOING BACK
 			if (!aux_node.getCurrent_node_data().equals(aux_list_temp.get(i))) {
 				int g_score = aux_node.getTree_level() + 1;
-				int h_score = calculate_h_score(aux_list_temp.get(i), heuristics);
+				int h_score = calculate_h_score(aux_list_temp.get(i),
+						heuristics);
 				int f_score = g_score + h_score;
 				Node n = new Node(false, aux_list_temp.get(i), g_score, f_score);
 				if (!existsOnClosedQueue(n)) {
 					if (!checkNode(n)) {
-						// System.out.println("CHILD" + n);
 						nodes_history.put(n, aux_node);
 						open_queue.add(n);
 					}
@@ -161,17 +161,17 @@ public class AStar /* extends Algorithm */{
 		switch (type) {
 		case "MOV":
 			game_board.getBoard().getPuzzle_movemment_log()
-					.append(print_string);
+					.append(print_string + "\n");
 			break;
 		case "RES":
-			game_board.getBoard().getPuzzle_results_log().append(print_string);
+			game_board.getBoard().getPuzzle_results_log()
+					.append(print_string + "\n");
 			break;
 		}
 	}
 
 	private int calculate_h_score(String node_data_test, String heuristic_data) {
 		char[] test_array = node_data_test.toCharArray();
-		char[] solution_array = solution_node.toCharArray();
 		int temp_score = 0;
 		switch (heuristic_data) {
 		case "Manhattan":
@@ -181,6 +181,12 @@ public class AStar /* extends Algorithm */{
 			}
 			break;
 		case "Euclidean":
+			for (int i = 0; i < test_array.length; i++) {
+				temp_score += Math.sqrt(Math.pow(
+						(i - Integer.parseInt(test_array[i] + "")), 2.0)
+						+ Math.pow((i - Integer.parseInt(test_array[i] + "")),
+								2.0));
+			}
 			break;
 		default:
 			break;
