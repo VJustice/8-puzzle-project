@@ -53,6 +53,12 @@ public class GameBoard extends JPanel {
 		Collections.swap(current_buttons_list, 6, 7);
 		Collections.swap(current_buttons_list, 7, 8);
 		Collections.swap(current_buttons_list, 8, 5);
+		Collections.swap(current_buttons_list, 5, 4);
+		Collections.swap(current_buttons_list, 4, 1);
+		Collections.swap(current_buttons_list, 1, 2);
+		Collections.swap(current_buttons_list, 2, 5);
+		Collections.swap(current_buttons_list, 5, 4);
+		Collections.swap(current_buttons_list, 4, 3);
 	}
 
 	private void initPanelGUI() {
