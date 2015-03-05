@@ -1,74 +1,75 @@
 package com.algorithms;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.board.GameBoard;
 
-public class AStar extends Algorithm {
+public class AStar /* extends Algorithm */{
 
-	private HashMap<Node, Integer> explored_nodes = new HashMap<Node, Integer>();
-	private LinkedList<Node> nodes_queue_to_evaluate = new LinkedList<Node>();
-	private HashMap<Node, Node> nodes_history = new HashMap<Node, Node>();
-	private LinkedList<Node> temp_list = new LinkedList<Node>();
+	private static final int DEPTH = 25;
+
+	private LinkedList<Node> open_queue = new LinkedList<Node>();
+	private LinkedList<Node> closed_queue = new LinkedList<Node>();
 	private LinkedList<String> nodes_plays_list = new LinkedList<String>();
+	private HashMap<Node, Node> nodes_history = new HashMap<Node, Node>();
 
-	@SuppressWarnings("unused")
-	private String heuristic_state;
-	private String current_data_nodes = "";
-	private String solution_nodes = "";
+	private String current_node_data = "";
+	private String solution_node = "";
 
-	private int DEPTH = 500;
+	private GameBoard game_board;
 
-	public AStar(GameBoard game_board, String[] current_data,
-			String[] solution, String heuristic_state) {
-		super(game_board, current_data, solution);
-		this.heuristic_state = heuristic_state;
+	public AStar(GameBoard game_board, String[] current_data, String[] solution) {
+		this.game_board = game_board;
 		for (int i = 0; i < current_data.length; i++) {
-			current_data_nodes += current_data[i];
+			current_node_data += current_data[i];
 		}
 		for (int i = 0; i < solution.length; i++) {
-			solution_nodes += solution[i];
+			solution_node += solution[i];
 		}
 	}
 
-	@Override
 	public void searchAlgorithm() {
-		int h_score = calculate_h_score(current_data_nodes);
-		int f_score = h_score;
-		nodes_plays_list.clear();
-		Node root_node = new Node(false, current_data_nodes, 0, f_score);
-		addNode(root_node, null);
-		while (!nodes_queue_to_evaluate.isEmpty()) {
-			Node testing_node = nodes_queue_to_evaluate.removeFirst();
-			checkNeighbours(testing_node);
-			sortList(temp_list);
-			Node node_aux_final = temp_list.removeFirst();
-			addNode(node_aux_final, testing_node);
-			if (node_aux_final.getCurrent_node_data().equals(solution_nodes)) {
-				print("Solution at Level " + explored_nodes.get(node_aux_final)
-						+ " cenas:  " + node_aux_final.getCurrent_node_data()
-						+ "\n", "RES");
-				getFinalPlays(node_aux_final);
-				clearAll();
+		int f_score = calculate_h_score(current_node_data);
+		Node root_node = new Node(false, current_node_data, 0, f_score);
+		open_queue.add(root_node);
+		while (!open_queue.isEmpty()) {
+			sortList(open_queue);
+			Node current_node = open_queue.removeFirst();
+			System.out.println("PARENT: " + current_node);
+			closed_queue.add(current_node);
+			if (current_node.getCurrent_node_data().equals(solution_node)) {
+				
+				print("Solution on level: " + current_node.getTree_level(),
+						"RES");
+				getFinalPlays(current_node);
+				break;
 			}
-			if (explored_nodes.get(node_aux_final) == DEPTH) {
-				clearAll();
-				print("No Solution Found \n", "RES");
+			if (current_node.getTree_level() == DEPTH) {
+				System.out.println("SOLUTION NOT FOUND");
+				break;
 			}
-			temp_list.clear();
+			checkNeighbours(current_node);
 		}
+		
 	}
 
-	private void clearAll() {
-		nodes_queue_to_evaluate.clear();
-		temp_list.clear();
-		explored_nodes.clear();
-		nodes_history.clear();
+	private LinkedList<Node> sortList(LinkedList<Node> list) {
+		for (int i = 0; i < list.size() - 1; i++) {
+			for (int j = i + 1; j < list.size(); j++) {
+				if ((list.get(i).getEstimated_score() >= list.get(j)
+						.getEstimated_score())) {
+					Node temp_node = list.get(j);
+					list.set(j, list.get(i));
+					list.set(i, temp_node);
+				}
+			}
+		}
+		return list;
 	}
 
-	@Override
-	protected void checkNeighbours(Node aux_node) {
+	private void checkNeighbours(Node aux_node) {
 		LinkedList<String> aux_list_temp = new LinkedList<String>();
 		String aux_node_data = aux_node.getCurrent_node_data();
 		String next_state = "";
@@ -105,14 +106,63 @@ public class AStar extends Algorithm {
 			aux_list_temp.add(next_state);
 		}
 		for (int i = 0; i < aux_list_temp.size(); i++) {
+			// NOT GOING BACK
 			if (!aux_node.getCurrent_node_data().equals(aux_list_temp.get(i))) {
 				int g_score = aux_node.getTree_level() + 1;
 				int h_score = calculate_h_score(aux_list_temp.get(i));
-				int f_score = (g_score + h_score) - aux_node.getTree_level();
+				int f_score = g_score + h_score;
 				Node n = new Node(false, aux_list_temp.get(i), g_score, f_score);
-				System.out.println(n);
-				temp_list.add(n);
+				if (!existsOnClosedQueue(n)) {
+					if (!checkNode(n)) {
+						//System.out.println("CHILD" + n);
+						nodes_history.put(n, aux_node);
+						open_queue.add(n);
+					}
+				}
+
 			}
+		}
+	}
+
+	private boolean existsOnClosedQueue(Node check_node) {
+		if (!closed_queue.isEmpty()) {
+			Iterator<Node> iterator = closed_queue.iterator();
+			while (iterator.hasNext()) {
+				Node check_aux = iterator.next();
+				if (check_aux.getCurrent_node_data().equals(
+						check_node.getCurrent_node_data())) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return false;
+	}
+
+	private boolean checkNode(Node check_node) {
+		Iterator<Node> iterator = open_queue.iterator();
+		while (iterator.hasNext()) {
+			Node aux_check = iterator.next();
+			if (aux_check.getCurrent_node_data().equals(
+					check_node.getCurrent_node_data())) {
+				if (check_node.getTree_level() < aux_check.getTree_level()) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return false;
+	}
+
+	private void print(String print_string, String type) {
+		switch (type) {
+		case "MOV":
+			game_board.getBoard().getPuzzle_movemment_log()
+					.append(print_string);
+			break;
+		case "RES":
+			game_board.getBoard().getPuzzle_results_log().append(print_string);
+			break;
 		}
 	}
 
@@ -125,69 +175,19 @@ public class AStar extends Algorithm {
 		return temp_score;
 	}
 
-	@Override
-	protected void addNode(Node child_node, Node parent_node) {
-		if (!explored_nodes.containsKey(child_node)) {
-			int tree_node_level;
-			if (parent_node == null) {
-				tree_node_level = 0;
-			} else {
-				tree_node_level = parent_node.getTree_level() + 1;
-			}
-			child_node.setVisited(true);
-			nodes_queue_to_evaluate.add(child_node);
-			explored_nodes.put(child_node, tree_node_level);
-			nodes_history.put(child_node, parent_node);
-			System.out.println("CHILD NODE => " + child_node);
-		}
-	}
-
-	@Override
-	protected void checkSolutionFound(Node old_node, String current_data) {
-
-	}
-
-	@Override
-	protected void checkSolutionFound(Node old_node, String nodes_data,
-			int heuristic) {
-	}
-
-	@Override
-	protected void getFinalPlays(Node node_aux) {
+	
+	
+	private void getFinalPlays(Node node_aux) {
 		Node temp_node = node_aux;
-		nodes_plays_list.add(solution_nodes);
-		while (!temp_node.getCurrent_node_data().equals(current_data_nodes)) {
+		nodes_plays_list.add(solution_node);
+		while (!temp_node.getCurrent_node_data().equals(current_node_data)) {
 			Node new_temp_node = nodes_history.get(temp_node);
 			nodes_plays_list.add(new_temp_node.getCurrent_node_data());
 			temp_node = new_temp_node;
 		}
 	}
-
-	private LinkedList<Node> sortList(LinkedList<Node> list) {
-		for (int i = 0; i < list.size() - 1; i++) {
-			for (int j = i + 1; j < list.size(); j++) {
-				if ((list.get(i).getEstimated_score() >= list.get(j)
-						.getEstimated_score())) {
-					Node temp_node = list.get(j);
-					list.set(j, list.get(i));
-					list.set(i, temp_node);
-				}
-			}
-		}
-		return list;
-	}
-
-	private void print(String print_string, String type) {
-		switch (type) {
-		case "MOV":
-			game_board.getBoard().getPuzzle_movemment_log().append(print_string);
-			break;
-		case "RES":
-			game_board.getBoard().getPuzzle_results_log().append(print_string);
-			break;
-		}
-	}
-
+	
+	
 	public LinkedList<String> getNew_node_data_list() {
 		return nodes_plays_list;
 	}

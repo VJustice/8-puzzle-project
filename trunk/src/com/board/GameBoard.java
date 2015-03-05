@@ -45,14 +45,14 @@ public class GameBoard extends JPanel {
 		Collections.swap(current_buttons_list, 4, 7);
 		Collections.swap(current_buttons_list, 7, 8);
 		Collections.swap(current_buttons_list, 8, 5);
-		// Collections.swap(current_buttons_list, 5, 2);
-		// Collections.swap(current_buttons_list, 2, 1);
-		// Collections.swap(current_buttons_list, 1, 4);
-		// Collections.swap(current_buttons_list, 4, 3);
-		// Collections.swap(current_buttons_list, 3, 6);
-		// Collections.swap(current_buttons_list, 6, 7);
-		// Collections.swap(current_buttons_list, 7, 8);
-		// Collections.swap(current_buttons_list, 8, 5);
+		Collections.swap(current_buttons_list, 5, 2);
+		Collections.swap(current_buttons_list, 2, 1);
+		Collections.swap(current_buttons_list, 1, 4);
+		Collections.swap(current_buttons_list, 4, 3);
+		Collections.swap(current_buttons_list, 3, 6);
+		Collections.swap(current_buttons_list, 6, 7);
+		Collections.swap(current_buttons_list, 7, 8);
+		Collections.swap(current_buttons_list, 8, 5);
 	}
 
 	private void initPanelGUI() {
@@ -61,7 +61,7 @@ public class GameBoard extends JPanel {
 			aux_button.setEnabled(false);
 			current_buttons_list.add(aux_button);
 		}
-		// shuffleStuff();
+		//shuffleStuff();
 		generateSolution();
 		for (JButton button : current_buttons_list) {
 			this.add(button);
@@ -99,7 +99,7 @@ public class GameBoard extends JPanel {
 			plays = bfs.getNew_node_data_list();
 			break;
 		case "A*":
-			AStar a_star = new AStar(this, current_data, solution, heuristic);
+			AStar a_star = new AStar(this, current_data, solution);
 			a_star.searchAlgorithm();
 			plays.clear();
 			plays = a_star.getNew_node_data_list();
