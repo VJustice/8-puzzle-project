@@ -91,7 +91,7 @@ public class Board {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game_board.startAlgorithm(choose_algorithm.getSelectedItem()
-						.toString(), "Distance_Between");
+						.toString(), "Manhattan");
 			}
 
 		});

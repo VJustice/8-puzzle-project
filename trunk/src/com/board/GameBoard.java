@@ -105,7 +105,7 @@ public class GameBoard extends JPanel {
 			plays = bfs.getNew_node_data_list();
 			break;
 		case "A*":
-			AStar a_star = new AStar(this, current_data, solution);
+			AStar a_star = new AStar(this, current_data, solution, heuristic);
 			a_star.searchAlgorithm();
 			plays.clear();
 			plays = a_star.getNew_node_data_list();
