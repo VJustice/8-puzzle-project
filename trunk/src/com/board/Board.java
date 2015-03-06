@@ -43,9 +43,9 @@ public class Board {
 	private TitledBorder movemment_border;
 	private TitledBorder results_border;
 
-	private String[] algorithms = { "A*", "BreadthFirstSearch",
-			"DepthFirstSearch" };
-	private String[] heuristics_array = { "Manhattan", "Euclidean"};
+	private String[] algorithms = { "A*", "BreadthFirstSearch" };
+	private String[] heuristics_array = { "Manhattan", "Euclidean",
+			"Levenshtein" };
 
 	private GameBoard game_board;
 
@@ -97,7 +97,8 @@ public class Board {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game_board.startAlgorithm(choose_algorithm.getSelectedItem()
-						.toString(), choose_heuristic.getSelectedItem().toString());
+						.toString(), choose_heuristic.getSelectedItem()
+						.toString());
 			}
 
 		});
