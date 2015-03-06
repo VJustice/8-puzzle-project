@@ -83,7 +83,7 @@ public class GameBoard extends JPanel {
 
 	public void makeMoves() {
 		if (plays.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Run Algorithm First");
+			JOptionPane.showMessageDialog(null, "No More Moves");
 		} else {
 			String temp = plays.removeLast();
 			for (int i = 0; i < current_buttons_list.size(); i++) {
