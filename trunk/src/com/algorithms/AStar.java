@@ -196,12 +196,18 @@ public class AStar /* extends Algorithm */{
 				for (int i = 0; i < test_array.length; i++) {
 					temp_score += Math.min(
 							Math.abs(i - Integer.parseInt(test_array[i] + "")),
-							Math.abs(i - Integer.parseInt(aux_array_lev[i] + "")));
+							Math.abs(i
+									- Integer.parseInt(aux_array_lev[i] + "")));
 				}
 			} else {
 				temp_score = 0;
 			}
 			aux_levenshtein = node_data_test;
+			break;
+		case "X-Y":
+			for (int i = 0; i < test_array.length; i++) {
+				
+			}
 			break;
 		default:
 			break;
