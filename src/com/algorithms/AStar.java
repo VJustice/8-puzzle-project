@@ -8,7 +8,7 @@ import com.board.GameBoard;
 
 public class AStar /* extends Algorithm */{
 
-	private static final int DEPTH = 25;
+	private static final int DEPTH = 31;
 
 	private LinkedList<Node> open_queue = new LinkedList<Node>();
 	private LinkedList<Node> closed_queue = new LinkedList<Node>();
@@ -18,6 +18,7 @@ public class AStar /* extends Algorithm */{
 	private String heuristics;
 	private String current_node_data = "";
 	private String solution_node = "";
+	private String aux_levenshtein = "";
 
 	private long start_time = System.currentTimeMillis();
 
@@ -188,6 +189,19 @@ public class AStar /* extends Algorithm */{
 						+ Math.pow((i - Integer.parseInt(test_array[i] + "")),
 								2.0));
 			}
+			break;
+		case "Levenshtein":
+			if (!aux_levenshtein.equals("")) {
+				char[] aux_array_lev = aux_levenshtein.toCharArray();
+				for (int i = 0; i < test_array.length; i++) {
+					temp_score += Math.min(
+							Math.abs(i - Integer.parseInt(test_array[i] + "")),
+							Math.abs(i - Integer.parseInt(aux_array_lev[i] + "")));
+				}
+			} else {
+				temp_score = 0;
+			}
+			aux_levenshtein = node_data_test;
 			break;
 		default:
 			break;
