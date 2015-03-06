@@ -58,7 +58,6 @@ public class AStar /* extends Algorithm */{
 			}
 			checkNeighbours(current_node);
 		}
-
 	}
 
 	private LinkedList<Node> sortList(LinkedList<Node> list) {
@@ -125,7 +124,6 @@ public class AStar /* extends Algorithm */{
 						open_queue.add(n);
 					}
 				}
-
 			}
 		}
 	}

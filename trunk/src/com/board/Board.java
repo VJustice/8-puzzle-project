@@ -32,6 +32,7 @@ public class Board {
 	private JTextArea puzzle_results_log;
 
 	private JComboBox<String> choose_algorithm;
+	private JComboBox<String> choose_heuristic;
 
 	private JButton start_algorithm;
 	private JButton show_results;
@@ -44,6 +45,7 @@ public class Board {
 
 	private String[] algorithms = { "A*", "BreadthFirstSearch",
 			"DepthFirstSearch" };
+	private String[] heuristics_array = { "Manhattan", "Euclidean"};
 
 	private GameBoard game_board;
 
@@ -82,18 +84,20 @@ public class Board {
 		puzzle_right_up_panel = new JPanel();
 		options_border = new TitledBorder("Options");
 		choose_algorithm = new JComboBox<String>();
+		choose_heuristic = new JComboBox<String>();
 		for (int i = 0; i < algorithms.length; i++) {
 			choose_algorithm.addItem(algorithms[i]);
+		}
+		for (int i = 0; i < heuristics_array.length; i++) {
+			choose_heuristic.addItem(heuristics_array[i]);
 		}
 		start_algorithm = new JButton("Start Algorithm");
 		start_algorithm.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// game_board.startAlgorithm(choose_algorithm.getSelectedItem()
-				// .toString(), "Manhattan");
 				game_board.startAlgorithm(choose_algorithm.getSelectedItem()
-						.toString(), "Euclidean");
+						.toString(), choose_heuristic.getSelectedItem().toString());
 			}
 
 		});
@@ -117,12 +121,13 @@ public class Board {
 		});
 		puzzle_right_up_panel.setLayout(new FlowLayout());
 		puzzle_right_up_panel.setPreferredSize(new Dimension(WIDTH / 3,
-				(HEIGHT / 5) - 20));
+				(HEIGHT / 5)));
 		puzzle_right_up_panel.setBorder(options_border);
 		puzzle_right_up_panel.add(choose_algorithm);
 		puzzle_right_up_panel.add(start_algorithm);
 		puzzle_right_up_panel.add(reset_puzzle);
 		puzzle_right_up_panel.add(show_results);
+		puzzle_right_up_panel.add(choose_heuristic);
 		return puzzle_right_up_panel;
 	}
 
