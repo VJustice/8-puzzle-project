@@ -205,8 +205,11 @@ public class AStar /* extends Algorithm */{
 			aux_levenshtein = node_data_test;
 			break;
 		case "X-Y":
-			for (int i = 0; i < test_array.length; i++) {
-				
+			int[][] matrix_index = new int[3][3];
+			for (int i = 0; i < 3; i++) {
+				matrix_index[0][i] = Integer.parseInt(test_array[i] + "");
+				matrix_index[1][i] = Integer.parseInt(test_array[i + 3] + "");
+				matrix_index[2][i] = Integer.parseInt(test_array[i + 6] + "");
 			}
 			break;
 		default:
