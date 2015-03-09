@@ -37,6 +37,11 @@ public class GameBoard extends JPanel {
 		this.repaint();
 		this.validate();
 	}
+	
+	@SuppressWarnings("unused")
+	private void generateInitialState(int max_depth) {
+		
+	}
 
 	// @SuppressWarnings("unused")
 	private void generateSolution() {
