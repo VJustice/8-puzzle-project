@@ -37,49 +37,55 @@ public class GameBoard extends JPanel {
 	}
 
 	private void generateInitialState(int max_depth) {
+		String c_list = solution;
+		int last_move = 0;
 		for (int i = 0; i < max_depth; i++) {
-			int zn = solution.indexOf('0');
+			int zn = c_list.indexOf('0');
 			int rand = (int) (Math.random() * 4);
-			int last_move = 0;
 			while (true) {
 				// LEFT
 				if (rand == 0) {
 					if ((zn - 1 >= 0 && zn - 1 != 2 && zn - 1 != 5)
 							&& last_move != 1) {
-						System.out.println("LEFT");
-						Collections.swap(current_buttons_list, zn - 1, zn);
+						System.out.println("LEFT => " + zn + "-" + (zn - 1));
+						Collections.swap(current_buttons_list, zn, zn - 1);
 						last_move = 2;
 						break;
 					}
 				}
 				// RIGHT
-				if (rand == 1) {
+				else if (rand == 1) {
 					if ((zn + 1 != 3 && zn + 1 != 6 && zn + 1 <= 8)
 							&& last_move != 2) {
-						System.out.println("RIGHT");
+						System.out.println("RIGHT => " + zn + "-" + (zn + 1));
 						Collections.swap(current_buttons_list, zn, zn + 1);
 						last_move = 1;
 						break;
 					}
 				}
 				// UP
-				if (rand == 2) {
+				else if (rand == 2) {
 					if (zn - 3 >= 0 && last_move != 3) {
-						System.out.println("UP");
-						Collections.swap(current_buttons_list, zn - 3, zn);
+						System.out.println("UP => " + zn + "-" + (zn - 3));
+						Collections.swap(current_buttons_list, zn, zn - 3);
 						last_move = 4;
 						break;
 					}
 				}
 				// DOWN
-				if (rand == 3) {
+				else if (rand == 3) {
 					if (zn + 3 <= 8 && last_move != 4) {
-						System.out.println("DOWN");
+						System.out.println("DOWN => " + zn + "-" + (zn + 3));
 						Collections.swap(current_buttons_list, zn, zn + 3);
 						last_move = 3;
 						break;
 					}
 				}
+				rand = (int) (Math.random() * 4);
+			}
+			c_list = "";
+			for (int a = 0; a < current_buttons_list.size(); a++) {
+				c_list+=current_buttons_list.get(a).getText();
 			}
 		}
 	}
@@ -90,18 +96,13 @@ public class GameBoard extends JPanel {
 			aux_button.setEnabled(false);
 			current_buttons_list.add(aux_button);
 		}
-		generateInitialState(21);
-		// shuffleStuff();
+		generateInitialState(19);
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
 		for (int i = 0; i < current_buttons_list.size(); i++) {
 			current_data += current_buttons_list.get(i).getText();
 		}
-	}
-
-	public void shuffleStuff() {
-		Collections.shuffle(current_buttons_list);
 	}
 
 	public void makeMoves() {
