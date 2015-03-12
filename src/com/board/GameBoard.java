@@ -43,7 +43,6 @@ public class GameBoard extends JPanel {
 			int zn = c_list.indexOf('0');
 			int rand = (int) (Math.random() * 4);
 			while (true) {
-				// LEFT
 				if (rand == 0) {
 					if ((zn - 1 >= 0 && zn - 1 != 2 && zn - 1 != 5)
 							&& last_move != 1) {
@@ -53,7 +52,6 @@ public class GameBoard extends JPanel {
 						break;
 					}
 				}
-				// RIGHT
 				else if (rand == 1) {
 					if ((zn + 1 != 3 && zn + 1 != 6 && zn + 1 <= 8)
 							&& last_move != 2) {
@@ -63,7 +61,6 @@ public class GameBoard extends JPanel {
 						break;
 					}
 				}
-				// UP
 				else if (rand == 2) {
 					if (zn - 3 >= 0 && last_move != 3) {
 						System.out.println("UP => " + zn + "-" + (zn - 3));
@@ -72,7 +69,6 @@ public class GameBoard extends JPanel {
 						break;
 					}
 				}
-				// DOWN
 				else if (rand == 3) {
 					if (zn + 3 <= 8 && last_move != 4) {
 						System.out.println("DOWN => " + zn + "-" + (zn + 3));
@@ -96,7 +92,7 @@ public class GameBoard extends JPanel {
 			aux_button.setEnabled(false);
 			current_buttons_list.add(aux_button);
 		}
-		generateInitialState(19);
+		generateInitialState(17);
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
