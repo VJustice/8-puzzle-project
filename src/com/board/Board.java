@@ -16,7 +16,7 @@ import javax.swing.border.TitledBorder;
 
 public class Board {
 
-	private static final int WIDTH = 900;
+	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 600;
 	private static final double VERSION = 1.0;
 
@@ -74,7 +74,7 @@ public class Board {
 	public JPanel rightPanel() {
 		puzzle_right_panel = new JPanel();
 		puzzle_right_panel.setLayout(new BorderLayout());
-		puzzle_right_panel.setPreferredSize(new Dimension(WIDTH / 3, HEIGHT));
+		puzzle_right_panel.setPreferredSize(new Dimension(WIDTH / 3 + 100, HEIGHT));
 		puzzle_right_panel.add(rightUpPanel(), BorderLayout.NORTH);
 		puzzle_right_panel.add(rightDownPanel(), BorderLayout.CENTER);
 		return puzzle_right_panel;

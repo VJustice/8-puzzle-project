@@ -22,57 +22,66 @@ public class GameBoard extends JPanel {
 
 	private Board board;
 
-	private LinkedList<JButton> current_buttons_list;
-	private LinkedList<String> plays;
+	private LinkedList<JButton> current_buttons_list = new LinkedList<JButton>();
+	private LinkedList<String> plays = new LinkedList<String>();
 
-	private String[] solution = { "0", "1", "2", "3", "4", "5", "6", "7", "8" };
-	private String[] current_data = new String[solution.length];
+	private String solution = "012345678";
+	private String current_data = "";
 
 	public GameBoard(Board board) {
 		this.board = board;
-		current_buttons_list = new LinkedList<JButton>();
-		plays = new LinkedList<String>();
 		this.setLayout(new GridLayout(NUM_ROWS, NUM_COLUMNS));
 		initPanelGUI();
 		this.repaint();
 		this.validate();
 	}
-	
-	@SuppressWarnings("unused")
-	private void generateInitialState(int max_depth) {
-		int zn = ZeroNeightboards();
-		for (int i=0; i < max_depth; i++) {
-			int rand = (int) (Math.random() * 8);
-			Collections.swap(current_buttons_list, 0, zn);
-		}
-	}
-	
-	private int ZeroNeightboards() {
-		return 0;
-	}
 
-	// @SuppressWarnings("unused")
-	private void generateSolution() {
-		//generateInitialState(5);
-		Collections.swap(current_buttons_list, 0, 1);
-		Collections.swap(current_buttons_list, 1, 4);
-		Collections.swap(current_buttons_list, 4, 7);
-		Collections.swap(current_buttons_list, 7, 8);
-		Collections.swap(current_buttons_list, 8, 5);
-		Collections.swap(current_buttons_list, 5, 2);
-		Collections.swap(current_buttons_list, 2, 1);
-		Collections.swap(current_buttons_list, 1, 4);
-		Collections.swap(current_buttons_list, 4, 3);
-		Collections.swap(current_buttons_list, 3, 6);
-		Collections.swap(current_buttons_list, 6, 7);
-		Collections.swap(current_buttons_list, 7, 8);
-		Collections.swap(current_buttons_list, 8, 5);
-		Collections.swap(current_buttons_list, 5, 4);
-		Collections.swap(current_buttons_list, 4, 1);
-		Collections.swap(current_buttons_list, 1, 2);
-		Collections.swap(current_buttons_list, 2, 5);
-		Collections.swap(current_buttons_list, 5, 4);
-		Collections.swap(current_buttons_list, 4, 3);
+	private void generateInitialState(int max_depth) {
+		for (int i = 0; i < max_depth; i++) {
+			int zn = solution.indexOf('0');
+			int rand = (int) (Math.random() * 4);
+			int last_move = 0;
+			while (true) {
+				// LEFT
+				if (rand == 0) {
+					if ((zn - 1 >= 0 && zn - 1 != 2 && zn - 1 != 5)
+							&& last_move != 1) {
+						System.out.println("LEFT");
+						Collections.swap(current_buttons_list, zn - 1, zn);
+						last_move = 2;
+						break;
+					}
+				}
+				// RIGHT
+				if (rand == 1) {
+					if ((zn + 1 != 3 && zn + 1 != 6 && zn + 1 <= 8)
+							&& last_move != 2) {
+						System.out.println("RIGHT");
+						Collections.swap(current_buttons_list, zn, zn + 1);
+						last_move = 1;
+						break;
+					}
+				}
+				// UP
+				if (rand == 2) {
+					if (zn - 3 >= 0 && last_move != 3) {
+						System.out.println("UP");
+						Collections.swap(current_buttons_list, zn - 3, zn);
+						last_move = 4;
+						break;
+					}
+				}
+				// DOWN
+				if (rand == 3) {
+					if (zn + 3 <= 8 && last_move != 4) {
+						System.out.println("DOWN");
+						Collections.swap(current_buttons_list, zn, zn + 3);
+						last_move = 3;
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	private void initPanelGUI() {
@@ -81,13 +90,13 @@ public class GameBoard extends JPanel {
 			aux_button.setEnabled(false);
 			current_buttons_list.add(aux_button);
 		}
+		generateInitialState(21);
 		// shuffleStuff();
-		generateSolution();
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
 		for (int i = 0; i < current_buttons_list.size(); i++) {
-			current_data[i] = current_buttons_list.get(i).getText();
+			current_data += current_buttons_list.get(i).getText();
 		}
 	}
 
@@ -120,7 +129,8 @@ public class GameBoard extends JPanel {
 			break;
 		case "A*":
 			AStar a_star = new AStar(this, current_data, solution, heuristic);
-			a_star.searchAlgorithm();
+			Thread t = new Thread(a_star);
+			t.start();
 			plays.clear();
 			plays = a_star.getNew_node_data_list();
 			break;
