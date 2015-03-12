@@ -20,18 +20,14 @@ public class BreadthFirstSearch {
 
 	private GameBoard game_board;
 
-	public BreadthFirstSearch(GameBoard game_board, String[] current_data,
-			String[] solution) {
+	public BreadthFirstSearch(GameBoard game_board, String current_data,
+			String solution) {
 		this.game_board = game_board;
 		nodes_list = new HashMap<Node, Integer>();
 		nodes_history = new HashMap<Node, Node>();
 		new_node_data_list = new LinkedList<String>();
-		for (int i = 0; i < current_data.length; i++) {
-			current_data_nodes += current_data[i];
-		}
-		for (int i = 0; i < solution.length; i++) {
-			solution_nodes += solution[i];
-		}
+		this.current_data_nodes = current_data;
+		this.solution_nodes = solution;
 	}
 
 	public void searchAlgorithm() {

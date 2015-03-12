@@ -6,9 +6,9 @@ import java.util.LinkedList;
 
 import com.board.GameBoard;
 
-public class AStar /* extends Algorithm */{
+public class AStar implements Runnable/* extends Algorithm */{
 
-	private static final int DEPTH = 31;
+	private static final int DEPTH = 25;
 
 	private LinkedList<Node> open_queue = new LinkedList<Node>();
 	private LinkedList<Node> closed_queue = new LinkedList<Node>();
@@ -24,19 +24,16 @@ public class AStar /* extends Algorithm */{
 
 	private GameBoard game_board;
 
-	public AStar(GameBoard game_board, String[] current_data,
-			String[] solution, String heuristics) {
+	public AStar(GameBoard game_board, String current_data, String solution,
+			String heuristics) {
 		this.game_board = game_board;
 		this.heuristics = heuristics;
-		for (int i = 0; i < current_data.length; i++) {
-			current_node_data += current_data[i];
-		}
-		for (int i = 0; i < solution.length; i++) {
-			solution_node += solution[i];
-		}
+		this.current_node_data = current_data;
+		this.solution_node = solution;
 	}
 
-	public void searchAlgorithm() {
+	@Override
+	public void run() {
 		int f_score = calculate_h_score(current_node_data, heuristics);
 		Node root_node = new Node(false, current_node_data, 0, f_score);
 		open_queue.add(root_node);
@@ -59,6 +56,7 @@ public class AStar /* extends Algorithm */{
 			}
 			checkNeighbours(current_node);
 		}
+
 	}
 
 	private LinkedList<Node> sortList(LinkedList<Node> list) {
