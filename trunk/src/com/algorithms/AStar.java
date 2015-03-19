@@ -210,6 +210,14 @@ public class AStar implements Runnable/* extends Algorithm */{
 				matrix_index[2][i] = Integer.parseInt(test_array[i + 6] + "");
 			}
 			break;
+		case "Test Different Heuristic":
+			for (int i = 0; i < test_array.length; i++) {
+				temp_score += Math.sqrt(Math.pow(
+						(i - Integer.parseInt(test_array[i] + "")), 3.0)
+						+ Math.pow((i - Integer.parseInt(test_array[i] + "")),
+								3.0));
+			}
+			break;
 		default:
 			break;
 		}
