@@ -209,6 +209,7 @@ public class AStar implements Runnable/* extends Algorithm */{
 				matrix_index[1][i] = Integer.parseInt(test_array[i + 3] + "");
 				matrix_index[2][i] = Integer.parseInt(test_array[i + 6] + "");
 			}
+			/** Still needs some thinking **/
 			break;
 		case "Test Different Heuristic":
 			for (int i = 0; i < test_array.length; i++) {
