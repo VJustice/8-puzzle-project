@@ -5,6 +5,8 @@ public class Individual {
 	private int gene; 
 	private String heuristicName;
 	
+//	private int fitness = 0;
+	
 	public Individual(String heuristicName, int gene) {
 		this.heuristicName = heuristicName;
 		this.gene = gene;
