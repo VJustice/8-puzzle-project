@@ -2,16 +2,11 @@ package com.genetics;
 
 public class Population {
 
-	private int population_size;
+	private String[] population_name;
 	private Individual[] individual;
 	
-	public Population(int populationSize) {
-		this.population_size = populationSize;
-		individual = new Individual[population_size];
-		
-		for (int i=0; i < population_size; i++) {
-			individual[i]  = new Individual(null, 0);
-		}
+	public Population(Individual[] individual) {
+		this.individual =individual;
 	}
 	
 	public Individual getIndividual (int index){
@@ -19,6 +14,6 @@ public class Population {
 	}
 	
 	public int getSize() {
-		return population_size;
+		return population_name.length;
 	}
 }

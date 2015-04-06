@@ -43,7 +43,7 @@ public class Board {
 	private TitledBorder movemment_border;
 	private TitledBorder results_border;
 
-	private String[] algorithms = { "A*", "BreadthFirstSearch" };
+	private String[] algorithms = { "A*", "BreadthFirstSearch", "Genetic" };
 	private String[] heuristics_array = { "Manhattan", "Euclidean",
 			"Levenshtein", "Test Different Heuristic"};
 
@@ -177,6 +177,10 @@ public class Board {
 
 	public JTextArea getPuzzle_results_log() {
 		return puzzle_results_log;
+	}
+
+	public String[] getHeuristics_array() {
+		return heuristics_array;
 	}
 
 }

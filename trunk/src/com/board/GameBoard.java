@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import com.algorithms.AStar;
 import com.algorithms.BreadthFirstSearch;
+import com.genetics.GeneticAlgorithm;
 
 public class GameBoard extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -130,6 +131,10 @@ public class GameBoard extends JPanel {
 			t.start();
 			plays.clear();
 			plays = a_star.getNew_node_data_list();
+			break;
+		case "Genetic":
+			GeneticAlgorithm GA = new GeneticAlgorithm(this, board.getHeuristics_array());
+			GA.start();
 			break;
 		default:
 			break;
