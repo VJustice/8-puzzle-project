@@ -23,7 +23,6 @@ public class GeneticAlgorithm {
 		this.heuristic_data = heuristic_data;
 		
 		individual = new Individual[heuristic_data.length];
-		System.out.println("Aqui vai");
 		for (int i=0; i < heuristic_data.length; i++) {
 			AStar a_star = new AStar(game_board, current_data, solution, heuristic_data[i]);
 			Thread t = new Thread(a_star);
@@ -36,13 +35,10 @@ public class GeneticAlgorithm {
 			}
 			individual[i]  = new Individual(heuristic_data[i], 0, a_star.getFinal_level(), a_star.getFinal_time());
 		}
-		
-		System.out.println("IRI");
 		Population firsPopulation = new Population(individual);
 	}
 	
 	public void start(){	
-		System.out.println("START");
 		newGeneration = new Individual[3];
 		System.out.println(newGeneration.length);
 		LinkedList<String> s = new LinkedList<String>(); 

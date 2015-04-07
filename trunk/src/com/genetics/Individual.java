@@ -4,16 +4,14 @@ public class Individual {
 	
 	private int gene; 
 	private String heuristicName;
-	private int final_level;
-	private int final_time;
+	private int final_level;	
+	private int fitness_time;
 	
-//	private int fitness = 0;
-	
-	public Individual(String heuristicName, int gene, int final_level, int final_time) {
+	public Individual(String heuristicName, int gene, int final_level, int fitnessTime) {
 		this.heuristicName = heuristicName;
 		this.gene = gene;
 		this.final_level = final_level;
-		this.final_time = final_time;
+		this.fitness_time = fitnessTime;
 	}
 
 	public int getGene() {
@@ -41,17 +39,17 @@ public class Individual {
 	}
 
 	public int getFinal_time() {
-		return final_time;
+		return fitness_time;
 	}
 
-	public void setFinal_time(int final_time) {
-		this.final_time = final_time;
+	public void setFinal_time(int fitnessTime) {
+		this.fitness_time = fitnessTime;
 	}
 
 	@Override
 	public String toString() {
 		return "Individual [heuristicName=" + heuristicName + ", final_level="
-				+ final_level + ", final_time=" + final_time + "]";
+				+ final_level + ", final_time=" + fitness_time + "]";
 	}
 
 

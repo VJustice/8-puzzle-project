@@ -8,7 +8,7 @@ import com.board.GameBoard;
 
 public class AStar implements Runnable/* extends Algorithm */{
 
-	private static final int DEPTH = 35;
+	private static final int DEPTH = 25;
 
 	private LinkedList<Node> open_queue = new LinkedList<Node>();
 	private LinkedList<Node> closed_queue = new LinkedList<Node>();
@@ -48,9 +48,11 @@ public class AStar implements Runnable/* extends Algorithm */{
 			print("Chosen " + current_node, "MOV");
 			closed_queue.add(current_node);
 			if (current_node.getCurrent_node_data().equals(solution_node)) {
+				double sec = (int) (System.currentTimeMillis() - start_time);
+				sec = sec * (0.001);
 				print("Solution on level: " + current_node.getTree_level()
 						+ " " + current_node + "\n"
-						+ heuristics + " - " + (int) (System.currentTimeMillis() - start_time),
+						+ heuristics + ": " + sec + "sec.",
 						"RES");
 				final_level = current_node.getTree_level();
 				final_time = (int) (System.currentTimeMillis() - start_time);
