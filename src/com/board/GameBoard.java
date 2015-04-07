@@ -47,7 +47,7 @@ public class GameBoard extends JPanel {
 				if (rand == 0) {
 					if ((zn - 1 >= 0 && zn - 1 != 2 && zn - 1 != 5)
 							&& last_move != 1) {
-						System.out.println("LEFT => " + zn + "-" + (zn - 1));
+//						System.out.println("LEFT => " + zn + "-" + (zn - 1));
 						Collections.swap(current_buttons_list, zn, zn - 1);
 						last_move = 2;
 						break;
@@ -56,7 +56,7 @@ public class GameBoard extends JPanel {
 				else if (rand == 1) {
 					if ((zn + 1 != 3 && zn + 1 != 6 && zn + 1 <= 8)
 							&& last_move != 2) {
-						System.out.println("RIGHT => " + zn + "-" + (zn + 1));
+//						System.out.println("RIGHT => " + zn + "-" + (zn + 1));
 						Collections.swap(current_buttons_list, zn, zn + 1);
 						last_move = 1;
 						break;
@@ -64,7 +64,7 @@ public class GameBoard extends JPanel {
 				}
 				else if (rand == 2) {
 					if (zn - 3 >= 0 && last_move != 3) {
-						System.out.println("UP => " + zn + "-" + (zn - 3));
+//						System.out.println("UP => " + zn + "-" + (zn - 3));
 						Collections.swap(current_buttons_list, zn, zn - 3);
 						last_move = 4;
 						break;
@@ -72,7 +72,7 @@ public class GameBoard extends JPanel {
 				}
 				else if (rand == 3) {
 					if (zn + 3 <= 8 && last_move != 4) {
-						System.out.println("DOWN => " + zn + "-" + (zn + 3));
+//						System.out.println("DOWN => " + zn + "-" + (zn + 3));
 						Collections.swap(current_buttons_list, zn, zn + 3);
 						last_move = 3;
 						break;
@@ -93,7 +93,7 @@ public class GameBoard extends JPanel {
 			aux_button.setEnabled(false);
 			current_buttons_list.add(aux_button);
 		}
-		generateInitialState(17);
+		generateInitialState(25);
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}
@@ -133,7 +133,7 @@ public class GameBoard extends JPanel {
 			plays = a_star.getNew_node_data_list();
 			break;
 		case "Genetic":
-			GeneticAlgorithm GA = new GeneticAlgorithm(this, board.getHeuristics_array());
+			GeneticAlgorithm GA = new GeneticAlgorithm(this, current_data, solution, board.getHeuristics_array());
 			GA.start();
 			break;
 		default:

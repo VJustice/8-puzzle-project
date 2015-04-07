@@ -8,7 +8,7 @@ import com.board.GameBoard;
 
 public class AStar implements Runnable/* extends Algorithm */{
 
-	private static final int DEPTH = 25;
+	private static final int DEPTH = 35;
 
 	private LinkedList<Node> open_queue = new LinkedList<Node>();
 	private LinkedList<Node> closed_queue = new LinkedList<Node>();
@@ -23,6 +23,11 @@ public class AStar implements Runnable/* extends Algorithm */{
 	private long start_time = System.currentTimeMillis();
 
 	private GameBoard game_board;
+	
+	private int final_time;
+	private int final_level;
+
+	
 
 	public AStar(GameBoard game_board, String current_data, String solution,
 			String heuristics) {
@@ -45,8 +50,10 @@ public class AStar implements Runnable/* extends Algorithm */{
 			if (current_node.getCurrent_node_data().equals(solution_node)) {
 				print("Solution on level: " + current_node.getTree_level()
 						+ " " + current_node + "\n"
-						+ (int) (System.currentTimeMillis() - start_time),
+						+ heuristics + " - " + (int) (System.currentTimeMillis() - start_time),
 						"RES");
+				final_level = current_node.getTree_level();
+				final_time = (int) (System.currentTimeMillis() - start_time);
 				getFinalPlays(current_node);
 				break;
 			}
@@ -58,6 +65,7 @@ public class AStar implements Runnable/* extends Algorithm */{
 		}
 
 	}
+
 
 	private LinkedList<Node> sortList(LinkedList<Node> list) {
 		for (int i = 0; i < list.size() - 1; i++) {
@@ -170,58 +178,70 @@ public class AStar implements Runnable/* extends Algorithm */{
 		}
 	}
 
-	private int calculate_h_score(String node_data_test, String heuristic_data) {
+	public int calculate_h_score(String node_data_test, String heuristic_data) {
 		char[] test_array = node_data_test.toCharArray();
 		int temp_score = 0;
-		switch (heuristic_data) {
-		case "Manhattan":
-			for (int i = 0; i < test_array.length; i++) {
-				temp_score += Math
-						.abs(i - Integer.parseInt(test_array[i] + ""));
-			}
-			break;
-		case "Euclidean":
-			for (int i = 0; i < test_array.length; i++) {
-				temp_score += Math.sqrt(Math.pow(
-						(i - Integer.parseInt(test_array[i] + "")), 2.0)
-						+ Math.pow((i - Integer.parseInt(test_array[i] + "")),
-								2.0));
-			}
-			break;
-		case "Levenshtein":
-			if (!aux_levenshtein.equals("")) {
-				char[] aux_array_lev = aux_levenshtein.toCharArray();
-				for (int i = 0; i < test_array.length; i++) {
-					temp_score += Math.min(
-							Math.abs(i - Integer.parseInt(test_array[i] + "")),
-							Math.abs(i
-									- Integer.parseInt(aux_array_lev[i] + "")));
-				}
-			} else {
-				temp_score = 0;
-			}
-			aux_levenshtein = node_data_test;
-			break;
-		case "X-Y":
-			int[][] matrix_index = new int[3][3];
-			for (int i = 0; i < 3; i++) {
-				matrix_index[0][i] = Integer.parseInt(test_array[i] + "");
-				matrix_index[1][i] = Integer.parseInt(test_array[i + 3] + "");
-				matrix_index[2][i] = Integer.parseInt(test_array[i + 6] + "");
-			}
-			/** Still needs some thinking **/
-			break;
-		case "Test Different Heuristic":
-			for (int i = 0; i < test_array.length; i++) {
-				temp_score += Math.sqrt(Math.pow(
-						(i - Integer.parseInt(test_array[i] + "")), 3.0)
-						+ Math.pow((i - Integer.parseInt(test_array[i] + "")),
-								3.0));
-			}
-			break;
-		default:
-			break;
+		String[] heuristics;
+//		System.out.println("Calculating " + heuristic_data +" score");
+		if (heuristic_data.contains("+")) {
+			heuristics = heuristic_data.split("\\+");
+//			System.out.println("Teste: " + heuristics[0] + " e " + heuristics[1]);
+		} else {
+			heuristics = new String[1];
+			heuristics[0] = heuristic_data; 
 		}
+		for (int h=0; h< heuristics.length; h++) {
+			switch (heuristics[h]) {
+			case "Manhattan":
+				for (int i = 0; i < test_array.length; i++) {
+					temp_score += Math
+							.abs(i - Integer.parseInt(test_array[i] + ""));
+				}
+				break;
+			case "Euclidean":
+				for (int i = 0; i < test_array.length; i++) {
+					temp_score += Math.sqrt(Math.pow(
+							(i - Integer.parseInt(test_array[i] + "")), 2.0)
+							+ Math.pow((i - Integer.parseInt(test_array[i] + "")),
+									2.0));
+				}
+				break;
+			case "Levenshtein":
+				if (!aux_levenshtein.equals("")) {
+					char[] aux_array_lev = aux_levenshtein.toCharArray();
+					for (int i = 0; i < test_array.length; i++) {
+						temp_score += Math.min(
+								Math.abs(i - Integer.parseInt(test_array[i] + "")),
+								Math.abs(i
+										- Integer.parseInt(aux_array_lev[i] + "")));
+					}
+				} else {
+					temp_score = 0;
+				}
+				aux_levenshtein = node_data_test;
+				break;
+			case "X-Y":
+				int[][] matrix_index = new int[3][3];
+				for (int i = 0; i < 3; i++) {
+					matrix_index[0][i] = Integer.parseInt(test_array[i] + "");
+					matrix_index[1][i] = Integer.parseInt(test_array[i + 3] + "");
+					matrix_index[2][i] = Integer.parseInt(test_array[i + 6] + "");
+				}
+				/** Still needs some thinking **/
+				break;
+			case "Test Different Heuristic":
+				for (int i = 0; i < test_array.length; i++) {
+					temp_score += Math.sqrt(Math.pow(
+							(i - Integer.parseInt(test_array[i] + "")), 3.0)
+							+ Math.pow((i - Integer.parseInt(test_array[i] + "")),
+									3.0));
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		temp_score = temp_score / heuristics.length;
 		return temp_score;
 	}
 
@@ -237,6 +257,14 @@ public class AStar implements Runnable/* extends Algorithm */{
 
 	public LinkedList<String> getNew_node_data_list() {
 		return nodes_plays_list;
+	}
+	
+	public int getFinal_time() {
+		return final_time;
+	}
+
+	public int getFinal_level() {
+		return final_level;
 	}
 
 }
