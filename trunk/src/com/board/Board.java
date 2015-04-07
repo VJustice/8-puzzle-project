@@ -45,7 +45,7 @@ public class Board {
 
 	private String[] algorithms = { "A*", "BreadthFirstSearch", "Genetic" };
 	private String[] heuristics_array = { "Manhattan", "Euclidean",
-			"Levenshtein", "Test Different Heuristic"};
+			"Levenshtein"};
 
 	private GameBoard game_board;
 
