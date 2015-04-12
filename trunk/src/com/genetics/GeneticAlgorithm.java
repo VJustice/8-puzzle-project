@@ -7,13 +7,14 @@ import com.board.GameBoard;
 
 public class GeneticAlgorithm {
 	
-	private int generations_number;
+//	private int generations_number;
 	private GameBoard game_board;
 	private String[] heuristic_data;
 	private Individual[] individual;
 	private Individual[] newGeneration;
 	private String solution;
 	private String current_data;
+	private Population population;
 
 	
 	public GeneticAlgorithm(GameBoard game_board, String current_data, String solution, String[] heuristic_data) {
@@ -30,17 +31,19 @@ public class GeneticAlgorithm {
 			try {
 				t.join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			individual[i]  = new Individual(heuristic_data[i], 0, a_star.getFinal_level(), a_star.getFinal_time());
 		}
-		Population firsPopulation = new Population(individual);
+		population = new Population(individual);
+	}
+	public void init() {
+		start();
+		// FAZER SELECAO
 	}
 	
-	public void start(){	
+	private void start(){	
 		newGeneration = new Individual[3];
-		System.out.println(newGeneration.length);
 		LinkedList<String> s = new LinkedList<String>(); 
 		for (int i = 0 ; i< newGeneration.length; i++) {
 			for (int j = 0 ; j< newGeneration.length; j++) {
@@ -49,7 +52,8 @@ public class GeneticAlgorithm {
 					s.add(i+ "-" + j);
 				}
 			}
-		}		
+		}
+		
 	}
 	
 	private boolean repetido(int i, int j, LinkedList<String> s) {
@@ -74,7 +78,6 @@ public class GeneticAlgorithm {
 		newIndv = new Individual(newName, 0, a_star.getFinal_level(), a_star.getFinal_time());
 		return newIndv;
 	}
-	
-	
 
+	
 }
