@@ -134,7 +134,7 @@ public class GameBoard extends JPanel {
 			break;
 		case "Genetic":
 			GeneticAlgorithm GA = new GeneticAlgorithm(this, current_data, solution, board.getHeuristics_array());
-			GA.start();
+			GA.init();
 			break;
 		default:
 			break;

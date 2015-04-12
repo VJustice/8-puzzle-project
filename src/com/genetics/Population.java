@@ -2,7 +2,6 @@ package com.genetics;
 
 public class Population {
 
-	private String[] population_name;
 	private Individual[] individual;
 	
 	public Population(Individual[] individual) {
@@ -14,30 +13,39 @@ public class Population {
 	}
 	
 	public int getSize() {
-		return population_name.length;
+		return individual.length;
 	}
 	
-	public Individual selectFitness(int w) {
+	public Individual[] selectFitness(int w) {
 		Individual[] winners = new Individual[w];
-		Individual ind1, ind2, ind3;
+		Individual tempIndiv;
 		for (int i=0; i<w; i++) {
-			
+			tempIndiv = getFittest();
+			winners[i] = tempIndiv;
+			removeIndividual(tempIndiv);
 		}
-		int temp1 = individual[0].getFinal_level();
-		int temp2 = individual[1].getFinal_level();
-		int temp3 = individual[2].getFinal_level();
-		for (Individual ind: individual) {
-			if (ind.getFinal_level() < temp1) {
-				temp1 = ind.getFinal_level();
-				ind1 = ind;
-			} else if (ind.getFinal_level() < temp2) {
-				temp2 = ind.getFinal_level();
-				ind1 = ind;
-			} else if (ind.getFinal_level() < temp3) {
-				temp3 = ind.getFinal_level();
-				ind1 = ind;
+		return winners;
+	}
+
+
+	 private void removeIndividual(Individual tempIndiv) {
+		for (int i = 0; i < getSize(); i++) {
+			if (tempIndiv.getHeuristicName() == individual[i].getHeuristicName()) {
+				// INCOMPLETO
 			}
 		}
-		return null;
+		
 	}
+
+	public Individual getFittest() {
+	    Individual fittest = individual[0];
+	    for (int i = 0; i < getSize(); i++) {
+	        if (fittest.getFitness_time() >= getIndividual(i).getFitness_time()) {
+	            fittest = getIndividual(i);
+	        }
+	    }
+	    return fittest;
+   }
+
+	 
 }

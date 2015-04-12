@@ -38,11 +38,11 @@ public class Individual {
 		this.final_level = final_level;
 	}
 
-	public int getFinal_time() {
+	public int getFitness_time() {
 		return fitness_time;
 	}
 
-	public void setFinal_time(int fitnessTime) {
+	public void setFitness_time(int fitnessTime) {
 		this.fitness_time = fitnessTime;
 	}
 
