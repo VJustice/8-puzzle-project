@@ -32,6 +32,7 @@ public class GameBoard extends JPanel {
 
 	private LoggerDebugger logger;
 
+	/** Constructor **/
 	public GameBoard(Board board, LoggerDebugger logger) {
 		this.board = board;
 		this.logger = logger;
@@ -41,6 +42,7 @@ public class GameBoard extends JPanel {
 		this.validate();
 	}
 
+	/** Generates Initial State with specified Depth **/
 	private void generateInitialState(int max_depth) {
 		String c_list = solution;
 		int last_move = 0;
@@ -84,6 +86,7 @@ public class GameBoard extends JPanel {
 		}
 	}
 
+	/** Initiates GUI Panel **/
 	private void initPanelGUI() {
 		for (int i = 0; i < NUM_COLUMNS * NUM_ROWS; i++) {
 			JButton aux_button = new JButton("" + i);
@@ -99,6 +102,7 @@ public class GameBoard extends JPanel {
 		}
 	}
 
+	/** Makes Moves **/
 	public void makeMoves() {
 		if (plays.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "No More Moves");
@@ -114,6 +118,7 @@ public class GameBoard extends JPanel {
 		}
 	}
 
+	/** Starts Algorithms **/
 	public void startAlgorithm(String algorithm, String heuristic) {
 		switch (algorithm) {
 		case "BreadthFirstSearch":
@@ -124,7 +129,8 @@ public class GameBoard extends JPanel {
 			plays = bfs.getNew_node_data_list();
 			break;
 		case "A*":
-			AStar a_star = new AStar(this, current_data, solution, heuristic, logger);
+			AStar a_star = new AStar(this, current_data, solution, heuristic,
+					logger);
 			Thread t = new Thread(a_star);
 			t.start();
 			plays.clear();
@@ -140,12 +146,15 @@ public class GameBoard extends JPanel {
 		}
 	}
 
+	/** Restarts Everything **/
 	public void restart() {
+		/** Still things to make - MAYBE **/
 		plays.clear();
 		board.getPuzzle_movemment_log().setText("");
 	}
 
 	@Override
+	/** PaintComponent **/
 	protected void paintComponent(Graphics g) {
 		for (JButton current_button : current_buttons_list) {
 			if (!current_button.getText().equals("" + 0)) {
@@ -161,6 +170,7 @@ public class GameBoard extends JPanel {
 		}
 	}
 
+	/** Getter **/
 	public Board getBoard() {
 		return board;
 	}

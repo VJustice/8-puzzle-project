@@ -52,6 +52,7 @@ public class Board {
 	private LoggerDebugger logger = new LoggerDebugger();
 	private GameBoard game_board;
 
+	/** Constructor **/
 	public Board() {
 		puzzle_frame = new JFrame("Client Puzzle (Version " + VERSION + ")");
 		game_board = new GameBoard(this, logger);
@@ -62,10 +63,12 @@ public class Board {
 		puzzle_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	/** Initiates GUI **/
 	public void initGUI() {
 		puzzle_frame.setVisible(true);
 	}
 
+	/** GUI Full Panel **/
 	public JPanel fullPanel() {
 		puzzle_panel = new JPanel();
 		puzzle_panel.setLayout(new BorderLayout());
@@ -74,6 +77,7 @@ public class Board {
 		return puzzle_panel;
 	}
 
+	/** GUI Right Panel **/
 	public JPanel rightPanel() {
 		puzzle_right_panel = new JPanel();
 		puzzle_right_panel.setLayout(new BorderLayout());
@@ -84,6 +88,7 @@ public class Board {
 		return puzzle_right_panel;
 	}
 
+	/** GUI Right Up Panel **/
 	private JPanel rightUpPanel() {
 		puzzle_right_up_panel = new JPanel();
 		options_border = new TitledBorder("Options");
@@ -136,6 +141,7 @@ public class Board {
 		return puzzle_right_up_panel;
 	}
 
+	/** GUI Right Down Panel **/
 	private JPanel rightDownPanel() {
 		puzzle_right_down_panel = new JPanel();
 		logs_border = new TitledBorder("Logs");
@@ -146,6 +152,7 @@ public class Board {
 		return puzzle_right_down_panel;
 	}
 
+	/** GUI Auxiliary Panel One **/
 	private JPanel auxOne() {
 		aux_panel_one = new JPanel();
 		puzzle_movemment_log = new JTextArea();
@@ -161,6 +168,7 @@ public class Board {
 		return aux_panel_one;
 	}
 
+	/** GUI Auxiliary Panel Two **/
 	private JPanel auxTwo() {
 		aux_panel_two = new JPanel();
 		puzzle_results_log = new JTextArea();
@@ -175,6 +183,7 @@ public class Board {
 		return aux_panel_two;
 	}
 
+	/** Getters **/
 	public JTextArea getPuzzle_movemment_log() {
 		return puzzle_movemment_log;
 	}
