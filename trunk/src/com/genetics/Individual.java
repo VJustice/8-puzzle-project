@@ -7,13 +7,15 @@ public class Individual {
 	private int final_level;	
 	private int fitness_time;
 	
+	/** Constructor **/
 	public Individual(String heuristicName, int gene, int final_level, int fitnessTime) {
 		this.heuristicName = heuristicName;
 		this.gene = gene;
 		this.final_level = final_level;
 		this.fitness_time = fitnessTime;
 	}
-
+	
+	/** Getters and Setters **/
 	public int getGene() {
 		return gene;
 	}

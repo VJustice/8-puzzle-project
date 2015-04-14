@@ -20,6 +20,7 @@ public class GeneticAlgorithm {
 	private Population population;
 	private LoggerDebugger logger;
 
+	/** Constructor **/
 	public GeneticAlgorithm(GameBoard game_board, String current_data,
 			String solution, String[] heuristic_data, LoggerDebugger logger) {
 		this.solution = solution;
@@ -32,32 +33,38 @@ public class GeneticAlgorithm {
 		for (int i = 0; i < heuristic_data.length; i++) {
 			AStar a_star = new AStar(game_board, current_data, solution,
 					heuristic_data[i], logger);
-			Thread t = new Thread(a_star);
-			t.start();
-			try {
-				t.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			A_Star_initiation(a_star);
 			individual.add(new Individual(heuristic_data[i], 0, a_star
 					.getFinal_level(), a_star.getFinal_time()));
 		}
 		population = new Population(individual);
 	}
 
+	/** Initiates Genetic Algorithm **/
 	public void init() {
 		start();
 		population.selectFitness(tournament_size);
 		start();
 	}
 
+	/** Starts A_Star **/
+	public void A_Star_initiation(AStar a_star) {
+		try {
+			Thread t = new Thread(a_star);
+			t.start();
+			t.join();
+		} catch (InterruptedException e) {
+			logger.saveLog(e.getMessage(), "warning");
+		}
+	}
+
+	/** Starts Genetic Algorithm Generations **/
 	private void start() {
-		System.out.println("Start");
 		newGeneration = new LinkedList<Individual>();
 		LinkedList<String> temp = new LinkedList<String>();
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				if (i != j && !repetido(i, j, temp)) {
+				if (i != j && !repeated(i, j, temp)) {
 					newGeneration.add(crossover(individual.get(i),
 							individual.get(j)));
 					temp.add(i + "-" + j);
@@ -67,7 +74,8 @@ public class GeneticAlgorithm {
 		population.concat(newGeneration);
 	}
 
-	private boolean repetido(int i, int j, LinkedList<String> s) {
+	/** Prevents repetition of states **/
+	private boolean repeated(int i, int j, LinkedList<String> s) {
 		String b = j + "-" + i;
 		if (s.contains(b)) {
 			return true;
@@ -75,18 +83,13 @@ public class GeneticAlgorithm {
 			return false;
 	}
 
+	/** Genetic Algorithm Crossover **/
 	private Individual crossover(Individual indiv1, Individual indiv2) {
 		String newName = indiv1.getHeuristicName() + "+"
 				+ indiv2.getHeuristicName();
 		AStar a_star = new AStar(game_board, current_data, solution, newName,
 				logger);
-		Thread t = new Thread(a_star);
-		t.start();
-		try {
-			t.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		A_Star_initiation(a_star);
 		Individual newIndv;
 		newIndv = new Individual(newName, 0, a_star.getFinal_level(),
 				a_star.getFinal_time());
