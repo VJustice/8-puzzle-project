@@ -10,6 +10,7 @@ public class GeneticAlgorithm {
 	private static final int tournament_size = 3;
 	
 	private GameBoard game_board;
+	@SuppressWarnings("unused")
 	private String[] heuristic_data;
 	private LinkedList<Individual> individual;
 	private LinkedList<Individual> newGeneration;
@@ -50,7 +51,6 @@ public class GeneticAlgorithm {
 		LinkedList<String> temp = new LinkedList<String>(); 
 		for (int i = 0 ; i< 3; i++) {
 			for (int j = 0 ; j< 3; j++) {
-//				System.out.println();
 				if (i != j && !repetido(i,j,temp)) {
 					newGeneration.add(crossover(individual.get(i), individual.get(j)));
 					temp.add(i+ "-" + j);
