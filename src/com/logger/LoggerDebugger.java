@@ -17,11 +17,12 @@ public class LoggerDebugger {
 			logger = Logger.getLogger("8-Puzzle - Log!");
 			file = new File(System.getProperty("user.dir")
 					+ "\\Log\\FileLog.txt");
-			if(file.exists()) {
+			if (file.exists()) {
 				file.delete();
 				file = new File(System.getProperty("user.dir")
-				+ "\\Log\\FileLog.txt");
+						+ "\\Log\\FileLog.txt");
 			}
+			file.createNewFile();
 			file_handler = new FileHandler();
 			logger.addHandler(file_handler);
 			SimpleFormatter formatter = new SimpleFormatter();
