@@ -3,8 +3,9 @@ package com.logger;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public class LoggerDebugger {
 
@@ -15,7 +16,7 @@ public class LoggerDebugger {
 	/** Constructor - Creates Logger Configurations **/
 	public LoggerDebugger() {
 		try {
-			logger = Logger.getLogger("8-Puzzle - Log!");
+			logger = Logger.getLogger("8-Puzzle");
 			logger.setUseParentHandlers(false);
 			file = new File(System.getProperty("user.dir")
 					+ "\\Log\\FileLog.txt");
@@ -27,7 +28,7 @@ public class LoggerDebugger {
 			file.createNewFile();
 			file_handler = new FileHandler(file.getAbsolutePath());
 			logger.addHandler(file_handler);
-			SimpleFormatter formatter = new SimpleFormatter();
+			MyFormatter formatter = new MyFormatter();
 			file_handler.setFormatter(formatter);
 		} catch (SecurityException | IOException e) {
 			saveLog(e.getMessage(), "warning");
@@ -49,4 +50,18 @@ public class LoggerDebugger {
 		}
 	}
 
+	/** My Formatter Class Auxiliary **/
+	class MyFormatter extends Formatter {
+
+		@Override
+		/** Unimplemented Method - Format String **/
+		public String format(LogRecord record) {
+			StringBuilder builder = new StringBuilder(1000);
+			builder.append("[").append(record.getLevel()).append("] - ");
+			builder.append(formatMessage(record));
+			builder.append("\n");
+			return builder.toString();
+		}
+
+	}
 }
