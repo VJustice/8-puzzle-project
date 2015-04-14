@@ -15,6 +15,7 @@ public class LoggerDebugger {
 	public LoggerDebugger() {
 		try {
 			logger = Logger.getLogger("8-Puzzle - Log!");
+			logger.setUseParentHandlers(false);
 			file = new File(System.getProperty("user.dir")
 					+ "\\Log\\FileLog.txt");
 			if (file.exists()) {
