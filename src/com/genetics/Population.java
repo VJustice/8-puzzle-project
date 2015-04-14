@@ -5,26 +5,27 @@ import java.util.LinkedList;
 public class Population {
 
 	private LinkedList<Individual> individual;
-	
+
+	/** Constructor **/
 	public Population(LinkedList<Individual> individual) {
-		this.individual =individual;
+		this.individual = individual;
 	}
-	
-	public Individual getIndividual (int index){
+
+	/** Gets an individual from defined index **/
+	public Individual getIndividual(int index) {
 		return individual.get(index);
 	}
-	
+
+	/** Individuals size **/
 	public int getSize() {
 		return individual.size();
 	}
-	
-	public Individual[] selectFitness(int w) {
-		for (int i = 0; i< individual.size(); i++) {
-			System.out.println("Selecting Fitness: " + individual.get(i));
-		}
-		Individual[] winners = new Individual[w];
+
+	/** Creates a Tournament to choose Best Players **/
+	public Individual[] selectFitness(int tournament_size) {
+		Individual[] winners = new Individual[tournament_size];
 		Individual tempIndiv;
-		for (int i=0; i<w; i++) {
+		for (int i = 0; i < tournament_size; i++) {
 			tempIndiv = getFittest();
 			winners[i] = tempIndiv;
 			removeIndividual(tempIndiv);
@@ -32,29 +33,32 @@ public class Population {
 		return winners;
 	}
 
-
-	 private void removeIndividual(Individual tempIndiv) {
+	/** Removes Individual **/
+	private void removeIndividual(Individual tempIndiv) {
 		for (int i = 0; i < getSize(); i++) {
-			if (tempIndiv.getHeuristicName() == individual.get(i).getHeuristicName()) {
+			if (tempIndiv.getHeuristicName() == individual.get(i)
+					.getHeuristicName()) {
 				individual.remove(i);
 			}
 		}
 	}
 
+	/** Gets Best Player **/
 	public Individual getFittest() {
-	    Individual fittest = individual.get(0);
-	    for (int i = 0; i < getSize(); i++) {
-	        if (fittest.getFitness_time() <= getIndividual(i).getFitness_time()) {
-	            fittest = getIndividual(i);
-	        }
-	    }
-	    return fittest;
-   }
+		Individual fittest = individual.getFirst();
+		for (int i = 0; i < getSize(); i++) {
+			if (fittest.getFitness_time() <= getIndividual(i).getFitness_time()) {
+				fittest = getIndividual(i);
+			}
+		}
+		return fittest;
+	}
 
+	/** Concatenates Lists **/
 	public void concat(LinkedList<Individual> newGeneration) {
 		for (Individual ind : newGeneration) {
 			individual.add(ind);
 		}
 	}
-	 
+
 }

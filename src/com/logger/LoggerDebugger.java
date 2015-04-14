@@ -12,6 +12,7 @@ public class LoggerDebugger {
 	private File file;
 	private FileHandler file_handler;
 
+	/** Constructor - Creates Logger Configurations **/
 	public LoggerDebugger() {
 		try {
 			logger = Logger.getLogger("8-Puzzle - Log!");
@@ -33,6 +34,7 @@ public class LoggerDebugger {
 		}
 	}
 
+	/** Uploads log to File **/
 	public void saveLog(String log, String type) {
 		/** REVIEW **/
 		switch (type) {
