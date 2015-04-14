@@ -23,7 +23,7 @@ public class LoggerDebugger {
 						+ "\\Log\\FileLog.txt");
 			}
 			file.createNewFile();
-			file_handler = new FileHandler();
+			file_handler = new FileHandler(file.getAbsolutePath());
 			logger.addHandler(file_handler);
 			SimpleFormatter formatter = new SimpleFormatter();
 			file_handler.setFormatter(formatter);
