@@ -7,11 +7,13 @@ public class Node {
 	private int tree_level;
 	private int estimated_score;
 
+	/** Constructor **/
 	public Node(boolean visited, String current_node_data) {
 		this.visited = visited;
 		this.current_node_data = current_node_data;
 	}
 
+	/** Constructor **/
 	public Node(boolean visited, String current_node_data, int tree_level,
 			int estimated_score) {
 		this.visited = visited;
@@ -20,6 +22,7 @@ public class Node {
 		this.estimated_score = estimated_score;
 	}
 
+	/** Getters and Setters **/
 	public boolean isVisited() {
 		return visited;
 	}
