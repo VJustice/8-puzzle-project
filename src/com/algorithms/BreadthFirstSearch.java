@@ -23,6 +23,7 @@ public class BreadthFirstSearch {
 	private LoggerDebugger logger;
 	private GameBoard game_board;
 
+	/** Constructor **/
 	public BreadthFirstSearch(GameBoard game_board, String current_data,
 			String solution, LoggerDebugger logger) {
 		this.game_board = game_board;
@@ -34,6 +35,7 @@ public class BreadthFirstSearch {
 		this.logger = logger;
 	}
 
+	/** Start Search Algorithm **/
 	public void searchAlgorithm() {
 		root_node = new Node(false, current_data_nodes);
 		queue = new LinkedList<Node>();
@@ -48,6 +50,7 @@ public class BreadthFirstSearch {
 		}
 	}
 
+	/** Adds Node to List **/
 	protected void addNode(Node new_node, Node old_node) {
 		if (!nodes_list.containsKey(new_node)) {
 			int new_node_value;
@@ -62,6 +65,7 @@ public class BreadthFirstSearch {
 		}
 	}
 
+	/** Checks Node Up **/
 	private void nodeUp(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
@@ -84,6 +88,7 @@ public class BreadthFirstSearch {
 		}
 	}
 
+	/** Checks Node Down **/
 	private void nodeDown(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
@@ -106,6 +111,7 @@ public class BreadthFirstSearch {
 		}
 	}
 
+	/** Checks Node Left **/
 	private void nodeLeft(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
@@ -127,6 +133,7 @@ public class BreadthFirstSearch {
 		}
 	}
 
+	/** Checks Node Right **/
 	private void nodeRight(Node node_aux) {
 		String node_aux_string = node_aux.getCurrent_node_data();
 		int a = node_aux_string.indexOf("0");
@@ -148,6 +155,7 @@ public class BreadthFirstSearch {
 		}
 	}
 
+	/** Checks if Solution has been Found **/
 	protected void checkSolutionFound(Node old_node, String new_node_data) {
 		Node n = new Node(false, new_node_data);
 		addNode(n, old_node);
@@ -159,10 +167,12 @@ public class BreadthFirstSearch {
 		}
 	}
 
+	/** Checks if Solution has been Found **/
 	protected void checkSolutionFound(Node old_node, String current_data,
 			int heuristic) {
 	}
 
+	/** Gets All Plays **/
 	protected void getPlays(Node aux_node) {
 		Node temp_node = aux_node;
 		new_node_data_list.add(solution_nodes);
@@ -173,11 +183,8 @@ public class BreadthFirstSearch {
 		}
 	}
 
+	/** Getter **/
 	public LinkedList<String> getNew_node_data_list() {
 		return new_node_data_list;
 	}
-
-	protected void checkNodeDirection(Node aux_node, int score) {
-	}
-
 }
