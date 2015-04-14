@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import com.algorithms.AStar;
 import com.algorithms.BreadthFirstSearch;
 import com.genetics.GeneticAlgorithm;
+import com.logger.LoggerDebugger;
 
 public class GameBoard extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -29,8 +30,11 @@ public class GameBoard extends JPanel {
 	private String solution = "012345678";
 	private String current_data = "";
 
-	public GameBoard(Board board) {
+	private LoggerDebugger logger;
+
+	public GameBoard(Board board, LoggerDebugger logger) {
 		this.board = board;
+		this.logger = logger;
 		this.setLayout(new GridLayout(NUM_ROWS, NUM_COLUMNS));
 		initPanelGUI();
 		this.repaint();
@@ -47,32 +51,25 @@ public class GameBoard extends JPanel {
 				if (rand == 0) {
 					if ((zn - 1 >= 0 && zn - 1 != 2 && zn - 1 != 5)
 							&& last_move != 1) {
-//						System.out.println("LEFT => " + zn + "-" + (zn - 1));
 						Collections.swap(current_buttons_list, zn, zn - 1);
 						last_move = 2;
 						break;
 					}
-				}
-				else if (rand == 1) {
+				} else if (rand == 1) {
 					if ((zn + 1 != 3 && zn + 1 != 6 && zn + 1 <= 8)
 							&& last_move != 2) {
-//						System.out.println("RIGHT => " + zn + "-" + (zn + 1));
 						Collections.swap(current_buttons_list, zn, zn + 1);
 						last_move = 1;
 						break;
 					}
-				}
-				else if (rand == 2) {
+				} else if (rand == 2) {
 					if (zn - 3 >= 0 && last_move != 3) {
-//						System.out.println("UP => " + zn + "-" + (zn - 3));
 						Collections.swap(current_buttons_list, zn, zn - 3);
 						last_move = 4;
 						break;
 					}
-				}
-				else if (rand == 3) {
+				} else if (rand == 3) {
 					if (zn + 3 <= 8 && last_move != 4) {
-//						System.out.println("DOWN => " + zn + "-" + (zn + 3));
 						Collections.swap(current_buttons_list, zn, zn + 3);
 						last_move = 3;
 						break;
@@ -82,7 +79,7 @@ public class GameBoard extends JPanel {
 			}
 			c_list = "";
 			for (int a = 0; a < current_buttons_list.size(); a++) {
-				c_list+=current_buttons_list.get(a).getText();
+				c_list += current_buttons_list.get(a).getText();
 			}
 		}
 	}
@@ -112,6 +109,7 @@ public class GameBoard extends JPanel {
 			}
 			board.getPuzzle_movemment_log().append(
 					"Moved Tiles: " + temp + "\n");
+			logger.saveLog("Tiles have been moved to: " + temp, "info");
 			repaint();
 		}
 	}
@@ -120,20 +118,21 @@ public class GameBoard extends JPanel {
 		switch (algorithm) {
 		case "BreadthFirstSearch":
 			BreadthFirstSearch bfs = new BreadthFirstSearch(this, current_data,
-					solution);
+					solution, logger);
 			bfs.searchAlgorithm();
 			plays.clear();
 			plays = bfs.getNew_node_data_list();
 			break;
 		case "A*":
-			AStar a_star = new AStar(this, current_data, solution, heuristic);
+			AStar a_star = new AStar(this, current_data, solution, heuristic, logger);
 			Thread t = new Thread(a_star);
 			t.start();
 			plays.clear();
 			plays = a_star.getNew_node_data_list();
 			break;
 		case "Genetic":
-			GeneticAlgorithm GA = new GeneticAlgorithm(this, current_data, solution, board.getHeuristics_array());
+			GeneticAlgorithm GA = new GeneticAlgorithm(this, current_data,
+					solution, board.getHeuristics_array(), logger);
 			GA.init();
 			break;
 		default:

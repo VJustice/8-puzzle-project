@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.board.GameBoard;
+import com.logger.LoggerDebugger;
 
 public class BreadthFirstSearch {
 	private Node root_node;
@@ -18,16 +19,19 @@ public class BreadthFirstSearch {
 	private String solution_nodes = "";
 	private boolean done = false;
 
+	@SuppressWarnings("unused")
+	private LoggerDebugger logger;
 	private GameBoard game_board;
 
 	public BreadthFirstSearch(GameBoard game_board, String current_data,
-			String solution) {
+			String solution, LoggerDebugger logger) {
 		this.game_board = game_board;
 		nodes_list = new HashMap<Node, Integer>();
 		nodes_history = new HashMap<Node, Node>();
 		new_node_data_list = new LinkedList<String>();
 		this.current_data_nodes = current_data;
 		this.solution_nodes = solution;
+		this.logger = logger;
 	}
 
 	public void searchAlgorithm() {
