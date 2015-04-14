@@ -13,12 +13,13 @@ public class LoggerDebugger {
 	public LoggerDebugger() {
 		try {
 			logger = Logger.getLogger("8-Puzzle - Log!");
-			file_handler = new FileHandler(System.getProperty("user.dir"));
+			file_handler = new FileHandler(System.getProperty("user.dir")
+					+ "\\Log\\FileLog.txt");
 			logger.addHandler(file_handler);
 			SimpleFormatter formatter = new SimpleFormatter();
 			file_handler.setFormatter(formatter);
 		} catch (SecurityException | IOException e) {
-			logger.severe(e.getMessage());
+			saveLog(e.getMessage(), "warning");
 		}
 	}
 

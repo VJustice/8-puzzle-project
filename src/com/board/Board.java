@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import com.logger.LoggerDebugger;
+
 public class Board {
 
 	private static final int WIDTH = 1000;
@@ -45,13 +47,14 @@ public class Board {
 
 	private String[] algorithms = { "A*", "BreadthFirstSearch", "Genetic" };
 	private String[] heuristics_array = { "Manhattan", "Euclidean",
-			"Levenshtein"};
+			"Levenshtein" };
 
+	private LoggerDebugger logger = new LoggerDebugger();
 	private GameBoard game_board;
 
 	public Board() {
 		puzzle_frame = new JFrame("Client Puzzle (Version " + VERSION + ")");
-		game_board = new GameBoard(this);
+		game_board = new GameBoard(this, logger);
 		puzzle_frame.setSize(WIDTH, HEIGHT);
 		puzzle_frame.setResizable(false);
 		puzzle_frame.add(fullPanel());
@@ -74,7 +77,8 @@ public class Board {
 	public JPanel rightPanel() {
 		puzzle_right_panel = new JPanel();
 		puzzle_right_panel.setLayout(new BorderLayout());
-		puzzle_right_panel.setPreferredSize(new Dimension(WIDTH / 3 + 100, HEIGHT));
+		puzzle_right_panel.setPreferredSize(new Dimension(WIDTH / 3 + 100,
+				HEIGHT));
 		puzzle_right_panel.add(rightUpPanel(), BorderLayout.NORTH);
 		puzzle_right_panel.add(rightDownPanel(), BorderLayout.CENTER);
 		return puzzle_right_panel;
