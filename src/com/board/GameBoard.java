@@ -94,7 +94,7 @@ public class GameBoard extends JPanel {
 			aux_button.setEnabled(false);
 			current_buttons_list.add(aux_button);
 		}
-		generateInitialState(17);
+		generateInitialState(22);
 		for (JButton button : current_buttons_list) {
 			this.add(button);
 		}

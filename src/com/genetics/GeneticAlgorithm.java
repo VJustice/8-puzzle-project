@@ -78,10 +78,7 @@ public class GeneticAlgorithm {
 	/** Prevents repetition of states **/
 	private boolean repeated(int i, int j, LinkedList<String> s) {
 		String b = j + "-" + i;
-		if (s.contains(b)) {
-			return true;
-		} else
-			return false;
+		return s.contains(b);
 	}
 
 	/** Genetic Algorithm Crossover **/
