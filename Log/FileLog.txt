@@ -1,2 +1,0 @@
-[INFO] - Solution on level: 17 Node (Visited?: false; Data: 012345678; Level: 17; Score: 17)
-[INFO] - Manhattan: 0.496sec.
