@@ -1,2 +1,0 @@
-[INFO] - Solution on level: 13 Node (Visited?: false; Data: 012345678; Level: 13; Score: 13); 
-Manhattan: 0.1sec.
