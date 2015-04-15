@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -113,7 +114,7 @@ public class GameBoard extends JPanel {
 			}
 			board.getPuzzle_movemment_log().append(
 					"Moved Tiles: " + temp + "\n");
-			logger.saveLog("Tiles have been moved to: " + temp, "info");
+			logger.saveLog("Tiles have been moved to: " + temp, Level.INFO);
 			repaint();
 		}
 	}

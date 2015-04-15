@@ -1,6 +1,7 @@
 package com.genetics;
 
 import java.util.LinkedList;
+import java.util.logging.Level;
 
 import com.algorithms.AStar;
 import com.board.GameBoard;
@@ -54,7 +55,7 @@ public class GeneticAlgorithm {
 			t.start();
 			t.join();
 		} catch (InterruptedException e) {
-			logger.saveLog(e.getMessage(), "warning");
+			logger.saveLog(e.getMessage(), Level.SEVERE);
 		}
 	}
 

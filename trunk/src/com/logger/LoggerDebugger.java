@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
@@ -31,23 +32,13 @@ public class LoggerDebugger {
 			MyFormatter formatter = new MyFormatter();
 			file_handler.setFormatter(formatter);
 		} catch (SecurityException | IOException e) {
-			saveLog(e.getMessage(), "warning");
+			saveLog(e.getMessage(), Level.SEVERE);
 		}
 	}
 
 	/** Uploads log to File **/
-	public void saveLog(String log, String type) {
-		/** REVIEW **/
-		switch (type) {
-		case "info":
-			logger.info(log);
-			break;
-		case "warning":
-			logger.severe(log);
-			break;
-		default:
-			break;
-		}
+	public void saveLog(String log, Level level) {
+		logger.log(level, log);
 	}
 
 	/** My Formatter Class Auxiliary **/
