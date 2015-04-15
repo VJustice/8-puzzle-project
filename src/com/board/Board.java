@@ -120,7 +120,7 @@ public class Board {
 			}
 
 		});
-		reset_puzzle = new JButton("Restart Algorithm");
+		reset_puzzle = new JButton("Clear Visual Log");
 		reset_puzzle.addActionListener(new ActionListener() {
 
 			@Override
