@@ -53,8 +53,7 @@ public class AStar implements Runnable {
 				double sec = (int) (System.currentTimeMillis() - start_time);
 				sec = sec * (0.001);
 				print("Solution on level: " + current_node.getTree_level()
-						+ " " + current_node, "RES");
-				print(heuristics + ": " + sec
+						+ " " + current_node + "; \n" + heuristics + ": " + sec
 						+ "sec.", "RES");
 				final_level = current_node.getTree_level();
 				final_time = (int) (System.currentTimeMillis() - start_time);
@@ -62,7 +61,7 @@ public class AStar implements Runnable {
 				break;
 			}
 			if (current_node.getTree_level() == DEPTH) {
-				print("Solution not Found", "RES");
+				print(heuristics + ": Solution not Found!!", "RES");
 				break;
 			}
 			checkNeighbours(current_node);
