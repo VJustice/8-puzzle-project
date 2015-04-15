@@ -1,18 +1,2 @@
-[INFO] - Tiles have been moved to: 502417386
-[INFO] - Tiles have been moved to: 512407386
-[INFO] - Tiles have been moved to: 512487306
-[INFO] - Tiles have been moved to: 512487360
-[INFO] - Tiles have been moved to: 512480367
-[INFO] - Tiles have been moved to: 512408367
-[INFO] - Tiles have been moved to: 512048367
-[INFO] - Tiles have been moved to: 012548367
-[INFO] - Tiles have been moved to: 102548367
-[INFO] - Tiles have been moved to: 142508367
-[INFO] - Tiles have been moved to: 142058367
-[INFO] - Tiles have been moved to: 142358067
-[INFO] - Tiles have been moved to: 142358607
-[INFO] - Tiles have been moved to: 142358670
-[INFO] - Tiles have been moved to: 142350678
-[INFO] - Tiles have been moved to: 142305678
-[INFO] - Tiles have been moved to: 102345678
-[INFO] - Tiles have been moved to: 012345678
+[INFO] - Solution on level: 17 Node (Visited?: false; Data: 012345678; Level: 17; Score: 17)
+[INFO] - Manhattan: 0.496sec.
