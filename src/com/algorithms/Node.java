@@ -57,7 +57,7 @@ public class Node {
 
 	public String toString() {
 		return "Node (Visited?: " + isVisited() + "; Data: "
-				+ getCurrent_node_data() + "; Nível: " + getTree_level()
+				+ getCurrent_node_data() + "; Level: " + getTree_level()
 				+ "; Score: " + getEstimated_score() + ")";
 	}
 }

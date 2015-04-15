@@ -3,6 +3,7 @@ package com.algorithms;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.logging.Level;
 
 import com.board.GameBoard;
 import com.logger.LoggerDebugger;
@@ -24,7 +25,6 @@ public class AStar implements Runnable {
 	private long start_time = System.currentTimeMillis();
 
 	private GameBoard game_board;
-	@SuppressWarnings("unused")
 	private LoggerDebugger logger;
 
 	private int final_time;
@@ -53,7 +53,8 @@ public class AStar implements Runnable {
 				double sec = (int) (System.currentTimeMillis() - start_time);
 				sec = sec * (0.001);
 				print("Solution on level: " + current_node.getTree_level()
-						+ " " + current_node + "\n" + heuristics + ": " + sec
+						+ " " + current_node, "RES");
+				print(heuristics + ": " + sec
 						+ "sec.", "RES");
 				final_level = current_node.getTree_level();
 				final_time = (int) (System.currentTimeMillis() - start_time);
@@ -175,6 +176,7 @@ public class AStar implements Runnable {
 		case "RES":
 			game_board.getBoard().getPuzzle_results_log()
 					.append(print_string + "\n");
+			logger.saveLog(print_string, Level.INFO);
 			break;
 		}
 	}

@@ -3,6 +3,7 @@ package com.algorithms;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.logging.Level;
 
 import com.board.GameBoard;
 import com.logger.LoggerDebugger;
@@ -19,7 +20,6 @@ public class BreadthFirstSearch {
 	private String solution_nodes = "";
 	private boolean done = false;
 
-	@SuppressWarnings("unused")
 	private LoggerDebugger logger;
 	private GameBoard game_board;
 
@@ -162,6 +162,8 @@ public class BreadthFirstSearch {
 		if (new_node_data.equals(solution_nodes)) {
 			game_board.getBoard().getPuzzle_movemment_log()
 					.append("Solution at Level " + nodes_list.get(n));
+			logger.saveLog("Solution at Level " + nodes_list.get(n),
+					Level.INFO);
 			done = true;
 			getPlays(n);
 		}
