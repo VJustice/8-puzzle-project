@@ -13,7 +13,7 @@ public class Main {
 			public void run() {
 				Board board = new Board();
 				board.initGUI();
-			}
+			} 
 		});
 	}
 }

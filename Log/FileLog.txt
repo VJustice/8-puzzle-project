@@ -1,0 +1,18 @@
+[INFO] - Solution on level: 21 Node (Visited?: false; Data: 012345678; Level: 21; Score: 21); 
+Manhattan: 0.875sec.
+[INFO] - Solution on level: 19 Node (Visited?: false; Data: 012345678; Level: 19; Score: 19); 
+Euclidean: 3.13sec.
+[INFO] - Solution on level: 15 Node (Visited?: false; Data: 012345678; Level: 15; Score: 15); 
+Levenshtein: 4.078sec.
+[INFO] - Solution on level: 17 Node (Visited?: false; Data: 012345678; Level: 17; Score: 17); 
+Manhattan+Euclidean: 3.485sec.
+[INFO] - Solution on level: 19 Node (Visited?: false; Data: 012345678; Level: 19; Score: 19); 
+Manhattan+Levenshtein: 2.672sec.
+[INFO] - Solution on level: 19 Node (Visited?: false; Data: 012345678; Level: 19; Score: 19); 
+Euclidean+Levenshtein: 1.578sec.
+[INFO] - Solution on level: 21 Node (Visited?: false; Data: 012345678; Level: 21; Score: 21); 
+Manhattan+Manhattan+Levenshtein: 0.594sec.
+[INFO] - Solution on level: 19 Node (Visited?: false; Data: 012345678; Level: 19; Score: 19); 
+Manhattan+Euclidean+Levenshtein: 3.724sec.
+[INFO] - Solution on level: 19 Node (Visited?: false; Data: 012345678; Level: 19; Score: 19); 
+Manhattan+Levenshtein+Euclidean+Levenshtein: 1.609sec.
